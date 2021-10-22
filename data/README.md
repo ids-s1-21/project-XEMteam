@@ -10,9 +10,9 @@ Codebook for the data set:
 
 - `PassangerId`: ID of passanger (from 1 to 891)
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
-- `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) -- a proxy for socio-economic status
-- `Name`: Description of variable 3
-- `Sex`: Description of variable 3
+- `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
+- `Name`: Name and Surname of passanger, if available
+- `Sex`: Gender of passanger (male or female)
 - `Age`: Age in years (fractional if less than 1, if it's estimated is it in the form of xx.5)
 - `SibSp`: Number of siblings/spouses aboard the Titanic
 - `Parch`: Number of parents/children aboard the Titanic
