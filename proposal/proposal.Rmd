@@ -56,16 +56,29 @@ https://www.kaggle.com/c/titanic/data
 
 
 ## 3. Data analysis plan
-Hypothesis 1: Women have a higher survival rate than men. 
+# Hypothesis 1: Women have a higher survival rate than men. 
 For question 1 we will create a new variable called "survival_rate_gender", using the "survived" column divided by the total number of different gender, as the response variable. We will also use "gender" as predictor variable. 
 
-Hypothesis 2: The younger survivals are more than the older survivals  . 
+# Hypothesis 2: The younger survivals are more than the older survivals  . 
 For question 3 we will have to create a new variable called "age range" which groups the ages in to different ranges such 0-15 , 16-30 etc. Since many passengers have unknown ages we will have to remove from the dataset. Then we will visualize the data in to a segmented bar plot using the age range as the response variable and survived as the outcome. 
 
-Hypothesis 3: The higher the class of the passenger, the higher survival rate. 
-This can also be verified with the ticket price (`fare` variable). We will plot
+# Hypothesis 3: The higher the class of the passenger, the higher survival rate. 
+The class of the passenger can be considered to be a measure of their socio-economic status. Moreover, we expect the ticket price (`fare` variable) to follow a similar relationship as it is very likely that the ticket price and the class will have a linear relationship. 
 
-Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
+```{r class-survival}
+titanic %>%
+  filter(Survived == "0") %>%
+  count(Survived, Pclass) %>%
+  mutate(prop = n / sum(n))
+```
+
+
+# Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
+
+
+
+# Visualising the data together -- Recreating a G.Bron's historic chart 
+Within our project, we would also like to recreate our version of G.Bron's chart of “The Loss of the ‘Titanic'”, from The Sphere, 4 May 1912 -- first know data visualisation on the topic. The plot clearly shows the affect of all the different variables we have mentioned before on the survival rate in a single data visualisation. We could explore unseen plot types and see which one can recreate similar results, as well as a different visualisation we believe better conveys the infomration. One possible option is a mosaic plot, but we will need to do more research to reach any conclusions.
 
 
 
