@@ -27,6 +27,10 @@ glimpse(titanic)
 
 
 ## 3. Data analysis plan
+Hypothesis 1: Wemen have a higher survival rate than men. 
+For question 1 we will create a new variable called "survival rate", using the "survived" column divided by the total number of different gender, as the response variable. We will also use "gender" as predictor variable. 
+
+Hypothesis 2: The relationship between survival rate and age. 
 
 
 ## References
