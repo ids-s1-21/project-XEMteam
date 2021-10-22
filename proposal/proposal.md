@@ -8,11 +8,37 @@ library(broom)
 library(here)
 ```
 
-*For instructions on what each section should include, please see the
-[project page](https://idsed.digital/assessments/project/#proposal) on
-the course website. Remove this text when completing your proposal*.
-
 ## 1. Introduction
+
+Touted as the ultimate in transatlantic travel and said to be
+“unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on
+her maiden voyage and sank shortly thereafter on 15 April, killing 1502
+out of 2224 passengers and crew.
+<https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x>
+We want to see **if and how the chance of survival of Titanic passengers
+is related to different attributes of the passengers including sex, age,
+socio-economic status etc.** – this is the general research question of
+our project.
+
+The data set we have used have comes from the Awesome Public Data Sets
+on GitHub (<https://github.com/awesomedata/awesome-public-datasets>) and
+there is no information on where the data originated or how it was
+collected. However, we have found an article on a similar data set so we
+have reason to believe that *“the primary sources of data on the Titanic
+derive from official inquiries launched in Britain and the USA. Shortly
+after the disaster, the British Parliament authorised the British Board
+of Trade Inquiry with Lord Mersey as chair. The committee interviewed
+over 100 witnesses over 36 days of hearings. Their report, issued on 30
+July 1912, contained extensive tables of passengers and crew, broken
+down by age group, gender, class and survival”*
+<https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x>
+
+The titanic.csv file contains data for 887 of the real Titanic
+passengers (2208 total). Each row represents on passenger and there are
+12 different columns which describe different attributes about the
+person including whether they survived, their age, their
+passenger-class, their sex and the fare they paid.
+<https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html>
 
 ## 2. Data
 
@@ -38,6 +64,36 @@ glimpse(titanic)
     ## $ Embarked    <chr> "S", "C", "S", "S", "S", "Q", "S", "S", "S", "C", "S", "S"…
 
 <<<<<<< HEAD
+Note that we have added the dimensions and codebook for the dataset is
+in the `README` in the `\data` folder.
+
+The 12 variables in the data set are:
+
+-   `PassangerId`: ID of passanger (from 1 to 891)
+-   `Survived`: If passenger survived (0 = No, 1 = Yes)
+-   `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd)
+    -   **note**: this is a proxy for socio-economic status
+-   `Name`: Name and Surname of passanger, if available
+-   `Sex`: Gender of passanger (male or female)
+    -   **note**: this is historical data and the gender of passengers
+        is defined as binary
+-   `Age`: Age in years (fractional if less than 1, if it’s estimated is
+    it in the form of xx.5)
+-   `SibSp`: Number of siblings/spouses aboard the Titanic
+    -   Sibling = brother, sister, stepbrother, stepsister
+    -   Spouse = husband, wife (mistresses and fiancés were ignored)
+-   `Parch`: Number of parents/children aboard the Titanic
+    -   **note**: Parent = mother, father
+    -   **note**: Child = daughter, son, stepdaughter, stepson (some
+        children travelled only with a nanny, therefore parch=0 for
+        them)
+-   `Ticket`: Ticket number
+-   `Fare`: Passenger fare (i.e. cost of ticket in USD)
+-   `Cabin`: Cabin number
+-   `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S =
+    Southampton)
+=======
+<<<<<<< HEAD
 ## 3. Data analysis plan
 
 Hypothesis 1: Wemen have a higher survival rate than men. For question 1
@@ -54,9 +110,9 @@ which describe different attributes about the person including whether
 they survived, their age, their passenger-class, their sex and the fare
 they paid.
 <https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html>
+>>>>>>> 0f37d7e931fad3b324746a9fa970888a4656559a
 
-We have added the dimensions and codebook for the dataset is in the
-`README` in the `\data` folder.
+<https://www.kaggle.com/c/titanic/data>
 
 ## 3. Data analysis plan
 
