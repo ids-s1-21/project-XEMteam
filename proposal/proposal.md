@@ -1,6 +1,6 @@
 Project proposal
 ================
-Team name
+XEM Team
 
 ``` r
 library(tidyverse)
