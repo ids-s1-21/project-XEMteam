@@ -1,6 +1,6 @@
 ---
 title: "Project proposal"
-author: "Team name"
+author: "XEM Team"
 output: github_document
 ---
 
