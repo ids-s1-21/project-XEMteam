@@ -62,7 +62,8 @@ For question 1 we will create a new variable called "survival_rate_gender", usin
 Hypothesis 2: The younger survivals are more than the older survivals  . 
 For question 3 we will have to create a new variable called "age range" which groups the ages in to different ranges such 0-15 , 16-30 etc. Since many passengers have unknown ages we will have to remove from the dataset. Then we will visualize the data in to a segmented bar plot using the age range as the response variable and survived as the outcome. 
 
-Hypothesis 3: The higher the ticket price (fare), the higher survival rate. 
+Hypothesis 3: The higher the class of the passenger, the higher survival rate. 
+This can also be verified with the ticket price (`fare` variable). We will plot
 
 Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
 
