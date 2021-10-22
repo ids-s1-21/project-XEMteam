@@ -31,10 +31,16 @@ The titanic.csv file contains data for 891 of the real Titanic passengers. Each 
 We have added the dimensions and codebook for the dataset is in the `README` in the `\data` folder. 
 
 ## 3. Data analysis plan
-Hypothesis 1: Wemen have a higher survival rate than men. 
-For question 1 we will create a new variable called "survival rate", using the "survived" column divided by the total number of different gender, as the response variable. We will also use "gender" as predictor variable. 
+Hypothesis 1: Women have a higher survival rate than men. 
+For question 1 we will create a new variable called "survival_rate_gender", using the "survived" column divided by the total number of different gender, as the response variable. We will also use "gender" as predictor variable. 
 
-Hypothesis 2: The relationship between survival rate and age. 
+Hypothesis 2: The younger survivals are more . 
+For question 3 we will have to create a new variable called "age range" which groups the ages in to different ranges such 0-15 , 16-30 etc. Since many passengers have unknown ages we will have to remove from the dataset. Then we will visualize the data in to a segmented bar plot using the age range as the response variable and survived as the outcome. 
+
+Hypothesis 3: The higher the ticket price (fare), the higher survival rate. 
+
+Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
+
 
 
 ## References
