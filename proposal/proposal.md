@@ -37,6 +37,7 @@ glimpse(titanic)
     ## $ Cabin       <chr> "", "C85", "", "C123", "", "", "E46", "", "", "", "G6", "C…
     ## $ Embarked    <chr> "S", "C", "S", "S", "S", "Q", "S", "S", "S", "C", "S", "S"…
 
+<<<<<<< HEAD
 ## 3. Data analysis plan
 
 Hypothesis 1: Wemen have a higher survival rate than men. For question 1
@@ -46,4 +47,18 @@ the response variable. We will also use “gender” as predictor variable.
 
 Hypothesis 2: The relationship between survival rate and age.
 
+=======
+The titanic.csv file contains data for 891 of the real Titanic
+passengers. Each row represents one person. The are 12 different columns
+which describe different attributes about the person including whether
+they survived, their age, their passenger-class, their sex and the fare
+they paid.
+<https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html>
+
+We have added the dimensions and codebook for the dataset is in the
+`README` in the `\data` folder.
+
+## 3. Data analysis plan
+
+>>>>>>> fceee4c3e8a0116afa5c2c44d02eb89b838dcec8
 ## References
