@@ -7,6 +7,8 @@ output: github_document
 ```{r load-packages, message = FALSE}
 library(tidyverse)
 library(broom)
+library(here)
+
 ```
 
 *For instructions on what each section should include, please see the [project page](https://idsed.digital/assessments/project/#proposal) on the course website. Remove this text when completing your proposal*.
@@ -14,13 +16,19 @@ library(broom)
 ## 1. Introduction
 
 
-
-
 ## 2. Data
+
+```{r load-data, message = FALSE}
+titanic <- read.csv(here::here("data/titanic.csv"))
+
+glimpse(titanic)
+```
 
 
 
 ## 3. Data analysis plan
 
+
+## References
 
 
