@@ -2,6 +2,8 @@
 title: "Project proposal"
 author: "XEM Team"
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r load-packages, message = FALSE}
@@ -24,7 +26,9 @@ titanic <- read.csv(here::here("data/titanic.csv"))
 glimpse(titanic)
 ```
 
+The titanic.csv file contains data for 891 of the real Titanic passengers. Each row represents one person. The are 12 different columns which describe different attributes about the person including whether they survived, their age, their passenger-class, their sex and the fare they paid. https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html  
 
+We have added the dimensions and codebook for the dataset is in the `README` in the `\data` folder. 
 
 ## 3. Data analysis plan
 

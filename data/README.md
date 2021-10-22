@@ -1,11 +1,12 @@
 # data
 
-Place data file(s) in this folder.
+The titanic.csv file contains data for 891 of the real Titanic passengers. Each row represents one person. The are 12 different columns which describe different attributes about the person including whether they survived, their age, their passenger-class, their sex and the fare they paid.
 
-Then, include codebooks (variables, and their descriptions) for your data file(s)
-using the following format.
+https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html 
 
 ## titanic.csv
+
+Codebook for the data set:
 
 - `PassangerId`: ID of passanger (from 1 to 891)
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
@@ -19,6 +20,5 @@ using the following format.
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
 - `Cabin`: Cabin number
 - `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)
-- ...
 
 https://www.kaggle.com/c/titanic/data
