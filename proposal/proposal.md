@@ -115,21 +115,28 @@ outcome.
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate.
 
 The class of the passenger can be considered to be a measure of their
-socio-economic status. Moreover, we expect the ticket price (`fare`
+socio-economic status: based on our knowledge on the Titanic disaster we
+expect to find that the higher the class of the passenger, the higher
+their survival rate. Moreover, we expect the ticket price (`fare`
 variable) to follow a similar relationship as it is very likely that the
-ticket price and the class will have a linear relationship.
+ticket price and the class will have a linear relationship. See the
+summary statistics below: filtering by the passengers who didn’t survive
+(`filter(Survived == "0")`), we can see that the proportion of
+passengers who didn’t survive is as high as 0.68 in 3rd class passengers
+and much lower for first and second class (approximately 0.15 and 0.18
+respectively).
 
 ``` r
 titanic %>%
   filter(Survived == "0") %>%
-  count(Survived, Pclass) %>%
-  mutate(prop = n / sum(n))
+  count(Pclass) %>%
+  mutate(prop_death = n / sum(n)) 
 ```
 
-    ##   Survived Pclass   n      prop
-    ## 1        0      1  80 0.1457195
-    ## 2        0      2  97 0.1766849
-    ## 3        0      3 372 0.6775956
+    ##   Pclass   n prop_death
+    ## 1      1  80  0.1457195
+    ## 2      2  97  0.1766849
+    ## 3      3 372  0.6775956
 
 #### Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive.
 
