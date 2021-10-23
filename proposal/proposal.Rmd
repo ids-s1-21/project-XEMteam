@@ -64,7 +64,7 @@ For question 3 we will have to create a new variable called "age range" which gr
 
 Hypothesis 3: The higher the ticket price (fare), the higher survival rate. 
 
-Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
+Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive.  
 
 
 
