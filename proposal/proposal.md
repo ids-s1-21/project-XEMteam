@@ -105,12 +105,18 @@ use “gender” as predictor variable.
 
 #### Hypothesis 2: The younger survivals are more than the older survivals .
 
-For question 3 we will have to create a new variable called “age range”
-which groups the ages in to different ranges such 0-15 , 16-30 etc.
-Since many passengers have unknown ages we will have to remove from the
-dataset. Then we will visualize the data in to a segmented bar plot
-using the age range as the response variable and survived as the
-outcome.
+The age of a passenger can be considered to of be high priority when it
+comes to using life saving equipment from both their parents as well as
+the crew of Titanic. We will have to create a new variable called
+“age\_range” which groups the ages in to different ranges such 0-15 ,
+16-30 etc. Since many passengers have unknown ages we will have to
+ignore them for the purpose of this hypothesis. In order to display the
+survival rate we will have to create a new variable called
+“survival\_rate\_age\_range” using the “survived” column divided by the
+frequency of each age range. Then a possible way to visualize the data
+it is to use a bar plot using the “age\_range” as the predictor
+variable(X) and “survival\_rate\_age\_range” as the outcome variable(Y).
+This type of graph will point the
 
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate.
 
