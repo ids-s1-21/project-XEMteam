@@ -77,7 +77,7 @@ titanic %>%
 
 
 #### Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
-
+Part of passengers had cabin, while the other parts of passengers did not have the cabin. In the group of passengers who had a cabin, different passengers also had different kind of cabins according to the prices. Bar plot will be used. One bar is going to show the survival rate of the passengers who did not have a cabin, the other bars are used to show different survival rates according to different kinds of cabins. Mean will be useful in answering the question. 
 
 
 # Visualising the data together -- Recreating a G.Bron's historic chart 
