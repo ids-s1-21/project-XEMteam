@@ -17,13 +17,10 @@ library(here)
 
 Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew. https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x We want to see **if and how the chance of survival of Titanic passengers is related to different attributes of the passengers including sex, age, socio-economic status etc.** -- this is the general research question of our project. 
 
-<<<<<<< HEAD
-=======
 The data set we have used have comes from the Awesome Public Data Sets on GitHub (https://github.com/awesomedata/awesome-public-datasets) and there is no information on where the data originated or how it was collected. However, we have found an article on a similar data set so we have reason to believe that *"the primary sources of data on the Titanic derive from official inquiries launched in Britain and the USA. Shortly after the disaster, the British Parliament authorised the British Board of Trade Inquiry with Lord Mersey as chair. The committee interviewed over 100 witnesses over 36 days of hearings. Their report, issued on 30 July 1912, contained extensive tables of passengers and crew, broken down by age group, gender, class and survival"* https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x 
 
 The titanic.csv file contains data for 887 of the real Titanic passengers (2208 total). Each row represents on passenger and there are 12 different columns which describe different attributes about the person including whether they survived, their age, their passenger-class, their sex and the fare they paid. https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html
 
->>>>>>> 0100a99ff4ee16560b18f07bc8e5ea5c29ce28df
 ## 2. Data
 
 ```{r load-data, message = FALSE}
@@ -63,16 +60,19 @@ https://www.kaggle.com/c/titanic/data
 For question 1 we will create a new variable called "survival_rate_gender", using the "survived" column divided by the total number of different gender, as the response variable. We will also use "gender" as predictor variable. 
 
 #### Hypothesis 2: The younger survivals are more than the older survivals  . 
-For question 3 we will have to create a new variable called "age range" which groups the ages in to different ranges such 0-15 , 16-30 etc. Since many passengers have unknown ages we will have to remove from the dataset. Then we will visualize the data in to a segmented bar plot using the age range as the response variable and survived as the outcome. 
+The age of a passenger can be considered to  be high priority when it comes to using life saving equipment from both their parents as well as the crew of Titanic. We will have to create a new variable called "age_range" which groups the ages in to different ranges such 0-15 , 16-30 etc. Since many passengers have unknown ages we will have to ignore them for the purpose of this hypothesis. In order to display the survival rate we will have to create a new variable called "survival_rate_age_range" using the "survived" column  divided by the frequency of each age range. Then a possible way to visualize the data it is to use a bar plot using the "age_range" as the predictor variable(X) and "survival_rate_age_range" as the outcome variable(Y). This type of graph will point the 
+
+
+
 
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate. 
-The class of the passenger can be considered to be a measure of their socio-economic status. Moreover, we expect the ticket price (`fare` variable) to follow a similar relationship as it is very likely that the ticket price and the class will have a linear relationship. 
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. Moreover, we expect the ticket price (`fare` variable) to follow a similar relationship as it is very likely that the ticket price and the class will have a linear relationship. See the summary statistics below: filtering by the passengers who didn't survive (`filter(Survived == "0")`), we can see that the proportion of passengers who didn't survive is as high as 0.68 in 3rd class passengers and much lower for first and second class (approximately 0.15 and 0.18 respectively). 
 
 ```{r class-survival}
 titanic %>%
   filter(Survived == "0") %>%
-  count(Survived, Pclass) %>%
-  mutate(prop = n / sum(n))
+  count(Pclass) %>%
+  mutate(prop_death = n / sum(n)) 
 ```
 
 
@@ -80,11 +80,9 @@ titanic %>%
 Part of passengers had cabin, while the other parts of passengers did not have the cabin. In the group of passengers who had a cabin, different passengers also had different kind of cabins according to the prices. Bar plot will be used. One bar is going to show the survival rate of the passengers who did not have a cabin, the other bars are used to show different survival rates according to different kinds of cabins. Mean will be useful in answering the question. 
 
 
-# Visualising the data together -- Recreating a G.Bron's historic chart 
-Within our project, we would also like to recreate our version of G.Bron's chart of “The Loss of the ‘Titanic'”, from The Sphere, 4 May 1912 -- first know data visualisation on the topic. The plot clearly shows the affect of all the different variables we have mentioned before on the survival rate in a single data visualisation. We could explore unseen plot types and see which one can recreate similar results, as well as a different visualisation we believe better conveys the infomration. One possible option is a mosaic plot, but we will need to do more research to reach any conclusions.
+#### Visualising the data together -- Recreating a G.Bron's historic chart 
+Within our project, we would also like to recreate our version of G.Bron's chart of “The Loss of the ‘Titanic'”, from The Sphere, 4 May 1912 -- first know data visualization on the topic. The plot clearly shows the affect of all the different variables we have mentioned before on the survival rate in a single data visualization. We could explore unseen plot types and see which one can recreate similar results, as well as a different visualization we believe better conveys the information. One possible option is a mosaic plot, but we will need to do more research to reach any conclusions.
 
 
-
-## References
 
 

@@ -20,8 +20,6 @@ is related to different attributes of the passengers including sex, age,
 socio-economic status etc.** – this is the general research question of
 our project.
 
-# &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-
 The data set we have used have comes from the Awesome Public Data Sets
 on GitHub (<https://github.com/awesomedata/awesome-public-datasets>) and
 there is no information on where the data originated or how it was
@@ -42,7 +40,7 @@ person including whether they survived, their age, their
 passenger-class, their sex and the fare they paid.
 <https://web.stanford.edu/class/archive/cs/cs109/cs109.1166/problem12.html>
 
-> > > > > > > 0100a99ff4ee16560b18f07bc8e5ea5c29ce28df \#\# 2. Data
+## 2. Data
 
 ``` r
 titanic <- read.csv(here::here("data/titanic.csv"))
@@ -107,44 +105,63 @@ use “gender” as predictor variable.
 
 #### Hypothesis 2: The younger survivals are more than the older survivals .
 
-For question 3 we will have to create a new variable called “age range”
-which groups the ages in to different ranges such 0-15 , 16-30 etc.
-Since many passengers have unknown ages we will have to remove from the
-dataset. Then we will visualize the data in to a segmented bar plot
-using the age range as the response variable and survived as the
-outcome.
+The age of a passenger can be considered to be high priority when it
+comes to using life saving equipment from both their parents as well as
+the crew of Titanic. We will have to create a new variable called
+“age\_range” which groups the ages in to different ranges such 0-15 ,
+16-30 etc. Since many passengers have unknown ages we will have to
+ignore them for the purpose of this hypothesis. In order to display the
+survival rate we will have to create a new variable called
+“survival\_rate\_age\_range” using the “survived” column divided by the
+frequency of each age range. Then a possible way to visualize the data
+it is to use a bar plot using the “age\_range” as the predictor
+variable(X) and “survival\_rate\_age\_range” as the outcome variable(Y).
+This type of graph will point the
 
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate.
 
 The class of the passenger can be considered to be a measure of their
-socio-economic status. Moreover, we expect the ticket price (`fare`
+socio-economic status: based on our knowledge on the Titanic disaster we
+expect to find that the higher the class of the passenger, the higher
+their survival rate. Moreover, we expect the ticket price (`fare`
 variable) to follow a similar relationship as it is very likely that the
-ticket price and the class will have a linear relationship.
+ticket price and the class will have a linear relationship. See the
+summary statistics below: filtering by the passengers who didn’t survive
+(`filter(Survived == "0")`), we can see that the proportion of
+passengers who didn’t survive is as high as 0.68 in 3rd class passengers
+and much lower for first and second class (approximately 0.15 and 0.18
+respectively).
 
 ``` r
 titanic %>%
   filter(Survived == "0") %>%
-  count(Survived, Pclass) %>%
-  mutate(prop = n / sum(n))
+  count(Pclass) %>%
+  mutate(prop_death = n / sum(n)) 
 ```
 
-    ##   Survived Pclass   n      prop
-    ## 1        0      1  80 0.1457195
-    ## 2        0      2  97 0.1766849
-    ## 3        0      3 372 0.6775956
+    ##   Pclass   n prop_death
+    ## 1      1  80  0.1457195
+    ## 2      2  97  0.1766849
+    ## 3      3 372  0.6775956
 
 #### Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive.
 
-# Visualising the data together – Recreating a G.Bron’s historic chart
+Part of passengers had cabin, while the other parts of passengers did
+not have the cabin. In the group of passengers who had a cabin,
+different passengers also had different kind of cabins according to the
+prices. Bar plot will be used. One bar is going to show the survival
+rate of the passengers who did not have a cabin, the other bars are used
+to show different survival rates according to different kinds of cabins.
+Mean will be useful in answering the question.
+
+#### Visualising the data together – Recreating a G.Bron’s historic chart
 
 Within our project, we would also like to recreate our version of
 G.Bron’s chart of “The Loss of the ‘Titanic’”, from The Sphere, 4 May
-1912 – first know data visualisation on the topic. The plot clearly
+1912 – first know data visualization on the topic. The plot clearly
 shows the affect of all the different variables we have mentioned before
-on the survival rate in a single data visualisation. We could explore
+on the survival rate in a single data visualization. We could explore
 unseen plot types and see which one can recreate similar results, as
-well as a different visualisation we believe better conveys the
-infomration. One possible option is a mosaic plot, but we will need to
+well as a different visualization we believe better conveys the
+information. One possible option is a mosaic plot, but we will need to
 do more research to reach any conclusions.
-
-## References
