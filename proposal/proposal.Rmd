@@ -74,7 +74,7 @@ titanic %>%
 ```
 
 #### Hypothesis 2: The younger survivals are more than the older survivals  . 
-The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young children by giving priority when it comes to providing life saving equipment.Beyond that the survival of  passengers is highly related to physical abilities which means that the younger the passenger is the higher possibility to survive. We will have to create a new variable called "Age_Range " which groups the ages by scale of 15, that is 0-15, 16-30 etc. Then a possible way to visualize the data it is to use a histogram  using "Age Range" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not. This type of graph will point out the the modal class of Age Ranges. Moreover we will calculate the survival rate by age range which will allow us to find out the ages with the highest possibility to survive. A statistical method that is more useful to answer our hypothesis is to create a box plot for all ages so that we can conclude which ages have highest possibility to survive as it displays the median as well as the standard deviation and excludes outliers
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young children by giving priority when it comes to providing life saving equipment.Beyond that the survival of  passengers is highly related to physical abilities which means that the younger the passenger is the higher possibility to survive. We will have to create a new variable called "Age_Range " which groups the ages by scale of 15, that is 0-15, 16-30 etc. Then a possible way to visualize the data it is to use a histogram  using "Age Range" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not. This type of graph will point out the the modal class of Age Ranges. Moreover we will calculate the survival rate by age range which will allow us to find out the ages with the highest possibility to survive. A statistical method that is more useful to answer our hypothesis is to create a box plot for all ages so that we can conclude which ages have highest possibility to survive as it displays the median as well as the standard deviation and excludes outliers, extreme values. 
 ```{r age-survival}
 titanic %>%
   filter(Survived == "1") %>%
@@ -82,7 +82,8 @@ titanic %>%
                                              Age >= 16  & Age <= 30 ~ "16-30",
                                              Age >= 31  & Age <= 45 ~ "31-45",
                                Age >= 46 & Age<= 60 ~ "46-60",
-                               Age >= 61 & Age<=85 ~ "61-85" ) )
+                               Age >= 61 & Age<=85 ~ "61-85" ) ) %>%
+  ggplot(mapping=aes())
 
   
 
@@ -103,13 +104,14 @@ titanic %>%
 ```
 
 ```{r fare-cabin-relationship}
-         
+
            
 
 ```
 
 #### Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive. 
-Part of passengers had cabin, while the other parts of passengers did not have the cabin. In the group of passengers who had a cabin, different passengers also had different kind of cabins according to the prices. Bar plot will be used. One bar is going to show the survival rate of the passengers who did not have a cabin, the other bars are used to show different survival rates according to different kinds of cabins. Mean will be useful in answering the question. 
+
+Cabins were on higher decks of Titanic which means that the passengers living in cabins had easier and faster access to the life saving boats. Based on this fact, we can conclude that passengers living in cabins had higher possibility to survive.  We can visualize the data into a histogram  as whether a passenger had or did not have a cabin as the predictor variable and frequency displayed in terms of colors showing survivals or not. Moreover, we will calculate the survival rate by having cabin or not. A Chi-square test will be carried out to show whether having a cabin or not affects the possibility of passenger to survive. 
 
 
 #### Visualising the data together -- Recreating a G.Bron's historic chart 
