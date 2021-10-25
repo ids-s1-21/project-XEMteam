@@ -105,7 +105,7 @@ use “gender” as predictor variable.
 
 #### Hypothesis 2: The younger survivals are more than the older survivals .
 
-The age of a passenger can be considered to of be high priority when it
+The age of a passenger can be considered to be high priority when it
 comes to using life saving equipment from both their parents as well as
 the crew of Titanic. We will have to create a new variable called
 “age\_range” which groups the ages in to different ranges such 0-15 ,
