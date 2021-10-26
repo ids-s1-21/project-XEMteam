@@ -129,7 +129,7 @@ titanic %>%
   geom_bar()+
   theme_minimal()+
   scale_fill_viridis_d() +
-    labs( x = "Sex", y = "Frequency", fill = "Survived", title = "Frequency of Survivals for each Sex") +
+    labs( x = "Sex", y = "Frequency", fill = "Survived", title = "Survival Rate by Sex") +
    theme(legend.position = "bottom")
 ```
 
@@ -150,25 +150,24 @@ titanic %>%
 
 The age of a passenger can be considered to be high priority. We take it
 for granted that people give priority to saving infants and young
-children by giving priority when it comes to providing life saving
-equipment.Beyond that the survival of passengers is highly related to
-physical abilities which means that the younger the passenger is the
-higher possibility to survive.A possible way to visualize the data it is
-to use a histogram using “Age” as the predictor variable(X) and
-“Frequency” as the outcome variable(Y) displayed in terms of colors
-showing survivals or not. This type of graph will point out the the Age
-with the highest number of survival. Since the dataset provides many
-ages, we will have to create a new variable called “Age\_Range” which
-groups the ages by scale of 10, that is 0-10, 11-20 etc so that we can
-find the survival rate for each age range and come out with more
-discrete conclusion.See the summary statistics below: filtering by the
+children when it comes to providing life saving equipment.Beyond that
+the survival of passengers is highly related to their physical abilities
+which means that the younger the passenger is the higher possibility is
+to survive.A possible way to visualize the data it is to use a histogram
+using “Age” as the predictor variable(X) and “Frequency” as the outcome
+variable(Y) displayed in terms of colors showing survivals or not. This
+type of graph will point out the Age with the highest number of
+survivals. Since the dataset provides a number of values for ages, we
+will have to create a new variable called “Age\_Range” which groups the
+ages by scale of 10, that is 0-10, 11-20 etc so that we can find the
+survival rate for each age range and come out with more discrete
+conclusions.See the summary statistics below: filtering by the
 passengers who survived, we can see that the proportion of passengers
 aged between 21-30 years old have the highest probability to survive
-with 0.246.A statistical method that is more useful to answer our
-hypothesis is to create a box plot for all ages so that we can conclude
+with 0.246.A statistical method that is useful to answer our hypothesis
+is to create a box plot including all the ages so that we can conclude
 which ages have highest possibility to survive as it displays the median
-as well as interquartile range which they exclude outliers, extreme
-values.
+as well as interquartile range , excluding outliers / extreme values.
 
 ``` r
 titanic %>% 
@@ -219,21 +218,20 @@ their survival rate. Moreover, we expect the ticket price (`fare`
 variable) to follow a similar relationship as it is very likely that the
 ticket price and the class will have a linear relationship.See the
 summary statistics below: filtering by the passengers who didn’t survive
-, we can see that the proportion of passengers who didn’t survive is as
-high as 0.68 in 3rd class passengers and much lower for first and second
-class (approximately 0.15 and 0.18 respectively). Based on this , we can
-also predict that the ticket price will have a positive linear
-relationship with the frequency of survivals. A possible graph to
-display this relationship is the bar plot having the class to be the
-predictor variable and the fare displayed in terms of colors showing
-survivals or not as the outcome variable .This support our hypothesis as
-the people who bought an expensive ticket in first class had a higher
-survival rate than those you bought a cheap ticket in 2nd and 3rd class.
-A statistical method to use in order to support our hypothesis is to
-display the regression line on a scatter plot where fare is the
-predictor variable and survival rate is the outcome variable and find
-the regression constant in order to figure out if there is a strong
-correlation between these variables.
+, we can see that the proportion is as high as 0.68 in 3rd class
+passengers and much lower for first and second class (approximately 0.15
+and 0.18 respectively). Based on this , we can also predict that the
+ticket price will have a positive linear relationship with the frequency
+of survivals. A possible graph to display this relationship is the bar
+plot having the class to be the predictor variable and the fare
+displayed in terms of colors showing survivals or not as the outcome
+variable .This supports our hypothesis as the people who bought an
+expensive ticket in first class had a higher survival rate than those
+who bought a cheap ticket in 2nd and 3rd class. A statistical method to
+use in order to support our hypothesis is to display the regression line
+on a scatter plot where fare is the predictor variable and survival rate
+is the outcome variable to find out the regression constant so as to
+figure out if there is a strong correlation between these two variables.
 
 ``` r
  titanic %>%
@@ -242,7 +240,7 @@ correlation between these variables.
   scale_fill_viridis_d()+
   theme_minimal()+
     labs( x = "Class ",
-          y = "Fare", fill = "Survived",
+          y = "Tikcet Price", fill = "Survived",
           title = "Survival rate by class and fare") +
    theme(legend.position = "bottom") 
 ```
