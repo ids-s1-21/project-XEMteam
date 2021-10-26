@@ -9,6 +9,8 @@ library(here)
 library(dplyr)
 library(ggplot2)
 library(ggridges)
+library(forcats)
+library(scales)
 ```
 
 ## 1. Introduction
@@ -99,28 +101,50 @@ The 12 variables in the data set are:
 
 ## 3. Data analysis plan
 
+``` r
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Sex <- as.factor(titanic$Sex)
+titanic$Pclass <- as.factor(titanic$Pclass)
+```
+
 #### Hypothesis 1: Women have a higher survival rate than men.
 
 We assume that men were helping women while the tragic of Titanic was
 taking place, since this is a habitual behavior of men to give priority
 to women. In order to confirm if this is true we will create a bar plot
 using gender as the predictor variable and frequency displayed in terms
-of colors showing survivals or not. Moreover, we will calculate the
-survival rate by gender. Since the variables that we will be using are
+of colors showing survivals or not as the outcome variable. Moreover, we
+will calculate the survival rate by gender.See the summary statistics
+below: filtering by the passengers who survived , we can see that the
+proportion of women passengers who survived is as high as 0.68 and the
+proportion of men passengers who survived is almost half of the women’s
+(approximately 0.32).Since the variables that we will be using are
 categorical , an appropriate statistical method to verify our hypothesis
 is the Chi-Square test as it will show whether gender and survival are
 independent or not of one another.
 
 ``` r
 titanic %>%
-  filter ( Survived == "1") %>%
-  count(Sex) %>%
-  mutate(n/sum(n))
+  ggplot(mapping=aes(x= Sex, fill= Survived))+
+  geom_bar()+
+  theme_minimal()+
+  scale_fill_viridis_d() +
+    labs( x = "Sex", y = "Frequency", fill = "Survived", title = "Frequency of Survivals for each Sex") +
+   theme(legend.position = "bottom")
 ```
 
-    ##      Sex   n  n/sum(n)
-    ## 1 female 233 0.6812865
-    ## 2   male 109 0.3187135
+![](proposal_files/figure-gfm/gender-survival-1.png)<!-- -->
+
+``` r
+titanic %>%
+  filter(Survived == "1") %>%
+  count(Sex) %>%
+  mutate(prop_survival = n / sum(n))
+```
+
+    ##      Sex   n prop_survival
+    ## 1 female 233     0.6812865
+    ## 2   male 109     0.3187135
 
 #### Hypothesis 2: The younger survivals are more than the older survivals .
 
@@ -129,31 +153,62 @@ for granted that people give priority to saving infants and young
 children by giving priority when it comes to providing life saving
 equipment.Beyond that the survival of passengers is highly related to
 physical abilities which means that the younger the passenger is the
-higher possibility to survive. We will have to create a new variable
-called “Age\_Range” which groups the ages by scale of 15, that is 0-15,
-16-30 etc. Then a possible way to visualize the data it is to use a
-histogram using “Age Range” as the predictor variable(X) and “Frequency”
-as the outcome variable(Y) displayed in terms of colors showing
-survivals or not. This type of graph will point out the the modal class
-of Age Ranges. Moreover we will calculate the survival rate by age range
-which will allow us to find out the ages with the highest possibility to
-survive. A statistical method that is more useful to answer our
+higher possibility to survive.A possible way to visualize the data it is
+to use a histogram using “Age” as the predictor variable(X) and
+“Frequency” as the outcome variable(Y) displayed in terms of colors
+showing survivals or not. This type of graph will point out the the Age
+with the highest number of survival. Since the dataset provides many
+ages, we will have to create a new variable called “Age\_Range” which
+groups the ages by scale of 10, that is 0-10, 11-20 etc so that we can
+find the survival rate for each age range and come out with more
+discrete conclusion.See the summary statistics below: filtering by the
+passengers who survived, we can see that the proportion of passengers
+aged between 21-30 years old have the highest probability to survive
+with 0.246.A statistical method that is more useful to answer our
 hypothesis is to create a box plot for all ages so that we can conclude
 which ages have highest possibility to survive as it displays the median
-as well as the standard deviation and excludes outliers, extreme values.
+as well as interquartile range which they exclude outliers, extreme
+values.
+
+``` r
+titanic %>% 
+  ggplot(mapping=aes( x= Age , fill=Survived))+
+  geom_histogram( binwidth=5 )+
+   theme_minimal()+
+  scale_fill_viridis_d() +
+    labs( x = "Age", y = "Frequency", fill = "Survived", title = "Survival rate by age") +
+   theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 177 rows containing non-finite values (stat_bin).
+
+![](proposal_files/figure-gfm/age-survival-1.png)<!-- -->
 
 ``` r
 titanic %>%
   filter(Survived == "1") %>%
-  mutate(Age_Range = case_when(Age >= 0  & Age <= 15 ~ "0-15",
-                                             Age >= 16  & Age <= 30 ~ "16-30",
-                                             Age >= 31  & Age <= 45 ~ "31-45",
-                               Age >= 46 & Age<= 60 ~ "46-60",
-                               Age >= 61 & Age<=85 ~ "61-85" ) ) %>%
-  ggplot(mapping=aes())
+  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80"))   %>%
+ count(Age_Range) %>%
+  mutate(prop_survival = n / sum(n)) 
 ```
 
-![](proposal_files/figure-gfm/age-survival-1.png)<!-- -->
+    ##   Age_Range  n prop_survival
+    ## 1      0-10 38   0.111111111
+    ## 2     11-20 44   0.128654971
+    ## 3     21-30 84   0.245614035
+    ## 4     31-40 69   0.201754386
+    ## 5     41-50 33   0.096491228
+    ## 6     51-60 17   0.049707602
+    ## 7     61-70  4   0.011695906
+    ## 8     71-80  1   0.002923977
+    ## 9      <NA> 52   0.152046784
 
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate.
 
@@ -164,20 +219,38 @@ their survival rate. Moreover, we expect the ticket price (`fare`
 variable) to follow a similar relationship as it is very likely that the
 ticket price and the class will have a linear relationship.See the
 summary statistics below: filtering by the passengers who didn’t survive
-(`filter(Survived == "0")`), we can see that the proportion of
-passengers who didn’t survive is as high as 0.68 in 3rd class passengers
-and much lower for first and second class (approximately 0.15 and 0.18
-respectively). Based on this , we can predict that the ticket price will
-have a positive linear relationship with the frequency survivals. A
-possible graph to display this relationship is the scatter plot having
-the ticket price to be the predictor variable and the survivals to be
-the outcome variable . A statistical method to use in order to support
-our hypothesis is to display the regression line on the scatter plot and
-find the regression constant in order to figure out if there is a strong
-correlation between ticket price and survivals.
+, we can see that the proportion of passengers who didn’t survive is as
+high as 0.68 in 3rd class passengers and much lower for first and second
+class (approximately 0.15 and 0.18 respectively). Based on this , we can
+also predict that the ticket price will have a positive linear
+relationship with the frequency of survivals. A possible graph to
+display this relationship is the bar plot having the class to be the
+predictor variable and the fare displayed in terms of colors showing
+survivals or not as the outcome variable .This support our hypothesis as
+the people who bought an expensive ticket in first class had a higher
+survival rate than those you bought a cheap ticket in 2nd and 3rd class.
+A statistical method to use in order to support our hypothesis is to
+display the regression line on a scatter plot where fare is the
+predictor variable and survival rate is the outcome variable and find
+the regression constant in order to figure out if there is a strong
+correlation between these variables.
 
 ``` r
-titanic %>%
+ titanic %>%
+  ggplot(mapping=aes(x = Pclass, y = Fare, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge" )+
+  scale_fill_viridis_d()+
+  theme_minimal()+
+    labs( x = "Class ",
+          y = "Fare", fill = "Survived",
+          title = "Survival rate by class and fare") +
+   theme(legend.position = "bottom") 
+```
+
+![](proposal_files/figure-gfm/fare-survivals-relationship-1.png)<!-- -->
+
+``` r
+ titanic %>%
   filter(Survived == "0") %>%
   count(Pclass) %>%
   mutate(prop_death = n / sum(n)) 
@@ -187,19 +260,6 @@ titanic %>%
     ## 1      1  80  0.1457195
     ## 2      2  97  0.1766849
     ## 3      3 372  0.6775956
-
-#### Hypothesis 4: If a passenger had a cabin, the higher the possibility to survive.
-
-Cabins were on higher decks of Titanic which means that the passengers
-living in cabins had easier and faster access to the life saving boats.
-Based on this fact, we can conclude that passengers living in cabins had
-higher possibility to survive. We can visualize the data into a
-histogram as whether a passenger had or did not have a cabin as the
-predictor variable and frequency displayed in terms of colors showing
-survivals or not. Moreover, we will calculate the survival rate by
-having cabin or not. A Chi-square test will be carried out to show
-whether having a cabin or not affects the possibility of passenger to
-survive.
 
 #### Visualising the data together – Recreating a G.Bron’s historic chart
 
