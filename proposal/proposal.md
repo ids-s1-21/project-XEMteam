@@ -160,7 +160,7 @@ type of graph will point out the Age with the highest number of
 survivals. Since the dataset provides a number of values for ages, we
 will have to create a new variable called “Age\_Range” which groups the
 ages by scale of 10, that is 0-10, 11-20 etc so that we can find the
-survival rate for each age range and come out with more discrete
+survival rate for each age range and come out with more concrete
 conclusions.See the summary statistics below: filtering by the
 passengers who survived, we can see that the proportion of passengers
 aged between 21-30 years old have the highest probability to survive
