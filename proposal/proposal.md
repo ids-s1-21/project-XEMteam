@@ -2,17 +2,6 @@ Project proposal
 ================
 XEM Team
 
-``` r
-library(tidyverse)
-library(broom)
-library(here)
-library(dplyr)
-library(ggplot2)
-library(ggridges)
-library(forcats)
-library(scales)
-```
-
 ## 1. Introduction
 
 Touted as the ultimate in transatlantic travel and said to be
@@ -47,11 +36,10 @@ passenger-class, their sex and the fare they paid.
 
 ## 2. Data
 
-``` r
-titanic <- read.csv(here::here("data/titanic.csv"))
-
-glimpse(titanic)
-```
+The dataset “Titanic” has 891 rows and 12 columns thus 891 observations
+and 12 variables. The interpretation of the dataset for both variables
+and observations is located in the `README` in the `\data` folder where
+we have added the dimensions and the codebook.
 
     ## Rows: 891
     ## Columns: 12
@@ -68,52 +56,15 @@ glimpse(titanic)
     ## $ Cabin       <chr> "", "C85", "", "C123", "", "", "E46", "", "", "", "G6", "C…
     ## $ Embarked    <chr> "S", "C", "S", "S", "S", "Q", "S", "S", "S", "C", "S", "S"…
 
-Note that we have added the dimensions and codebook for the dataset is
-in the `README` in the `\data` folder.
-
-The 12 variables in the data set are:
-
--   `PassangerId`: ID of passanger (from 1 to 891)
--   `Survived`: If passenger survived (0 = No, 1 = Yes)
--   `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd)
-    -   **note**: this is a proxy for socio-economic status
--   `Name`: Name and Surname of passanger, if available
--   `Sex`: Gender of passanger (male or female)
-    -   **note**: this is historical data and the gender of passengers
-        is defined as binary
--   `Age`: Age in years (fractional if less than 1, if it’s estimated is
-    it in the form of xx.5)
--   `SibSp`: Number of siblings/spouses aboard the Titanic
-    -   Sibling = brother, sister, stepbrother, stepsister
-    -   Spouse = husband, wife (mistresses and fiancés were ignored)
--   `Parch`: Number of parents/children aboard the Titanic
-    -   **note**: Parent = mother, father
-    -   **note**: Child = daughter, son, stepdaughter, stepson (some
-        children travelled only with a nanny, therefore parch=0 for
-        them)
--   `Ticket`: Ticket number
--   `Fare`: Passenger fare (i.e. cost of ticket in USD)
--   `Cabin`: Cabin number
--   `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S =
-    Southampton)
-
-<https://www.kaggle.com/c/titanic/data>
-
 ## 3. Data analysis plan
-
-``` r
-titanic$Survived <- as.factor(titanic$Survived)
-titanic$Sex <- as.factor(titanic$Sex)
-titanic$Pclass <- as.factor(titanic$Pclass)
-```
 
 #### Hypothesis 1: Women have a higher survival rate than men.
 
 We assume that men were helping women while the tragic of Titanic was
-taking place, since this is a habitual behavior of men to give priority
-to women. In order to confirm if this is true we will create a bar plot
-using gender as the predictor variable and frequency displayed in terms
-of colors showing survivals or not as the outcome variable. Moreover, we
+taking place, having in mind that men have more physical strength to do
+so. In order to confirm if this is true we will create a bar plot using
+gender as the predictor variable and frequency displayed in terms of
+colors showing survivals or not as the outcome variable. Moreover, we
 will calculate the survival rate by gender.See the summary statistics
 below: filtering by the passengers who survived , we can see that the
 proportion of women passengers who survived is as high as 0.68 and the
@@ -125,11 +76,15 @@ independent or not of one another.
 
 ``` r
 titanic %>%
-  ggplot(mapping=aes(x= Sex, fill= Survived))+
-  geom_bar()+
-  theme_minimal()+
+ mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  geom_bar() +
+  theme_minimal() +
   scale_fill_viridis_d() +
-    labs( x = "Sex", y = "Frequency", fill = "Survived", title = "Survival Rate by Sex") +
+    labs( x = "Sex",
+          y = "Frequency",
+          fill = "Survived", 
+          title = "Survival Rate by Sex") +
    theme(legend.position = "bottom")
 ```
 
@@ -171,11 +126,15 @@ as well as interquartile range , excluding outliers / extreme values.
 
 ``` r
 titanic %>% 
-  ggplot(mapping=aes( x= Age , fill=Survived))+
-  geom_histogram( binwidth=5 )+
-   theme_minimal()+
+  mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
+  ggplot(mapping = aes( x = Age , fill = Survived)) +
+  geom_histogram( binwidth = 5 ) +
+   theme_minimal() +
   scale_fill_viridis_d() +
-    labs( x = "Age", y = "Frequency", fill = "Survived", title = "Survival rate by age") +
+    labs( x = "Age",
+          y = "Frequency",
+          fill = "Survived",
+          title = "Survival rate by age") +
    theme(legend.position = "bottom")
 ```
 
@@ -193,7 +152,7 @@ titanic %>%
                                Age >= 41 & Age <=50 ~  "41-50",
                                Age >= 51 & Age <=60 ~  "51-60",
                                Age >= 61 & Age <= 70 ~  "61-70",
-                               Age >= 71 & Age <= 80 ~ "71-80"))   %>%
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
  count(Age_Range) %>%
   mutate(prop_survival = n / sum(n)) 
 ```
@@ -235,23 +194,25 @@ figure out if there is a strong correlation between these two variables.
 
 ``` r
  titanic %>%
-  ggplot(mapping=aes(x = Pclass, y = Fare, fill = Survived)) +
-  geom_bar(stat = "identity", position = "dodge" )+
-  scale_fill_viridis_d()+
-  theme_minimal()+
+  mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
+  ggplot(mapping = aes( x = Pclass, y = Fare, fill = Survived)) +
+  geom_bar( stat = "identity", position = "dodge" )+
+  scale_fill_viridis_d() +
+  theme_minimal() +
     labs( x = "Class ",
-          y = "Tikcet Price", fill = "Survived",
-          title = "Survival rate by class and fare") +
-   theme(legend.position = "bottom") 
+          y = "Tikcet Price",
+          fill = "Survived",
+          title = "Survival rate by class and fare" ) +
+   theme( legend.position = "bottom" ) 
 ```
 
 ![](proposal_files/figure-gfm/fare-survivals-relationship-1.png)<!-- -->
 
 ``` r
  titanic %>%
-  filter(Survived == "0") %>%
-  count(Pclass) %>%
-  mutate(prop_death = n / sum(n)) 
+  filter( Survived == "0" ) %>%
+  count( Pclass ) %>%
+  mutate( prop_death = n / sum(n)) 
 ```
 
     ##   Pclass   n prop_death
