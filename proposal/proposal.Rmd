@@ -6,7 +6,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<<<<<<< HEAD
 ```{r load-packages, message = FALSE, echo = FALSE }
 library(tidyverse)
 library(broom)
@@ -59,10 +58,10 @@ Important note: the data we are working with is historical data and the gender o
 
 ```{r gender-survival, echo = FALSE }
 titanic %>%
-  ggplot(mapping=aes(x= Sex, fill= Survived))+
-  geom_bar()+
+  ggplot(mapping=aes(x= Sex, fill= Survived)) +
+  geom_bar() +
   theme_minimal() +
-  scale_fill_viridis_d(name = "Survived", labels = c("Yes", "No" )) +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
   labs(x = "Sex", y = "Frequency", title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
@@ -79,11 +78,14 @@ The age of a passenger can be considered to be high priority. We take it for gra
 
 ```{r age-survival, echo = FALSE}
 titanic %>% 
-  ggplot(mapping=aes(x = Age, fill = Survived))+
-  geom_histogram(binwidth = 5)+
-  theme_minimal()+
-  scale_fill_viridis_d(name = "Survived", labels = c("Yes", "No")) +
-  labs(x = "Age", y = "Frequency", fill = "Survived", title = "Survival rate by age") +
+  ggplot(mapping=aes(x = Age, fill = Survived)) +
+  geom_histogram(binwidth = 5) +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
+  labs(x = "Age", 
+       y = "Frequency", 
+       fill = "Survived", 
+       title = "Survival rate by age") +
   theme(legend.position = "bottom")
 ```
 
@@ -110,8 +112,8 @@ The class of the passenger can be considered to be a measure of their socio-econ
  titanic %>%
   ggplot(mapping = aes(x = Pclass, y = Fare, fill = Survived)) +
   geom_bar(stat = "identity", position = "dodge" )+
-  scale_fill_viridis_d(name = "Survived", labels = c("Yes", "No" )) +
-  theme_minimal()+
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  theme_minimal() +
     labs(x = "Class ", y = "Tikcet Price", fill = "Survived", title = "Survival rate by class and fare") +
    theme(legend.position = "bottom") 
 ```
@@ -125,7 +127,3 @@ The class of the passenger can be considered to be a measure of their socio-econ
 
 #### Visualising the data together -- Recreating a G.Bron's historic chart 
 Within our project, we would also like to recreate our version of G.Bron's chart of “The Loss of the ‘Titanic'”, from The Sphere, 4 May 1912 -- first know data visualization on the topic. The plot clearly shows the affect of all the different variables we have mentioned before on the survival rate in a single data visualization. We could explore unseen plot types and see which one can recreate similar results, as well as a different visualization we believe better conveys the information. One possible option is a mosaic plot, but we will need to do more research to reach any conclusions.
-
-
-
-
