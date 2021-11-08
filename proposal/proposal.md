@@ -64,7 +64,7 @@ We assume that men were helping women while the tragic of Titanic was
 taking place, having in mind that men have more physical strength to do
 so. In order to confirm if this is true we will create a bar plot using
 gender as the predictor variable and frequency displayed in terms of
-colors showing survivals or not as the outcome variable. Moreover, we
+colours showing survivals or not as the outcome variable. Moreover, we
 will calculate the survival rate by gender.See the summary statistics
 below: filtering by the passengers who survived , we can see that the
 proportion of women passengers who survived is as high as 0.68 and the
@@ -77,7 +77,7 @@ independent or not of one another.
 ``` r
 titanic %>%
  mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  ggplot( mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d() +
@@ -92,9 +92,9 @@ titanic %>%
 
 ``` r
 titanic %>%
-  filter(Survived == "1") %>%
-  count(Sex) %>%
-  mutate(prop_survival = n / sum(n))
+  filter( Survived == "1") %>%
+  count( Sex ) %>%
+  mutate( prop_survival = n / sum(n) )
 ```
 
     ##      Sex   n prop_survival
@@ -127,15 +127,15 @@ as well as interquartile range , excluding outliers / extreme values.
 ``` r
 titanic %>% 
   mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes( x = Age , fill = Survived)) +
+  ggplot( mapping = aes( x = Age , fill = Survived )) +
   geom_histogram( binwidth = 5 ) +
    theme_minimal() +
   scale_fill_viridis_d() +
     labs( x = "Age",
           y = "Frequency",
           fill = "Survived",
-          title = "Survival rate by age") +
-   theme(legend.position = "bottom")
+          title = "Survival rate by age" ) +
+   theme( legend.position = "bottom" )
 ```
 
     ## Warning: Removed 177 rows containing non-finite values (stat_bin).
@@ -144,17 +144,17 @@ titanic %>%
 
 ``` r
 titanic %>%
-  filter(Survived == "1") %>%
-  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
-                               Age >= 11 & Age <= 20 ~ "11-20",
-                               Age >= 21 & Age <= 30 ~ "21-30",
-                               Age >= 31 & Age <= 40 ~ "31-40",
-                               Age >= 41 & Age <=50 ~  "41-50",
-                               Age >= 51 & Age <=60 ~  "51-60",
-                               Age >= 61 & Age <= 70 ~  "61-70",
-                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
- count(Age_Range) %>%
-  mutate(prop_survival = n / sum(n)) 
+  filter( Survived == "1" ) %>%
+  mutate( Age_Range = case_when( Age >= 0  & Age <= 10 ~ "0-10",
+                                 Age >= 11 & Age <= 20 ~ "11-20",
+                                 Age >= 21 & Age <= 30 ~ "21-30",
+                                 Age >= 31 & Age <= 40 ~ "31-40",
+                                 Age >= 41 & Age <=50 ~  "41-50",
+                                 Age >= 51 & Age <=60 ~  "51-60",
+                                 Age >= 61 & Age <= 70 ~  "61-70",
+                                 Age >= 71 & Age <= 80 ~ "71-80" )) %>%
+ count( Age_Range ) %>%
+  mutate( prop_survival = n / sum(n) ) 
 ```
 
     ##   Age_Range  n prop_survival
@@ -195,7 +195,7 @@ figure out if there is a strong correlation between these two variables.
 ``` r
  titanic %>%
   mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes( x = Pclass, y = Fare, fill = Survived)) +
+  ggplot( mapping = aes( x = Pclass, y = Fare, fill = Survived )) +
   geom_bar( stat = "identity", position = "dodge" )+
   scale_fill_viridis_d() +
   theme_minimal() +
@@ -212,7 +212,7 @@ figure out if there is a strong correlation between these two variables.
  titanic %>%
   filter( Survived == "0" ) %>%
   count( Pclass ) %>%
-  mutate( prop_death = n / sum(n)) 
+  mutate( prop_death = n / sum(n) ) 
 ```
 
     ##   Pclass   n prop_death

@@ -30,9 +30,9 @@ The titanic.csv file contains data for 887 of the real Titanic passengers (2208 
 
 The dataset "Titanic" has 891 rows and 12 columns thus 891 observations and 12 variables. The interpretation of the dataset for both variables and observations is located in the `README` in the `\data` folder where we have added the dimensions and the codebook. 
 
-```{r load-data, message = FALSE , echo=FALSE}
+```{r load-data, message = FALSE , echo=FALSE }
 titanic <- read.csv(here::here("data/titanic.csv"))
-glimpse(titanic)
+glimpse( titanic )
 ```
 
 ## 3. Data analysis plan
@@ -49,7 +49,7 @@ We assume that men were helping women while the tragic of Titanic was taking pla
 ```{r gender-survival}
 titanic %>%
  mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  ggplot( mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d() +
@@ -62,9 +62,9 @@ titanic %>%
 
 ```{r survival_rate_gender}
 titanic %>%
-  filter(Survived == "1") %>%
-  count(Sex) %>%
-  mutate(prop_survival = n / sum(n))
+  filter( Survived == "1") %>%
+  count( Sex ) %>%
+  mutate( prop_survival = n / sum(n) )
 ```
 
 #### Hypothesis 2: The younger survivals are more than the older survivals  . 
@@ -73,31 +73,31 @@ The age of a passenger can be considered to be high priority. We take it for gra
 ```{r age-survival}
 titanic %>% 
   mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes( x = Age , fill = Survived)) +
+  ggplot( mapping = aes( x = Age , fill = Survived )) +
   geom_histogram( binwidth = 5 ) +
    theme_minimal() +
   scale_fill_viridis_d() +
     labs( x = "Age",
           y = "Frequency",
           fill = "Survived",
-          title = "Survival rate by age") +
-   theme(legend.position = "bottom")
+          title = "Survival rate by age" ) +
+   theme( legend.position = "bottom" )
 ```
 
 
 ```{r age-survival-rate}
 titanic %>%
-  filter(Survived == "1") %>%
-  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
-                               Age >= 11 & Age <= 20 ~ "11-20",
-                               Age >= 21 & Age <= 30 ~ "21-30",
-                               Age >= 31 & Age <= 40 ~ "31-40",
-                               Age >= 41 & Age <=50 ~  "41-50",
-                               Age >= 51 & Age <=60 ~  "51-60",
-                               Age >= 61 & Age <= 70 ~  "61-70",
-                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
- count(Age_Range) %>%
-  mutate(prop_survival = n / sum(n)) 
+  filter( Survived == "1" ) %>%
+  mutate( Age_Range = case_when( Age >= 0  & Age <= 10 ~ "0-10",
+                                 Age >= 11 & Age <= 20 ~ "11-20",
+                                 Age >= 21 & Age <= 30 ~ "21-30",
+                                 Age >= 31 & Age <= 40 ~ "31-40",
+                                 Age >= 41 & Age <=50 ~  "41-50",
+                                 Age >= 51 & Age <=60 ~  "51-60",
+                                 Age >= 61 & Age <= 70 ~  "61-70",
+                                 Age >= 71 & Age <= 80 ~ "71-80" )) %>%
+ count( Age_Range ) %>%
+  mutate( prop_survival = n / sum(n) ) 
   
 ```
 
@@ -107,7 +107,7 @@ The class of the passenger can be considered to be a measure of their socio-econ
 ```{r fare-survivals-relationship}
  titanic %>%
   mutate( Survived = if_else( Survived == 1 , "Yes" , "No"  )) %>%
-  ggplot(mapping = aes( x = Pclass, y = Fare, fill = Survived)) +
+  ggplot( mapping = aes( x = Pclass, y = Fare, fill = Survived )) +
   geom_bar( stat = "identity", position = "dodge" )+
   scale_fill_viridis_d() +
   theme_minimal() +
@@ -122,7 +122,7 @@ The class of the passenger can be considered to be a measure of their socio-econ
  titanic %>%
   filter( Survived == "0" ) %>%
   count( Pclass ) %>%
-  mutate( prop_death = n / sum(n)) 
+  mutate( prop_death = n / sum(n) ) 
 ```
 
 #### Visualising the data together -- Recreating a G.Bron's historic chart 
