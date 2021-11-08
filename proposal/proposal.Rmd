@@ -6,6 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
+<<<<<<< HEAD
 ```{r load-packages, message = FALSE, echo = FALSE }
 library(tidyverse)
 library(broom)
@@ -15,7 +16,7 @@ library(ggplot2)
 library(ggridges)
 library(forcats)
 library(scales)
-
+library(skimr)
 ```
 
 ## 1. Introduction
@@ -30,8 +31,8 @@ The titanic.csv file contains data for 887 of the real Titanic passengers (2208 
 
 ```{r load-data, message = FALSE, echo = FALSE}
 titanic <- read.csv(here::here("data/titanic.csv"))
-
-glimpse(titanic)
+titanic <- read.csv(here::here("data/titanic.csv"))
+glimpse( titanic )
 ```
 
 There are 12 variables in the data set.
@@ -42,19 +43,19 @@ There are 12 variables in the data set.
 
 A full description of these variables as well as some notes are all included in the in the `README` in the `\data` folder, which includes the dimensions and codebook for the dataset. The source for these is: https://www.kaggle.com/c/titanic/data.  
 
-
-
 ## 3. Data analysis plan
 
-```{r echo = FALSE}
+```{r , echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Sex <- as.factor(titanic$Sex)
 titanic$Pclass <- as.factor(titanic$Pclass)
-
 ```
 
 #### Hypothesis 1: Women have a higher survival rate than men. 
-We assume that men were helping women while the tragic of Titanic was taking place, since this is a habitual behavior of men to give priority to women. In order to confirm if this is true we will create a bar plot using gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable. Moreover,  we will calculate the survival rate by gender.See the summary statistics below: filtering by the passengers who  survived, we can see that the proportion of women passengers who survived is as high as 0.68 and the proportion of men passengers who survived is almost half of the women's (approximately 0.32).Since the variables that we will be using are categorical, an appropriate statistical method to verify our hypothesis is the Chi-Square test as it will show whether gender and survival are independent or not of one another. 
+
+Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic. In order to confirm if this is true and survival rates for women are indeed higher than for men, we will create a bar plot using gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable. Moreover,  we will calculate the survival rate by gender.See the summary statistics below: filtering by the passengers who  survived, we can see that the proportion of women passengers who survived is as high as 0.68 and the proportion of men passengers who survived is almost half of the women's (approximately 0.32).Since the variables that we will be using are categorical, an appropriate statistical method to verify our hypothesis is the Chi-Square test as it will show whether gender and survival are independent or not of one another. 
+
+Important note: the data we are working with is historical data and the gender of passengers is defined as binary. 
 
 ```{r gender-survival, echo = FALSE }
 titanic %>%
@@ -62,7 +63,7 @@ titanic %>%
   geom_bar()+
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("Yes", "No" )) +
-  labs(x = "Sex", y = "Frequency", title = "Survival Rate by Sex") +
+  labs(x = "Sex", y = "Frequency", title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
 
@@ -98,9 +99,8 @@ titanic %>%
                                Age >= 51 & Age <=60 ~  "51-60",
                                Age >= 61 & Age <= 70 ~  "61-70",
                                Age >= 71 & Age <= 80 ~ "71-80"))   %>%
- count(Age_Range) %>%
+  count(Age_Range) %>%
   mutate(prop_survival = n/sum(n)) 
-  
 ```
 
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate
