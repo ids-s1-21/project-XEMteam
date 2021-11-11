@@ -87,7 +87,24 @@ independent or not of one another.
 Important note: the data we are working with is historical data and the
 gender of passengers is defined as binary.
 
+``` r
+titanic %>%
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  geom_bar() +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  labs(x = "Sex", y = "Frequency", title = "Survival Rate by Gender") +
+  theme(legend.position = "bottom")
+```
+
 ![](proposal_files/figure-gfm/gender-survival-1.png)<!-- -->
+
+``` r
+titanic %>%
+  filter(Survived == "1") %>%
+  count(Sex) %>%
+  mutate(prop_survival = n/sum(n))
+```
 
     ##      Sex   n prop_survival
     ## 1 female 233     0.6812865
@@ -116,9 +133,35 @@ is to create a box plot including all the ages so that we can conclude
 which ages have highest possibility to survive as it displays the median
 as well as interquartile range, excluding outliers / extreme values.
 
-    ## Warning: Removed 177 rows containing non-finite values (stat_bin).
+``` r
+titanic %>% 
+  ggplot(mapping=aes(x = Age, fill = Survived)) +
+  geom_histogram(binwidth = 5 ) +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
+  labs(x = "Age", 
+       y = "Frequency", 
+       fill = "Survived", 
+       title = "Survival rate by age") +
+  theme(legend.position = "bottom")
+```
 
-![](proposal_files/figure-gfm/age-survival-1.png)<!-- -->
+![](proposal_files/figure-gfm/age-survival%20-1.png)<!-- -->
+
+``` r
+titanic %>%
+  filter(Survived == "1") %>%
+  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80"))   %>%
+  count(Age_Range) %>%
+  mutate(prop_survival = n/sum(n)) 
+```
 
     ##   Age_Range  n prop_survival
     ## 1      0-10 38   0.111111111
@@ -155,7 +198,24 @@ on a scatter plot where fare is the predictor variable and survival rate
 is the outcome variable to find out the regression constant so as to
 figure out if there is a strong correlation between these two variables.
 
+``` r
+ titanic %>%
+  ggplot(mapping = aes(x = Pclass, y = Fare, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge" ) +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  theme_minimal() +
+    labs(x = "Class ", y = "Tikcet Price", fill = "Survived", title = "Survival rate by class and fare") +
+   theme(legend.position = "bottom") 
+```
+
 ![](proposal_files/figure-gfm/fare-survivals-relationship-1.png)<!-- -->
+
+``` r
+ titanic %>%
+  filter(Survived == "0") %>%
+  count(Pclass) %>%
+  mutate(prop_death = n/sum(n)) 
+```
 
     ##   Pclass   n prop_death
     ## 1      1  80  0.1457195

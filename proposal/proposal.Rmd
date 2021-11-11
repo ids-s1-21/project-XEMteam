@@ -56,9 +56,9 @@ Especially during the times when the sinking of the Titanic accident occurred (1
 
 Important note: the data we are working with is historical data and the gender of passengers is defined as binary. 
 
-```{r gender-survival, echo = FALSE }
+```{r gender-survival }
 titanic %>%
-  ggplot(mapping=aes(x= Sex, fill= Survived)) +
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
@@ -66,7 +66,7 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 
-```{r survival_rate_gender, echo = FALSE}
+```{r survival_rate_gender}
 titanic %>%
   filter(Survived == "1") %>%
   count(Sex) %>%
@@ -76,10 +76,10 @@ titanic %>%
 #### Hypothesis 2: The younger survivals are more than the older survivals 
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young children when it comes to providing life saving equipment. Beyond that the survival of  passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive.A possible way to visualize the data it is to use a histogram   using "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not. This type of graph will point out the Age with the highest number of survivals. Since the dataset provides a number of values for ages,  we will have to create a new variable called "Age_Range " which groups the ages by scale of 10, that is 0-10, 11-20 etc so that we can find the survival rate for each age range and come out with more concrete conclusions. See the summary statistics below: filtering by the passengers who  survived, we can see that the proportion of  passengers aged between 21-30 years old have the highest probability to survive with 0.246. A statistical method that is useful to answer our hypothesis is to create a box plot  including all the ages so that we can conclude which ages have highest possibility to survive as it displays the median as well as interquartile range, excluding outliers / extreme values. 
 
-```{r age-survival, echo = FALSE}
+```{r age-survival , warning = FALSE}
 titanic %>% 
   ggplot(mapping=aes(x = Age, fill = Survived)) +
-  geom_histogram(binwidth = 5) +
+  geom_histogram(binwidth = 5 ) +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
   labs(x = "Age", 
@@ -90,7 +90,7 @@ titanic %>%
 ```
 
 
-```{r age-survival-rate, echo = FALSE}
+```{r age-survival-rate }
 titanic %>%
   filter(Survived == "1") %>%
   mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
@@ -108,17 +108,17 @@ titanic %>%
 #### Hypothesis 3: The higher the class of the passenger, the higher survival rate
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. Moreover, we expect the ticket price (`fare` variable) to follow a similar relationship as it is very likely that the ticket price and the class will have a linear relationship. See the summary statistics below: filtering by the passengers who didn't survive, we can see that the proportion  is as high as 0.68 in 3rd class passengers and much lower for first and second class (approximately 0.15 and 0.18 respectively). Based on this, we can also predict that the ticket price will have a positive linear relationship with the  frequency of survivals. A possible graph to display this relationship is the bar plot  having the class to be the predictor variable and the fare displayed in terms of colors showing survivals or not as the outcome variable. This supports our hypothesis as the people who bought an expensive ticket in first class had a higher survival rate than those who bought a cheap  ticket in 2nd and 3rd class. A statistical method to use  in order to support our hypothesis  is to display the regression line on a  scatter plot where fare is the predictor variable and survival rate is the outcome variable to find out  the regression constant so as to  figure out if there is a strong correlation between these two variables. 
 
-```{r fare-survivals-relationship, echo = FALSE}
+```{r fare-survivals-relationship}
  titanic %>%
   ggplot(mapping = aes(x = Pclass, y = Fare, fill = Survived)) +
-  geom_bar(stat = "identity", position = "dodge" )+
+  geom_bar(stat = "identity", position = "dodge" ) +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
   theme_minimal() +
     labs(x = "Class ", y = "Tikcet Price", fill = "Survived", title = "Survival rate by class and fare") +
    theme(legend.position = "bottom") 
 ```
 
-```{r class-survival, echo = FALSE}
+```{r class-survival}
  titanic %>%
   filter(Survived == "0") %>%
   count(Pclass) %>%
