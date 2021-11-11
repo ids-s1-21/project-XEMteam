@@ -93,7 +93,9 @@ titanic %>%
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
-  labs(x = "Sex", y = "Frequency", title = "Survival Rate by Gender") +
+  labs(x = "Sex", 
+       y = "Frequency", 
+       title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
 
@@ -135,7 +137,7 @@ as well as interquartile range, excluding outliers / extreme values.
 
 ``` r
 titanic %>% 
-  ggplot(mapping=aes(x = Age, fill = Survived)) +
+  ggplot(mapping = aes(x = Age, fill = Survived)) +
   geom_histogram(binwidth = 5 ) +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
@@ -158,7 +160,7 @@ titanic %>%
                                Age >= 41 & Age <=50 ~  "41-50",
                                Age >= 51 & Age <=60 ~  "51-60",
                                Age >= 61 & Age <= 70 ~  "61-70",
-                               Age >= 71 & Age <= 80 ~ "71-80"))   %>%
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
   count(Age_Range) %>%
   mutate(prop_survival = n/sum(n)) 
 ```
@@ -201,10 +203,13 @@ figure out if there is a strong correlation between these two variables.
 ``` r
  titanic %>%
   ggplot(mapping = aes(x = Pclass, y = Fare, fill = Survived)) +
-  geom_bar(stat = "identity", position = "dodge" ) +
-  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
   theme_minimal() +
-    labs(x = "Class ", y = "Tikcet Price", fill = "Survived", title = "Survival rate by class and fare") +
+    labs(x = "Class ", 
+         y = "Tikcet Price", 
+         fill = "Survived", 
+         title = "Survival rate by class and fare") +
    theme(legend.position = "bottom") 
 ```
 
