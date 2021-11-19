@@ -30,7 +30,6 @@ The titanic.csv file contains data for 887 of the real Titanic passengers (2208 
 
 ```{r load-data, message = FALSE, echo = FALSE}
 titanic <- read.csv(here::here("data/titanic.csv"))
-titanic <- read.csv(here::here("data/titanic.csv"))
 glimpse( titanic )
 ```
 
