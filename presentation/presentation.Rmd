@@ -1,6 +1,6 @@
 ---
 title: "Who survived the Titanic?"
-subtitle: "Presentation subtitle (if any)"
+subtitle: "Factors contributing to the survival of passengers in the historic Titanic accident of 1912 "
 author: "Team name <br> Names of team members"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
