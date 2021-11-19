@@ -45,6 +45,7 @@ class: center, middle
 
 
 
+<<<<<<< HEAD
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
@@ -54,6 +55,94 @@ We want to see
 ---
 
 class: inverse, center, middle
+=======
+---
+
+class: inverse, center, middle
+
+# Section title
+
+---
+
+# Introduction to data set
+* The data set comes from the Awesome Public Data Sets on GitHub (https://github.com/awesomedata/awesome-public-datasets) and there is no information on where the data originated or how it was collected.
+
+* There are 12 variables and 891 observations in this data set. 
+.pull-left[
+* **Name:** Name and Surname of passanger, if available 
+* **Survived:** If passenger survived (0 = No, 1 = Yes)
+* **Sex:** Gender of passanger (male or female)
+* **Age:** Age in years
+* **Pclass:** Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
+* **Fare:** Passenger fare (i.e. cost of ticket in USD)
+* **Embarked:** Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
+
+---
+class: inverse, middle, center
+# Hypothesis 1: Women have a higher survival rate than men
+
+---
+
+
+# Introduction
+* Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+
+* **geom_bar()** makes the height of the bar proportional to the number of cases in each group. 
+---
+
+# Visualization
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r gender-survival, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+titanic %>%
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  geom_bar() +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  labs(x = "Sex", 
+       y = "Frequency", 
+       title = "Survival Rate by Gender") +
+  theme(legend.position = "bottom")
+```
+]
+---
+
+
+class: inverse, middle, center
+
+# Using xaringan
+
+---
+
+# xaringan
+
+- The presentation is created using the `xaringan` package
+
+- Use `---` to separate slides and `--` for incremental builds
+
+--
+
+- Like this
+
+---
+
+# Layouts
+
+You can use plain text
+
+- or bullet points
+
+.pull-left[
+or text in two columns $^*$
+]
+.pull-right[
+- like
+- this
+]
+>>>>>>> c690ff41dd229a65f20e1ddf79016580d932ee8f
 
 # Data Set
 
