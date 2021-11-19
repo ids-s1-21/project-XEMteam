@@ -102,7 +102,7 @@ titanic %>%
 ```
 ]
 
----`
+---
 
 
 ---
@@ -118,6 +118,9 @@ class: inverse, center, middle
 # Recreating G. Bron's "Sphere" Diagram
 
 ---
+* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. 
+* 4 May 1912, three weeks after the Titanic disaster
+* it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
 
 ``` {r Gbron-caption, echo = FALSE}
 gbron_cap <- "G.Bron's chart of 'The Loss of the Titanic', \\n
