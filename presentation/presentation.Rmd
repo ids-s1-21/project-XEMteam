@@ -56,13 +56,52 @@ class: inverse, center, middle
 
 ---
 
-# Hello World
+# Introduction to data set
+* The data set comes from the Awesome Public Data Sets on GitHub (https://github.com/awesomedata/awesome-public-datasets) and there is no information on where the data originated or how it was collected.
 
-- Click the `Knit` button to compile your presentation
-
-- Make sure to commit and push all resulting files to your GitHub repo
+* There are 12 variables and 891 observations in this data set. 
+.pull-left[
+* **Name:** Name and Surname of passanger, if available 
+* **Survived:** If passenger survived (0 = No, 1 = Yes)
+* **Sex:** Gender of passanger (male or female)
+* **Age:** Age in years
+* **Pclass:** Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
+* **Fare:** Passenger fare (i.e. cost of ticket in USD)
+* **Embarked:** Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
 
 ---
+class: inverse, middle, center
+# Hypothesis 1: Women have a higher survival rate than men
+
+---
+
+
+# Introduction
+* Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+
+* **geom_bar()** makes the height of the bar proportional to the number of cases in each group. 
+---
+
+# Visualization
+.pull-left[
+- Some text
+- goes here
+]
+.pull-right[
+```{r gender-survival, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+titanic %>%
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  geom_bar() +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  labs(x = "Sex", 
+       y = "Frequency", 
+       title = "Survival Rate by Gender") +
+  theme(legend.position = "bottom")
+```
+]
+---
+
 
 class: inverse, middle, center
 
