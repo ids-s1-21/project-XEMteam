@@ -205,3 +205,23 @@ Limitations:
 `xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
 
 - And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
+---
+# Embarked/Class/Fare 
+
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
+
+```{r class-survived}
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Pclass <- as.factor(titanic$Pclass) 
+
+titanic %>%
+  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
+  geom_bar() + 
+  scale_fill_viridis_d()
+  
+```
+
+
+
+
