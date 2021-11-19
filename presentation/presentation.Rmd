@@ -100,10 +100,26 @@ titanic %>%
        title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
-]
+
+
+
+
 
 ---
+# Embarked/Class/Fare 
 
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
+
+```{r class-survived}
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Pclass <- as.factor(titanic$Pclass) 
+
+titanic %>%
+  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
+  geom_bar() + 
+  scale_fill_viridis_d()
+  
+```
 
 ---
 
@@ -132,6 +148,9 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 ```
 
 * The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On 4 May 1912, only three weeks after the Titanic disaster, it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
+
+
 ---
+
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
