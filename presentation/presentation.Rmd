@@ -43,19 +43,12 @@ style_xaringan(
 
 class: center, middle
 
-
-
-<<<<<<< HEAD
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
 
----
-
-class: inverse, center, middle
-=======
 ---
 
 class: inverse, center, middle
@@ -108,46 +101,8 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 ]
----
-
-
-class: inverse, middle, center
-
-# Using xaringan
 
 ---
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
->>>>>>> c690ff41dd229a65f20e1ddf79016580d932ee8f
-
-# Data Set
-
----
-
 
 
 ---
