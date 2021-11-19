@@ -1,7 +1,7 @@
 ---
 title: "Who survived the Titanic?"
 subtitle: "Factors contributing to the survival of passengers in the historic Titanic accident of 1912 "
-author: "XEM Team <br> Emma Ghelfi, Xiao Hu"
+author: "XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
