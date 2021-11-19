@@ -129,5 +129,5 @@ The class of the passenger can be considered to be a measure of their socio-econ
   mutate(prop_death = n/sum(n)) 
 ```
 
-#### Visualising the data together -- Recreating a G.Bron's historic chart 
+#### Visualising the data together -- Recreating G.Bron's historic chart 
 Within our project, we would also like to recreate our version of G.Bron's chart of “The Loss of the ‘Titanic'”, from The Sphere, 4 May 1912 -- first know data visualization on the topic. The plot clearly shows the affect of all the different variables we have mentioned before on the survival rate in a single data visualization. We could explore unseen plot types and see which one can recreate similar results, as well as a different visualization we believe better conveys the information. One possible option is a mosaic plot, but we will need to do more research to reach any conclusions.
