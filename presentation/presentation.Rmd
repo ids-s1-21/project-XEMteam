@@ -134,20 +134,19 @@ class: inverse, center, middle
 # Recreating G. Bron's "Sphere" Diagram
 
 ---
+.pull-left[
 * The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. 
 * 4 May 1912, three weeks after the Titanic disaster
 * it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
+]
 
-``` {r Gbron-caption, echo = FALSE}
-gbron_cap <- "G.Bron's chart of 'The Loss of the Titanic', \\n
-from The Sphere, 4 May 1912."
-```
 
-```{r Gbron-original-chart, echo = FALSE, out.width = "30%", fig.align = "right", fig.cap = gbron_cap }
+.pull-right[
+```{r Gbron-original-chart, echo = FALSE, out.width = "70%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912." }
 include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")
 ```
+]
 
-* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On 4 May 1912, only three weeks after the Titanic disaster, it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
 
 
 ---
