@@ -1,7 +1,7 @@
 ---
 title: "Who survived the Titanic?"
 subtitle: "Factors contributing to the survival of passengers in the historic Titanic accident of 1912 "
-author: "Team name <br> Names of team members"
+author: "XAM_Team <br> Xiao Hu"
 institute: "University of Edinburgh"
 date: "`r Sys.Date()`"
 output:
