@@ -31,25 +31,12 @@ class: center, middle, inverse, title-slide
 
 class: center, middle
 
-
-
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
-<<<<<<< HEAD
-=======
 
-Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew.
-We want to see **if and how the chance of survival of Titanic passengers is related to different attributes of the passengers including sex, age, socio-economic status etc.** 
->>>>>>> d9b19aea7a4b1a5ea1c0c4feeaca40e8de7cbf8a
-
----
-
-class: inverse, center, middle
-=======
 ---
 
 class: inverse, center, middle
@@ -91,48 +78,27 @@ class: inverse, middle, center
 ]
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
-]
----
 
 
-class: inverse, middle, center
 
-# Using xaringan
-
----`
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
 
 ---
+# Embarked/Class/Fare 
 
-# Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns `\(^*\)`
-]
-.pull-right[
-- like
-- this
-]
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; c690ff41dd229a65f20e1ddf79016580d932ee8f
-
-# Data Set
-
----
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
 
+```r
+titanic$Survived &lt;- as.factor(titanic$Survived)
+titanic$Pclass &lt;- as.factor(titanic$Pclass) 
+
+titanic %&gt;%
+  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
+  geom_bar() + 
+  scale_fill_viridis_d()
+```
+
+&lt;img src="presentation_files/figure-html/class-survived-1.png" width="80%" /&gt;
 
 ---
 
@@ -158,45 +124,12 @@ from The Sphere, 4 May 1912.&lt;/p&gt;
 &lt;/div&gt;
 
 * The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On 4 May 1912, only three weeks after the Titanic disaster, it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
----
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
-# Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
 
 ---
-# Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
-
-
-```r
-titanic$Survived &lt;- as.factor(titanic$Survived)
-titanic$Pclass &lt;- as.factor(titanic$Pclass) 
-
-titanic %&gt;%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-```
-
-&lt;img src="presentation_files/figure-html/class-survived-1.png" width="80%" /&gt;
-
-
-
-
-=======
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 3574b0c132df725c197a70e18955d96bbdf57bd2
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
