@@ -105,6 +105,17 @@ titanic %>%
 
 
 ---
+Hypothese 2
+
+
+
+
+
+```{r}
+
+```
+
+---
 # Embarked/Class/Fare 
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
