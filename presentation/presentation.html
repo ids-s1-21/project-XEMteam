@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-19" />
+    <meta name="date" content="2021-11-21" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,9 +16,10 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-19
+### 2021-11-21
 
 ---
+
 
 
 
@@ -82,30 +83,6 @@ class: inverse, middle, center
 ]
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
-<<<<<<< HEAD
-]
-
-
----
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-# xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-=======
->>>>>>> 2cd12d66dcca841653cb2344a876cfa9f34ec2ae
 
 
 
@@ -142,24 +119,73 @@ class: inverse, center, middle
 # Recreating G. Bron's "Sphere" Diagram
 
 ---
-.pull-left[
-* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. 
-* 4 May 1912, three weeks after the Titanic disaster
-* it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
-]
-
-
-.pull-right[
+## G. Bron's original Diagram on "the Sphere", 1912
+.left-column[
 &lt;div class="figure" style="text-align: right"&gt;
-&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912." width="70%" /&gt;
-&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912.&lt;/p&gt;
+&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." width="120%" /&gt;
+&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', 4 May 1912.&lt;/p&gt;
 &lt;/div&gt;
 ]
+.right-column[
++ The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
+{{content}}
+
+]
+
+--
+
++ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished on 4 May 1912, **three weeks after the Titanic disaster**
+{{content}}
+
+--
+
++  Bron’s graph is an early innovation in data display:
+{{content}}
+
+
+--
+
+    + each subgroup is shown by a bar whose area is proportional to the numbers of cases
+{{content}}   
+
+--
+
+    + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
+{{content}}
+
+--
+
+    + It also includes summary panels, showing the totals for passengers and crew.
+{{content}}
+  
+--
+
++  Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array of bar charts
+
+
 
 
 
 ---
 
+```r
+titanicfreq &lt;- titanic %&gt;%
+  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+         issurvived = ifelse(Survived == 0, "no", "yes")
+        ) %&gt;%
+  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+  summarise(Freq = n())
+```
+
+```
+## `summarise()` has grouped output by 'ischild', 'Sex', 'Pclass'. You can override using the `.groups` argument.
+```
+
+```r
+#vcd::doubledecker(Survived ~ Pclass + Sex, 
+#                  xtabs(Freq ~ Sex + Survived + Pclass, titanic))
+```
+---
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
     </textarea>
