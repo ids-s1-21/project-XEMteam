@@ -227,7 +227,7 @@ figure out if there is a strong correlation between these two variables.
     ## 2      2  97  0.1766849
     ## 3      3 372  0.6775956
 
-#### Visualising the data together – Recreating a G.Bron’s historic chart
+#### Visualising the data together – Recreating G.Bron’s historic chart
 
 Within our project, we would also like to recreate our version of
 G.Bron’s chart of “The Loss of the ‘Titanic’”, from The Sphere, 4 May
