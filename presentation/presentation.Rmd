@@ -86,13 +86,9 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
-```{r survival_rate_gender,  fig.width=4, echo = FALSE}
-titanic %>%
-  filter(Survived == "1") %>%
-  count(Sex) %>%
-  mutate(prop_survival = n/sum(n))
-```
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
 ]
+
 .pull-right[
 ```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
 titanic %>%
@@ -105,6 +101,33 @@ titanic %>%
        title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
+
+
+=======
+
+
+
+
+---
+# Summary
+.pull-left[
+- The proportion of women passengers who survived is 0.68 
+- The proportion of men passengers who survived is 0.32
+]
+.pull-right[
+```{r survival_rate_gender,  fig.width=4, echo = FALSE}
+titanic %>%
+  filter(Survived == "1") %>%
+  count(Sex) %>%
+  mutate(prop_survival = n/sum(n))
+```
+]
+---
+class: inverse, middle, center
+
+# Using xaringan
+
+---
 
 
 
@@ -126,16 +149,21 @@ Hypothese 2
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
-```{r class-survived}
+```{r class-survived ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Pclass <- as.factor(titanic$Pclass) 
 
-titanic %>%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-  
+titanic_class <- titanic %>%
+  group_by( Pclass ) %>%
+ count(Survived) %>%
+ mutate(pct = n/sum(n) * 100)
+
+titanic_class %>%
+ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 ```
+
 
 ---
 

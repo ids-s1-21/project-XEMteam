@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-21" />
+    <meta name="date" content="2021-11-22" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-21
+### 2021-11-22
 
 ---
 
@@ -77,6 +77,21 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
+]
+
+.pull-right[
+&lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
+]
+
+
+---
+# Summary
+.pull-left[
+- The proportion of women passengers who survived is 0.68 
+- The proportion of men passengers who survived is 0.32
+]
+.pull-right[
 
 ```
 ##      Sex   n prop_survival
@@ -84,9 +99,11 @@ class: inverse, middle, center
 ## 2   male 109     0.3187135
 ```
 ]
+<<<<<<< HEAD
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
 
+]
 
 <<<<<<< HEAD
 
@@ -96,26 +113,38 @@ dh
 ---
 =======
 
+=======
+>>>>>>> a68ed0bddeb6762a80dad468589effc6810c68ea
+---
+class: inverse, middle, center
+
+# Using xaringan
+
+---
+<<<<<<< HEAD
+>>>>>>> 19048d4cb780cc2e6ddd468eb384f44bbfa50573
+# Embarked/Class/Fare 
+=======
+<<<<<<< HEAD
+>>>>>>> 399fe351851808f29bb8057ee6df844a4070f29b
+
+=======
+=======
+=======
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 19048d4cb780cc2e6ddd468eb384f44bbfa50573
+>>>>>>> a68ed0bddeb6762a80dad468589effc6810c68ea
+
+
+
 
 
 ---
->>>>>>> 19048d4cb780cc2e6ddd468eb384f44bbfa50573
 # Embarked/Class/Fare 
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
+&lt;img src="presentation_files/figure-html/class-survived -1.png" width="80%" /&gt;
 
-```r
-titanic$Survived &lt;- as.factor(titanic$Survived)
-titanic$Pclass &lt;- as.factor(titanic$Pclass) 
-
-titanic %&gt;%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-```
-
-&lt;img src="presentation_files/figure-html/class-survived-1.png" width="80%" /&gt;
 
 ---
 
@@ -187,21 +216,15 @@ class: inverse, center, middle
 ---
 
 ```r
-titanicfreq &lt;- titanic %&gt;%
-  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-         issurvived = ifelse(Survived == 0, "no", "yes")
-        ) %&gt;%
-  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-  summarise(Freq = n())
-```
+#titanic_freq &lt;- titanic %&gt;%
+  #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+     #    issurvived = ifelse(Survived == 0, "no", "yes")
+      #  ) %&gt;%
+  #group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+#  summarise(Freq = n()) %&gt;%
 
-```
-## `summarise()` has grouped output by 'ischild', 'Sex', 'Pclass'. You can override using the `.groups` argument.
-```
-
-```r
-#vcd::doubledecker(Survived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + Survived + Pclass, titanic))
+#vcd::doubledecker(issurvived ~ Pclass + Sex, 
+        #          xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 >>>>>>> 19048d4cb780cc2e6ddd468eb384f44bbfa50573
