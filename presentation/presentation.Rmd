@@ -104,7 +104,6 @@ titanic %>%
        title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
-<<<<<<< HEAD
 ]
 
 
