@@ -62,13 +62,13 @@ class: inverse, center, middle
 
 * There are 12 variables and 891 observations in this data set. 
 .pull-left[
-* **Name:** Name and Surname of passanger, if available 
-* **Survived:** If passenger survived (0 = No, 1 = Yes)
-* **Sex:** Gender of passanger (male or female)
-* **Age:** Age in years
-* **Pclass:** Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
-* **Fare:** Passenger fare (i.e. cost of ticket in USD)
-* **Embarked:** Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
+- `Name`: Name and Surname of passanger, if available 
+- `Survived`: If passenger survived (0 = No, 1 = Yes)
+- `Sex`: Gender of passanger (male or female)
+- `Age`: Age in years
+- `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
+- `Fare`: Passenger fare (i.e. cost of ticket in USD)
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
 
 ---
 class: inverse, middle, center
@@ -85,11 +85,15 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
-- Some text
-- goes here
+```{r survival_rate_gender,  fig.width=4, echo = FALSE}
+titanic %>%
+  filter(Survived == "1") %>%
+  count(Sex) %>%
+  mutate(prop_survival = n/sum(n))
+```
 ]
 .pull-right[
-```{r gender-survival, warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
+```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
 titanic %>%
   ggplot(mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
@@ -101,6 +105,18 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 
+]
+
+
+---
+class: inverse, middle, center
+
+# Using xaringan
+
+---
+
+
+
 
 
 
@@ -109,16 +125,21 @@ titanic %>%
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
-```{r class-survived}
+```{r class-survived ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Pclass <- as.factor(titanic$Pclass) 
 
-titanic %>%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-  
+titanic_class <- titanic %>%
+  group_by( Pclass ) %>%
+ count(Survived) %>%
+ mutate(pct = n/sum(n) * 100)
+
+titanic_class %>%
+ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 ```
+
 
 ---
 
@@ -133,17 +154,19 @@ class: inverse, center, middle
 # Recreating G. Bron's "Sphere" Diagram
 
 ---
+.pull-left[
+* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. 
+* 4 May 1912, three weeks after the Titanic disaster
+* it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
+]
 
-``` {r Gbron-caption, echo = FALSE}
-gbron_cap <- "G.Bron's chart of 'The Loss of the Titanic', \\n
-from The Sphere, 4 May 1912."
-```
 
-```{r Gbron-original-chart, echo = FALSE, out.width = "30%", fig.align = "right", fig.cap = gbron_cap }
+.pull-right[
+```{r Gbron-original-chart, echo = FALSE, out.width = "70%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912." }
 include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")
 ```
+]
 
-* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On 4 May 1912, only three weeks after the Titanic disaster, it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
 
 
 ---

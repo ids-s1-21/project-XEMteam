@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-19" />
+    <meta name="date" content="2021-11-22" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-19
+### 2021-11-22
 
 ---
 
@@ -50,13 +50,13 @@ class: inverse, center, middle
 
 * There are 12 variables and 891 observations in this data set. 
 .pull-left[
-* **Name:** Name and Surname of passanger, if available 
-* **Survived:** If passenger survived (0 = No, 1 = Yes)
-* **Sex:** Gender of passanger (male or female)
-* **Age:** Age in years
-* **Pclass:** Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
-* **Fare:** Passenger fare (i.e. cost of ticket in USD)
-* **Embarked:** Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
+- `Name`: Name and Surname of passanger, if available 
+- `Survived`: If passenger survived (0 = No, 1 = Yes)
+- `Sex`: Gender of passanger (male or female)
+- `Age`: Age in years
+- `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
+- `Fare`: Passenger fare (i.e. cost of ticket in USD)
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
 
 ---
 class: inverse, middle, center
@@ -73,11 +73,27 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
-- Some text
-- goes here
+
+```
+##      Sex   n prop_survival
+## 1 female 233     0.6812865
+## 2   male 109     0.3187135
+```
 ]
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
+
+]
+
+
+---
+class: inverse, middle, center
+
+# Using xaringan
+
+---
+
+
 
 
 
@@ -87,18 +103,8 @@ class: inverse, middle, center
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
+&lt;img src="presentation_files/figure-html/class-survived -1.png" width="80%" /&gt;
 
-```r
-titanic$Survived &lt;- as.factor(titanic$Survived)
-titanic$Pclass &lt;- as.factor(titanic$Pclass) 
-
-titanic %&gt;%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-```
-
-&lt;img src="presentation_files/figure-html/class-survived-1.png" width="80%" /&gt;
 
 ---
 
@@ -113,17 +119,20 @@ class: inverse, center, middle
 # Recreating G. Bron's "Sphere" Diagram
 
 ---
+.pull-left[
+* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. 
+* 4 May 1912, three weeks after the Titanic disaster
+* it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
+]
 
 
-
+.pull-right[
 &lt;div class="figure" style="text-align: right"&gt;
-&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', \n
-from The Sphere, 4 May 1912." width="30%" /&gt;
-&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', \n
-from The Sphere, 4 May 1912.&lt;/p&gt;
+&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912." width="70%" /&gt;
+&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', from The Sphere, 4 May 1912.&lt;/p&gt;
 &lt;/div&gt;
+]
 
-* The Sphere was a popular British illustrated weekly newspaper, published by the Illustrated London News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On 4 May 1912, only three weeks after the Titanic disaster, it published a chart (Figure 1, page 16) by the graphic artist G. Bron using data released the week before by the House of Commons.
 
 
 ---
