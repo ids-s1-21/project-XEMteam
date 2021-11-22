@@ -134,22 +134,51 @@ class: inverse, middle, center
 
 
 ---
-Hypothese 2
+# Hypothesis 2: The younger survivals are more than the older survivals 
 
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
+---
+# visualization
 
+- use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not. 
+
+- create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions. 
 
 
 
 ```{r}
-
+titanic %>%
+  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  geom_bar() +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
+  labs(x = "Sex", 
+       y = "Frequency", 
+       title = "Survival Rate by Gender") +
+  theme(legend.position = "bottom")
 ```
+---
+Summary:
 
+The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
+```{r}
+titanic %>%
+  filter(Survived == "1") %>%
+  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival = n/sum(n)) 
+```
 ---
 # Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
-
-```{r class-survived ,echo=FALSE}
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.```{r class-survived ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Pclass <- as.factor(titanic$Pclass) 
 
@@ -238,4 +267,4 @@ vcd::doubledecker(issurvived ~ Pclass + Sex,
 ```
 ---
 #Resources
-[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.
