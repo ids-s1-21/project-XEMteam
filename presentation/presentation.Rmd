@@ -86,13 +86,9 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
-```{r survival_rate_gender,  fig.width=4, echo = FALSE}
-titanic %>%
-  filter(Survived == "1") %>%
-  count(Sex) %>%
-  mutate(prop_survival = n/sum(n))
-```
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
 ]
+
 .pull-right[
 ```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
 titanic %>%
@@ -105,10 +101,23 @@ titanic %>%
        title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
-<<<<<<< HEAD
 ]
 
 
+---
+# Summary
+.pull-left[
+- The proportion of women passengers who survived is 0.68 
+- The proportion of men passengers who survived is 0.32
+]
+.pull-right[
+```{r survival_rate_gender,  fig.width=4, echo = FALSE}
+titanic %>%
+  filter(Survived == "1") %>%
+  count(Sex) %>%
+  mutate(prop_survival = n/sum(n))
+```
+]
 ---
 class: inverse, middle, center
 

@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-21" />
+    <meta name="date" content="2021-11-22" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-21
+### 2021-11-22
 
 ---
 
@@ -74,6 +74,21 @@ class: inverse, middle, center
 
 # Visualization
 .pull-left[
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
+]
+
+.pull-right[
+&lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
+]
+
+
+---
+# Summary
+.pull-left[
+- The proportion of women passengers who survived is 0.68 
+- The proportion of men passengers who survived is 0.32
+]
+.pull-right[
 
 ```
 ##      Sex   n prop_survival
@@ -81,12 +96,6 @@ class: inverse, middle, center
 ## 2   male 109     0.3187135
 ```
 ]
-.pull-right[
-&lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
-<<<<<<< HEAD
-]
-
-
 ---
 class: inverse, middle, center
 
@@ -95,9 +104,8 @@ class: inverse, middle, center
 ---
 =======
 =======
->>>>>>> 19048d4cb780cc2e6ddd468eb384f44bbfa50573
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 19048d4cb780cc2e6ddd468eb384f44bbfa50573
 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 2cd12d66dcca841653cb2344a876cfa9f34ec2ae
 
 
 
@@ -183,21 +191,15 @@ class: inverse, center, middle
 ---
 
 ```r
-titanicfreq &lt;- titanic %&gt;%
-  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-         issurvived = ifelse(Survived == 0, "no", "yes")
-        ) %&gt;%
-  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-  summarise(Freq = n())
-```
+#titanic_freq &lt;- titanic %&gt;%
+  #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+     #    issurvived = ifelse(Survived == 0, "no", "yes")
+      #  ) %&gt;%
+  #group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+#  summarise(Freq = n()) %&gt;%
 
-```
-## `summarise()` has grouped output by 'ischild', 'Sex', 'Pclass'. You can override using the `.groups` argument.
-```
-
-```r
-#vcd::doubledecker(Survived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + Survived + Pclass, titanic))
+#vcd::doubledecker(issurvived ~ Pclass + Sex, 
+        #          xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 #Resources
