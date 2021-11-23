@@ -89,7 +89,7 @@ gender of passengers is defined as binary.
 
 ``` r
 titanic %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  ggplot(aes(x = Sex, fill = Survived)) +
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +

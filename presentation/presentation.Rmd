@@ -137,34 +137,38 @@ class: inverse, middle, center
 
 
 ---
+class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
-
+---
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
 ---
 # visualization
+.pull-right[
+- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
+- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
+]
 
-- use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not. 
-
-- create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions. 
-
-
-
-```{r}
-titanic %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
-  geom_bar() +
+.pull-left[
+```{r age-survival,out.width="100%", fig.width=4, echo=FALSE}
+titanic %>% 
+  ggplot(mapping = aes(x = Age, fill = Survived)) +
+  geom_histogram(binwidth = 6 ) +
   theme_minimal() +
-  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
-  labs(x = "Sex", 
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
+  labs(x = "Age", 
        y = "Frequency", 
-       title = "Survival Rate by Gender") +
+       fill = "Survived", 
+       title = "Survival rate by age") +
   theme(legend.position = "bottom")
 ```
----
-Summary:
+]
 
+---
+
+# Summary
 The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
-```{r}
+
+```{r age-survival-rate,fig.width=6,echo=FALSE}
 titanic %>%
   filter(Survived == "1") %>%
   mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
@@ -178,6 +182,7 @@ titanic %>%
   count(Age_Range) %>%
   mutate(prop_survival = n/sum(n)) 
 ```
+
 ---
 # Embarked/Class/Fare 
 
