@@ -192,14 +192,15 @@ ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
   geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 
 ---
-
+```
 ---
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
-```
+---
+
 ---
 
 class: inverse, center, middle
@@ -254,30 +255,29 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
-```{r }
-#titanic_freq <- titanic %>%
-#  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %>%
-#  group_by(ischild, Sex, Pclass, issurvived) %>%
-#  summarise(Freq = n()) %>%
-#  
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-```
+## Mosaic double decker plot
 
-``` {r table-mosaic echo=FALSE}
+``` {r table-mosaic, echo=FALSE, results = 'hide'}
 titanic_child <- titanic %>%
   mutate(ischild = ifelse(Age >= 18, "adult", "child"))
   
 tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
 ftable(tbl)
 
-
 ```
 
-``` {r mosaic plot}
-mosaic(tbl, main = "Titanic data")
+``` {r mosaic plot, echo = FALSE, fig.align = 'center'}
+mosaic(~ Survived + Pclass + Sex + ischild, data = titanic_child, 
+       highlighting = "Survived", highlighting_fill = c("#727272", "#79c36a"),
+       labeling_args = list(set_varnames = c(Sex = "Gender",
+                                             Survived = "Survived",
+                                             Pclass = "Passenger Class",
+                                             ischild = "Child")),
+        set_labels = list(Survived = c("No", "Yes"),
+                          Pclass = c("1st", "2nd", "3rd", "Crew"),
+                          Sex = c("F", "M"),
+                          ischild = c("A","C")),
+       main = "Survival on the Titanic")
 ```
 
 
@@ -305,3 +305,7 @@ Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Desi
 ---
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/ 

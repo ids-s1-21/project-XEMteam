@@ -158,14 +158,15 @@ ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
   geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 
 ---
-
+```
 ---
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
-```
+---
+
 ---
 
 class: inverse, center, middle
@@ -221,58 +222,13 @@ class: inverse, center, middle
 
 
 ---
-
-```r
-#titanic_freq &lt;- titanic %&gt;%
-#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %&gt;%
-#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-#  summarise(Freq = n()) %&gt;%
-#  
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-```
+## Mosaic double decker plot
 
 
-```r
-titanic_child &lt;- titanic %&gt;%
-  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"))
-  
-tbl &lt;- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
-ftable(tbl)
-```
 
-```
-##                        ischild adult child
-## Survived Pclass Sex                       
-## 0        1      female             2     1
-##                 male              61     0
-##          2      female             6     0
-##                 male              82     2
-##          3      female            39    16
-##                 male             182    33
-## 1        1      female            75     7
-##                 male              36     4
-##          2      female            56    12
-##                 male               6     9
-##          3      female            28    19
-##                 male              28    10
-```
+&lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
-```r
-library(vcd)
-```
 
-```
-## Loading required package: grid
-```
-
-```r
-mosaic(tbl, main = "Titanic data")
-```
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
 ---
 ## Aside
 
@@ -295,6 +251,10 @@ Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Desi
 ---
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/ 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
