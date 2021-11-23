@@ -23,6 +23,8 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(vcd)
+library(grid)
 ```
 
 ```{r setup, include=FALSE}
@@ -41,7 +43,7 @@ style_xaringan(
 )
 ```
 
-
+```
 class: center, middle
 
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
@@ -127,17 +129,6 @@ titanic %>%
 ]
 ---
 class: inverse, middle, center
-
-# Using xaringan
-
----
-
-
-
-
-
----
-class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
 ---
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
@@ -199,8 +190,8 @@ titanic_class %>%
 ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
   geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
   geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
-```
 
+---
 
 ---
 
@@ -208,6 +199,7 @@ class: inverse, center, middle
 
 # Modelling
 
+```
 ---
 
 class: inverse, center, middle
@@ -269,10 +261,47 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 #        ) %>%
 #  group_by(ischild, Sex, Pclass, issurvived) %>%
 #  summarise(Freq = n()) %>%
-
+#  
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
 #                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
+
+``` {r table-mosaic echo=FALSE}
+titanic_child <- titanic %>%
+  mutate(ischild = ifelse(Age >= 18, "adult", "child"))
+  
+tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
+ftable(tbl)
+
+
+```
+
+``` {r mosaic plot}
+mosaic(tbl, main = "Titanic data")
+```
+
+
+---
+## Aside
+
+.pull-left[
+Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. 
+
+> This highlights the fact that the passengers were people, not statistics. It's common to overlook on this while handling data that has to do with casualties.
+
+* This is also an example of how typography could be used in data visualization.
+]
+
+.pull-right[
+```{r brath2018-plot, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("img/brath2018.png")
+```
+]
+
+.footnote[
+Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
+]
+
 ---
 #Resources
-[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.
+[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
