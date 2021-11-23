@@ -44,7 +44,7 @@ style_xaringan(
 )
 ```
 
-```
+
 class: center, middle
 
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
@@ -193,14 +193,10 @@ ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
   geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 
 ---
-```
----
 
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
-
----
 
 ---
 
@@ -304,7 +300,7 @@ Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Desi
 ]
 
 ---
-#Resources
+#Bibliography
 [1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
 
 https://rkabacoff.github.io/datavis/Models.html#Mosaic 
