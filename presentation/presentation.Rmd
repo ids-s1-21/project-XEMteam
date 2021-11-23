@@ -25,6 +25,7 @@ library(knitr)
 library(xaringanthemer)
 library(vcd)
 library(grid)
+library(rsample)
 ```
 
 ```{r setup, include=FALSE}
