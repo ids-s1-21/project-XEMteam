@@ -23,6 +23,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(dplyr)
 ```
 
 ```{r setup, include=FALSE}
@@ -103,7 +104,7 @@ titanic %>%
 ```
 
 
-=======
+
 
 
 
@@ -138,20 +139,27 @@ class: inverse, middle, center
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
 
-```{r class-survived ,echo=FALSE}
+```{r factors ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
-titanic$Pclass <- as.factor(titanic$Pclass) 
-
-titanic_class <- titanic %>%
-  group_by( Pclass ) %>%
- count(Survived) %>%
- mutate(pct = n/sum(n) * 100)
-
-titanic_class %>%
-ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
-  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
-  geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
+titanic$Pclass <- as.factor(titanic$Pclass)
 ```
+
+
+```{r class-survived ,echo=FALSE}
+titanic_pclass <- titanic %>%
+  group_by( Pclass  ) %>%
+  count( Survived ) %>%
+  mutate( percentage = n/sum(n) * 100 )
+```
+
+
+```{r class-survived-graph ,echo=FALSE}
+titanic_pclass %>%
+ggplot(aes(x=Pclass , y = percentage , fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = percentage, label = percentage) ,position = position_stack(vjust = 0.5), size = 3.5 )
+```
+
 
 
 ---
