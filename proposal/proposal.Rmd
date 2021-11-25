@@ -57,7 +57,7 @@ Important note: the data we are working with is historical data and the gender o
 
 ```{r gender-survival }
 titanic %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
+  ggplot(aes(x = Sex, fill = Survived)) +
   geom_bar() +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +

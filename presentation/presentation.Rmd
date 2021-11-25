@@ -92,6 +92,9 @@ class: inverse, middle, center
 
 .pull-right[
 ```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Pclass <- as.factor(titanic$Pclass) 
+
 titanic %>%
   ggplot(mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
@@ -102,7 +105,7 @@ titanic %>%
        title = "Survival Rate by Gender") +
   theme(legend.position = "bottom")
 ```
-
+]
 
 
 
@@ -119,7 +122,7 @@ titanic %>%
 ```{r survival_rate_gender,  fig.width=4, echo = FALSE}
 titanic %>%
   filter(Survived == "1") %>%
-  count(Sex) %>%
+  count( Sex ) %>%
   mutate(prop_survival = n/sum(n))
 ```
 ]
@@ -135,29 +138,80 @@ class: inverse, middle, center
 
 
 ---
+class: inverse, middle, center
+# Hypothesis 2: The younger survivals are more than the older survivals 
+---
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
+---
+# visualization
+.pull-right[
+- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
+- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
+]
+
+.pull-left[
+```{r age-survival,out.width="100%", fig.width=4, echo=FALSE}
+titanic %>% 
+  ggplot(mapping = aes(x = Age, fill = Survived)) +
+  geom_histogram(binwidth = 6 ) +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
+  labs(x = "Age", 
+       y = "Frequency", 
+       fill = "Survived", 
+       title = "Survival rate by age") +
+  theme(legend.position = "bottom")
+```
+]
+
+---
+
+# Summary
+The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
+
+```{r age-survival-rate,fig.width=6,echo=FALSE}
+titanic %>%
+  filter(Survived == "1") %>%
+  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival = n/sum(n)) 
+```
+
+
+
+
+---
 # Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
-```{r factors ,echo=FALSE}
+```{r class-survived ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Pclass <- as.factor(titanic$Pclass)
 ```
 
 
-```{r class-survived ,echo=FALSE}
-titanic_pclass <- titanic %>%
-  group_by( Pclass  ) %>%
-  count( Survived ) %>%
-  mutate( percentage = n/sum(n) * 100 )
+```{r class-pclass ,echo=FALSE}
+#titanic_pclass <- titanic %>%
+  #group_by( Pclass ) %>%
+  #count(Survived) %>%
+ #mutate(pct = n/sum(n) * 100)
+  
 ```
 
 
 ```{r class-survived-graph ,echo=FALSE}
-titanic_pclass %>%
-ggplot(aes(x=Pclass , y = percentage , fill = Survived)) +
-  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
-  geom_text(aes(y = percentage, label = percentage) ,position = position_stack(vjust = 0.5), size = 3.5 )
+#titanic_pclass %>%
+#ggplot(aes(x=Pclass , y = pct , fill = Survived)) +
+  #geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  #geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 ```
 
 
@@ -222,17 +276,17 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
-```{r}
-titanic_freq <- titanic %>%
-  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-         issurvived = ifelse(Survived == 0, "no", "yes")
-        ) %>%
-  group_by(ischild, Sex, Pclass, issurvived) %>%
-  summarise(Freq = n()) %>%
+```{r }
+#titanic_freq <- titanic %>%
+#  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
+#         issurvived = ifelse(Survived == 0, "no", "yes")
+#        ) %>%
+#  group_by(ischild, Sex, Pclass, issurvived) %>%
+#  summarise(Freq = n()) %>%
 
-vcd::doubledecker(issurvived ~ Pclass + Sex, 
-                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#vcd::doubledecker(issurvived ~ Pclass + Sex, 
+#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 #Resources
-[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.

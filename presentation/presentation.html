@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-22" />
+    <meta name="date" content="2021-11-25" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-22
+### 2021-11-25
 
 ---
 
@@ -82,6 +82,10 @@ class: inverse, middle, center
 ]
 
 
+
+
+
+
 ---
 # Summary
 .pull-left[
@@ -96,29 +100,56 @@ class: inverse, middle, center
 ## 2   male 109     0.3187135
 ```
 ]
-<<<<<<< HEAD
-.pull-right[
-&lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
-
-]
-
-
-=======
->>>>>>> a68ed0bddeb6762a80dad468589effc6810c68ea
 ---
 class: inverse, middle, center
 
 # Using xaringan
 
 ---
-<<<<<<< HEAD
 
-=======
-=======
-=======
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 19048d4cb780cc2e6ddd468eb384f44bbfa50573
->>>>>>> a68ed0bddeb6762a80dad468589effc6810c68ea
 
+
+
+
+---
+class: inverse, middle, center
+# Hypothesis 2: The younger survivals are more than the older survivals 
+---
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
+---
+# visualization
+.pull-right[
+- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
+- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
+]
+
+.pull-left[
+
+```
+## Warning: Removed 177 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="presentation_files/figure-html/age-survival-1.png" width="100%" /&gt;
+]
+
+---
+
+# Summary
+The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
+
+
+```
+##   Age_Range  n prop_survival
+## 1      0-10 38   0.111111111
+## 2     11-20 44   0.128654971
+## 3     21-30 84   0.245614035
+## 4     31-40 69   0.201754386
+## 5     41-50 33   0.096491228
+## 6     51-60 17   0.049707602
+## 7     61-70  4   0.011695906
+## 8     71-80  1   0.002923977
+## 9      &lt;NA&gt; 52   0.152046784
+```
 
 
 
@@ -126,9 +157,16 @@ class: inverse, middle, center
 ---
 # Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
-&lt;img src="presentation_files/figure-html/class-survived -1.png" width="80%" /&gt;
+
+
+
+
+
+
+
+
 
 
 ---
@@ -195,18 +233,18 @@ class: inverse, center, middle
 
 ```r
 #titanic_freq &lt;- titanic %&gt;%
-  #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-     #    issurvived = ifelse(Survived == 0, "no", "yes")
-      #  ) %&gt;%
-  #group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+#         issurvived = ifelse(Survived == 0, "no", "yes")
+#        ) %&gt;%
+#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
 #  summarise(Freq = n()) %&gt;%
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
-        #          xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 #Resources
-[1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+[1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
