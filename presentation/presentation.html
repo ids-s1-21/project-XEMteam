@@ -4,7 +4,11 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
+<<<<<<< HEAD
     <meta name="date" content="2021-11-26" />
+=======
+    <meta name="date" content="2021-11-23" />
+>>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +20,11 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
+<<<<<<< HEAD
 ### 2021-11-26
+=======
+### 2021-11-23
+>>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 
 ---
 
@@ -80,6 +88,10 @@ class: inverse, middle, center
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
 ]
 
+=======
+
+
+
 
 ---
 # Summary
@@ -97,41 +109,66 @@ class: inverse, middle, center
 ]
 ---
 class: inverse, middle, center
+# Hypothesis 2: The younger survivals are more than the older survivals 
+---
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
+---
+# visualization
+.pull-right[
+- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
+- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
+]
 
-# Using xaringan
+.pull-left[
+
+```
+## Warning: Removed 177 rows containing non-finite values (stat_bin).
+```
+
+&lt;img src="presentation_files/figure-html/age-survival-1.png" width="100%" /&gt;
+]
 
 ---
-=======
-=======
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 19048d4cb780cc2e6ddd468eb384f44bbfa50573
+
+# Summary
+The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
 
 
-
-
+```
+##   Age_Range  n prop_survival
+## 1      0-10 38   0.111111111
+## 2     11-20 44   0.128654971
+## 3     21-30 84   0.245614035
+## 4     31-40 69   0.201754386
+## 5     41-50 33   0.096491228
+## 6     51-60 17   0.049707602
+## 7     61-70  4   0.011695906
+## 8     71-80  1   0.002923977
+## 9      &lt;NA&gt; 52   0.152046784
+```
 
 ---
 # Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
-
-
-```r
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.```{r class-survived ,echo=FALSE}
 titanic$Survived &lt;- as.factor(titanic$Survived)
 titanic$Pclass &lt;- as.factor(titanic$Pclass) 
 
-titanic %&gt;%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-```
+titanic_class &lt;- titanic %&gt;%
+  group_by( Pclass ) %&gt;%
+ count(Survived) %&gt;%
+ mutate(pct = n/sum(n) * 100)
 
-&lt;img src="presentation_files/figure-html/class-survived-1.png" width="80%" /&gt;
+titanic_class %&gt;%
+ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 
 ---
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
 ---
 
@@ -188,7 +225,9 @@ class: inverse, center, middle
 
 
 ---
+## Mosaic double decker plot
 
+<<<<<<< HEAD
 ```r
 #titanic_freq &lt;- titanic %&gt;%
   #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
@@ -200,9 +239,39 @@ class: inverse, center, middle
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
  #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
+=======
+
+
+&lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+## Aside
+
+.pull-left[
+Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. 
+
+&gt; This highlights the fact that the passengers were people, not statistics. It's common to overlook on this while handling data that has to do with casualties.
+
+* This is also an example of how typography could be used in data visualization.
+]
+
+.pull-right[
+&lt;img src="img/brath2018.png" width="100%" /&gt;
+]
+
+.footnote[
+Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
+]
+
+>>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 ---
 #Resources
 [1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/ 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

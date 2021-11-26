@@ -23,6 +23,9 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(vcd)
+library(grid)
+library(rsample)
 ```
 
 ```{r setup, include=FALSE}
@@ -105,6 +108,10 @@ titanic %>%
 ```
 ]
 
+=======
+
+
+
 
 ---
 # Summary
@@ -122,39 +129,73 @@ titanic %>%
 ]
 ---
 class: inverse, middle, center
+# Hypothesis 2: The younger survivals are more than the older survivals 
+---
+The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
+---
+# visualization
+.pull-right[
+- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
+- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
+]
 
-# Using xaringan
+.pull-left[
+```{r age-survival,out.width="100%", fig.width=4, echo=FALSE}
+titanic %>% 
+  ggplot(mapping = aes(x = Age, fill = Survived)) +
+  geom_histogram(binwidth = 6 ) +
+  theme_minimal() +
+  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
+  labs(x = "Age", 
+       y = "Frequency", 
+       fill = "Survived", 
+       title = "Survival rate by age") +
+  theme(legend.position = "bottom")
+```
+]
 
 ---
-=======
-=======
->>>>>>> 19048d4cb780cc2e6ddd468eb384f44bbfa50573
 
+# Summary
+The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
 
-
-
+```{r age-survival-rate,fig.width=6,echo=FALSE}
+titanic %>%
+  filter(Survived == "1") %>%
+  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival = n/sum(n)) 
+```
 
 ---
 # Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate. 
-
-```{r class-survived}
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.```{r class-survived ,echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Pclass <- as.factor(titanic$Pclass) 
 
-titanic %>%
-  ggplot(mapping = aes(x = Pclass, fill = Survived))  +
-  geom_bar() + 
-  scale_fill_viridis_d()
-  
-```
+titanic_class <- titanic %>%
+  group_by( Pclass ) %>%
+ count(Survived) %>%
+ mutate(pct = n/sum(n) * 100)
+
+titanic_class %>%
+ggplot(aes(x=Pclass , y = pct ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
 
 ---
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
 ---
 
@@ -210,6 +251,7 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
+<<<<<<< HEAD
 ```{r}
 #titanic_freq <- titanic %>%
   #mutate(ischild = ifelse(Age >= 18, "adult", "child"),
@@ -220,7 +262,59 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
  #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+=======
+## Mosaic double decker plot
+
+``` {r table-mosaic, echo=FALSE, results = 'hide'}
+titanic_child <- titanic %>%
+  mutate(ischild = ifelse(Age >= 18, "adult", "child"))
+  
+tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
+ftable(tbl)
+
+>>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 ```
+
+``` {r mosaic plot, echo = FALSE, fig.align = 'center'}
+mosaic(~ Survived + Pclass + Sex + ischild, data = titanic_child, 
+       highlighting = "Survived", highlighting_fill = c("#727272", "#79c36a"),
+       labeling_args = list(set_varnames = c(Sex = "Gender",
+                                             Survived = "Survived",
+                                             Pclass = "Passenger Class",
+                                             ischild = "Child")),
+        set_labels = list(Survived = c("No", "Yes"),
+                          Pclass = c("1st", "2nd", "3rd", "Crew"),
+                          Sex = c("F", "M"),
+                          ischild = c("A","C")),
+       main = "Survival on the Titanic")
+```
+
+
 ---
-#Resources
+## Aside
+
+.pull-left[
+Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. 
+
+> This highlights the fact that the passengers were people, not statistics. It's common to overlook on this while handling data that has to do with casualties.
+
+* This is also an example of how typography could be used in data visualization.
+]
+
+.pull-right[
+```{r brath2018-plot, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("img/brath2018.png")
+```
+]
+
+.footnote[
+Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
+]
+
+---
+#Bibliography
 [1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/ 
