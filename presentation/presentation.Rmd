@@ -126,16 +126,8 @@ titanic %>%
 class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
 ---
-The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
----
-# visualization
-
+# Data analysis 
 .pull-left[
-
-According to the height of yellow box bar, the frequency who survived for the young is 
-]
-
-.pull-right[
 ```{r age-survival,out.width="100%", fig.width=4, echo=FALSE, warning=FALSE}
 titanic %>% 
   ggplot(mapping = aes(x = Age, fill = Survived)) +
@@ -148,12 +140,6 @@ titanic %>%
        title = "Survival rate by age") +
   theme(legend.position = "bottom")
 ```
-]
-
-
----
-
-# Summary
 
 ```{r age-survival-rate,fig.width=6,echo=FALSE}
 titanic_test  <- titanic %>%
@@ -176,7 +162,7 @@ titanic_test  <- titanic %>%
 pie(titanic_test$n,labels =round((titanic_test$prop_survival)*100, digits=2), col= rainbow(8))
 legend("topleft", legend = titanic_test$Age_Range,fill= rainbow(8))
 ```
-
+]
 ---
 # Embarked/Class/Fare 
 
