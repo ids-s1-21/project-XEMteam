@@ -64,7 +64,7 @@ We want to see
 ---
 
 # Introduction to data set
-* The data set comes from the Awesome Public Data Sets on GitHub (https://github.com/awesomedata/awesome-public-datasets) and there is no information on where the data originated or how it was collected.
+* The data set comes from the Awesome Public Data Sets on GitHub[2]
 
 * There are 12 variables and 891 observations in this data set. 
 .pull-left[
@@ -74,7 +74,7 @@ We want to see
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
 
 ---
 class: inverse, middle, center
@@ -315,3 +315,7 @@ Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Desi
 https://rkabacoff.github.io/datavis/Models.html#Mosaic 
 
 https://www.datavis.ca/papers/titanic/ 
+
+[2] https://github.com/awesomedata/awesome-public-datasets
+
+[3] https://www.kaggle.com/c/titanic/data
