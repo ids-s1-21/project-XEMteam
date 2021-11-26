@@ -81,7 +81,6 @@ class: inverse, middle, center
 # Introduction
 * Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
 
-* **geom_bar()** makes the height of the bar proportional to the number of cases in each group. 
 ---
 
 # Visualization
@@ -209,15 +208,15 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 ---
 ```{r}
-titanic_freq <- titanic %>%
-  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-         issurvived = ifelse(Survived == 0, "no", "yes")
-        ) %>%
-  group_by(ischild, Sex, Pclass, issurvived) %>%
-  summarise(Freq = n()) %>%
+#titanic_freq <- titanic %>%
+  #mutate(ischild = ifelse(Age >= 18, "adult", "child"),
+    #     issurvived = ifelse(Survived == 0, "no", "yes")
+ #       ) %>%
+ # group_by(ischild, Sex, Pclass, issurvived) %>%
+ # summarise(Freq = n()) %>%
 
-vcd::doubledecker(issurvived ~ Pclass + Sex, 
-                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#vcd::doubledecker(issurvived ~ Pclass + Sex, 
+ #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 #Resources

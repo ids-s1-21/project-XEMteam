@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-22" />
+    <meta name="date" content="2021-11-26" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-22
+### 2021-11-26
 
 ---
 
@@ -69,7 +69,6 @@ class: inverse, middle, center
 # Introduction
 * Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
 
-* **geom_bar()** makes the height of the bar proportional to the number of cases in each group. 
 ---
 
 # Visualization
@@ -193,13 +192,13 @@ class: inverse, center, middle
 ```r
 #titanic_freq &lt;- titanic %&gt;%
   #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-     #    issurvived = ifelse(Survived == 0, "no", "yes")
-      #  ) %&gt;%
-  #group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-#  summarise(Freq = n()) %&gt;%
+    #     issurvived = ifelse(Survived == 0, "no", "yes")
+ #       ) %&gt;%
+ # group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+ # summarise(Freq = n()) %&gt;%
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
-        #          xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+ #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
 ```
 ---
 #Resources
