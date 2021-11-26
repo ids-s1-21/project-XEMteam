@@ -143,16 +143,15 @@ class: inverse, middle, center
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
 ---
 # visualization
-.pull-right[
-- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
-- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
-]
 
 .pull-left[
-```{r age-survival,out.width="100%", fig.width=4, echo=FALSE}
+- Using bin
+
+.pull-right[
+```{r age-survival,out.width="100%", fig.width=4, echo=FALSE, warning=FALSE}
 titanic %>% 
   ggplot(mapping = aes(x = Age, fill = Survived)) +
-  geom_histogram(binwidth = 6 ) +
+  geom_histogram(binwidth = 5 ) +
   theme_minimal() +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
   labs(x = "Age", 
