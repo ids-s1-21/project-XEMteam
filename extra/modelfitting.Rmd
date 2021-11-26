@@ -1,0 +1,58 @@
+---
+title: "Project proposal"
+author: "XEM Team"
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load-packages, message = FALSE, echo = FALSE }
+library(tidyverse)
+library(broom)
+library(here)
+library(dplyr)
+library(ggplot2)
+library(ggridges)
+library(forcats)
+library(scales)
+library(skimr)
+library(rsample)
+library(tidypredict)
+library(tidymodels)
+```
+
+```{r load-data, include=FALSE}
+titanic <- read.csv(here::here("data/titanic.csv"))
+```
+
+splitting data 
+```{r}
+set.seed(1116)
+titanic_split <- initial_split(titanic, prop = 0.80)
+train_data <- training(titanic_split)
+test_data  <- testing(titanic_split)
+
+glimpse(train_data)
+```
+
+models
+```{r survived-pclass}
+survived_fit <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(Survived ~ Pclass, data = train_data, family = "binomial")
+
+tidy(survived_fit)
+```
+
+```{r}
+surv_pclass_fit <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(Survived ~ Pclass, data = train_data, family = "binomial")
+
+surv_pclass_fit_aug <- augment(surv_pclass_fit$fit)
+
+ggplot(surv_pclass_fit_aug, mapping = aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
+  labs(x = "Predicted survival", y = "Residuals")
+```
