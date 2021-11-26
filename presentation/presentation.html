@@ -4,11 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-<<<<<<< HEAD
     <meta name="date" content="2021-11-26" />
-=======
-    <meta name="date" content="2021-11-23" />
->>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -20,11 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-<<<<<<< HEAD
 ### 2021-11-26
-=======
-### 2021-11-23
->>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 
 ---
 
@@ -225,22 +217,49 @@ class: inverse, center, middle
 
 
 ---
-## Mosaic double decker plot
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
-<<<<<<< HEAD
 ```r
 #titanic_freq &lt;- titanic %&gt;%
-  #mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-    #     issurvived = ifelse(Survived == 0, "no", "yes")
- #       ) %&gt;%
- # group_by(ischild, Sex, Pclass, issurvived) %&gt;%
- # summarise(Freq = n()) %&gt;%
+#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+#         issurvived = ifelse(Survived == 0, "no", "yes")
+#        ) %&gt;%
+#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+#  summarise(Freq = n()) %&gt;%
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
- #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-```
-=======
+#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#=======
+# Mosaic double decker plot
 
+#``` {r table-mosaic, echo=FALSE, results = 'hide'}
+titanic_child &lt;- titanic %&gt;%
+  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"))
+  
+tbl &lt;- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
+ftable(tbl)
+```
+
+```
+##                        ischild adult child
+## Survived Pclass Sex                       
+## 0        1      female             2     1
+##                 male              61     0
+##          2      female             6     0
+##                 male              82     2
+##          3      female            39    16
+##                 male             182    33
+## 1        1      female            75     7
+##                 male              36     4
+##          2      female            56    12
+##                 male               6     9
+##          3      female            28    19
+##                 male              28    10
+```
+
+```r
+#&gt;&gt;&gt;&gt;&gt;&gt;&gt; bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
+```
 
 &lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -264,9 +283,8 @@ Brath (2018) created mosaic plots filling the tiles with the names of the victim
 Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
 ]
 
->>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 ---
-#Resources
+#Bibliography
 [1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
 
 https://rkabacoff.github.io/datavis/Models.html#Mosaic 

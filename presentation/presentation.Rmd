@@ -108,11 +108,6 @@ titanic %>%
 ```
 ]
 
-=======
-
-
-
-
 ---
 # Summary
 .pull-left[
@@ -254,25 +249,25 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 <<<<<<< HEAD
 ```{r}
 #titanic_freq <- titanic %>%
-  #mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-    #     issurvived = ifelse(Survived == 0, "no", "yes")
- #       ) %>%
- # group_by(ischild, Sex, Pclass, issurvived) %>%
- # summarise(Freq = n()) %>%
+#  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
+#         issurvived = ifelse(Survived == 0, "no", "yes")
+#        ) %>%
+#  group_by(ischild, Sex, Pclass, issurvived) %>%
+#  summarise(Freq = n()) %>%
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
- #                 xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-=======
-## Mosaic double decker plot
+#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#=======
+# Mosaic double decker plot
 
-``` {r table-mosaic, echo=FALSE, results = 'hide'}
+#``` {r table-mosaic, echo=FALSE, results = 'hide'}
 titanic_child <- titanic %>%
   mutate(ischild = ifelse(Age >= 18, "adult", "child"))
   
 tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
 ftable(tbl)
 
->>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
+#>>>>>>> bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
 ```
 
 ``` {r mosaic plot, echo = FALSE, fig.align = 'center'}
