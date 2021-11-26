@@ -79,7 +79,7 @@ class: inverse, middle, center
 
 
 # Introduction
-* Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+* During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
 
 ---
 
@@ -90,6 +90,9 @@ class: inverse, middle, center
 
 .pull-right[
 ```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Pclass <- as.factor(titanic$Pclass)
+
 titanic %>%
   ggplot(mapping = aes(x = Sex, fill = Survived)) +
   geom_bar() +
