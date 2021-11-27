@@ -29,35 +29,35 @@ class: center, middle, inverse, title-slide
 
 
 
+#Content
+- Background information
+- Introduction to data set
+- Data analysis
+- Modelling
+- Bibliography
+---
 
-class: center, middle
+#Background information 
 
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
-### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
-
-
----
-
-class: inverse, center, middle
-
-# Section title
+####If and how the chance of survival of Titanic passengers is related to different attributes of the passengers
 
 ---
 
 # Introduction to data set
-* The data set comes from the Awesome Public Data Sets on GitHub (https://github.com/awesomedata/awesome-public-datasets) and there is no information on where the data originated or how it was collected.
+* The data set comes from the Awesome Public Data Sets on GitHub[2]
 
 * There are 12 variables and 891 observations in this data set. 
 .pull-left[
-- `Name`: Name and Surname of passanger, if available 
+- `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
-- `Sex`: Gender of passanger (male or female)
+- `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
 
 ---
 class: inverse, middle, center
@@ -67,9 +67,8 @@ class: inverse, middle, center
 
 
 # Introduction
-* Especially during the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+* During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
 
-* **geom_bar()** makes the height of the bar proportional to the number of cases in each group. 
 ---
 
 # Visualization
@@ -80,11 +79,6 @@ class: inverse, middle, center
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
 ]
-
-=======
-
-
-
 
 ---
 # Summary
@@ -104,42 +98,14 @@ class: inverse, middle, center
 class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
 ---
-The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
----
-# visualization
-.pull-right[
-- Use "Age" as the predictor variable(X) and "Frequency" as the outcome variable(Y) displayed in terms of colors showing survivals or not.
-- Create a a new variable called "Age_Range" which groups the ages by scale of 10 so that we can find the survival rate for each age range and come outwith more concrete conclusions.
-]
-
+# Data analysis 
 .pull-left[
-
-```
-## Warning: Removed 177 rows containing non-finite values (stat_bin).
-```
-
 &lt;img src="presentation_files/figure-html/age-survival-1.png" width="100%" /&gt;
+
+
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
 ]
-
----
-
-# Summary
-The proportion of passengers aged between 21-30 years old have the highest probability to survive with 0.246.
-
-
-```
-##   Age_Range  n prop_survival
-## 1      0-10 38   0.111111111
-## 2     11-20 44   0.128654971
-## 3     21-30 84   0.245614035
-## 4     31-40 69   0.201754386
-## 5     41-50 33   0.096491228
-## 6     51-60 17   0.049707602
-## 7     61-70  4   0.011695906
-## 8     71-80  1   0.002923977
-## 9      &lt;NA&gt; 52   0.152046784
-```
-
 ---
 # Embarked/Class/Fare 
 
@@ -218,9 +184,49 @@ class: inverse, center, middle
 
 
 ---
-## Mosaic double decker plot
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
+```r
+#titanic_freq &lt;- titanic %&gt;%
+#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
+#         issurvived = ifelse(Survived == 0, "no", "yes")
+#        ) %&gt;%
+#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
+#  summarise(Freq = n()) %&gt;%
 
+#vcd::doubledecker(issurvived ~ Pclass + Sex, 
+#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+#=======
+# Mosaic double decker plot
+
+#``` {r table-mosaic, echo=FALSE, results = 'hide'}
+titanic_child &lt;- titanic %&gt;%
+  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"))
+  
+tbl &lt;- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
+ftable(tbl)
+```
+
+```
+##                        ischild adult child
+## Survived Pclass Sex                       
+## 0        1      female             2     1
+##                 male              61     0
+##          2      female             6     0
+##                 male              82     2
+##          3      female            39    16
+##                 male             182    33
+## 1        1      female            75     7
+##                 male              36     4
+##          2      female            56    12
+##                 male               6     9
+##          3      female            28    19
+##                 male              28    10
+```
+
+```r
+#&gt;&gt;&gt;&gt;&gt;&gt;&gt; bff4a21b679d26c3ad97fddfd907a2fa8ca845c0
+```
 
 &lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
@@ -251,6 +257,10 @@ Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Desi
 https://rkabacoff.github.io/datavis/Models.html#Mosaic 
 
 https://www.datavis.ca/papers/titanic/ 
+
+[2] https://github.com/awesomedata/awesome-public-datasets
+
+[3] https://www.kaggle.com/c/titanic/data
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
