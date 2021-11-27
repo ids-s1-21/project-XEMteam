@@ -19,40 +19,94 @@ library(skimr)
 library(rsample)
 library(tidypredict)
 library(tidymodels)
+library(knitr)
 ```
 
 ```{r load-data, include=FALSE}
 titanic <- read.csv(here::here("data/titanic.csv"))
 ```
 
-splitting data 
+turning survived into factor variable
+```{r survived-factor}
+titanic <- titanic %>%
+  mutate(Survived = factor(Survived))
+```
+
 ```{r}
+titanic_age_na <- titanic %>%
+  filter(!is.na(Age))
+```
+splitting data 
+```{r titanic-splitting}
 set.seed(1116)
-titanic_split <- initial_split(titanic, prop = 0.80)
+titanic_split <- initial_split(titanic_age_na, prop = 0.80)
 train_data <- training(titanic_split)
 test_data  <- testing(titanic_split)
-
-glimpse(train_data)
 ```
 
-models
-```{r survived-pclass}
-survived_fit <- logistic_reg() %>%
-  set_engine("glm") %>%
-  fit(Survived ~ Pclass, data = train_data, family = "binomial")
-
-tidy(survived_fit)
+build recipe
+``` {r titanic-recipe}
+titanic_rec <- recipe(Survived ~ ., data = titanic) %>%
+  # PassengerId isn't predictor, but keep around to ID
+  update_role(PassengerId, new_role = "ID") %>%
+  # remove name and cabin
+  step_rm(Name, Ticket, Cabin) %>%
+  # remove NAs for step cut to work
+  step_filter(!is.na(Age)) %>%
+  # discretise age variable
+  step_cut(Age, breaks = c(0, 6, 18, 54)) %>%
+  # make dummy variables 
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  # remove zero variance predictors
+  step_zv(all_predictors())
 ```
 
-```{r}
-surv_pclass_fit <- logistic_reg() %>%
-  set_engine("glm") %>%
-  fit(Survived ~ Pclass, data = train_data, family = "binomial")
-
-surv_pclass_fit_aug <- augment(surv_pclass_fit$fit)
-
-ggplot(surv_pclass_fit_aug, mapping = aes(x = .fitted, y = .resid)) +
-  geom_point(alpha = 0.5) +
-  geom_hline(yintercept = 0, color = "gray", lty = "dashed") +
-  labs(x = "Predicted survival", y = "Residuals")
+define model
+```{r titanic-model}
+titanic_mod <- logistic_reg() %>% 
+  set_engine("glm")
 ```
+define workflow
+```{r titanic-workflow}
+titanic_wflow <- workflow() %>% 
+  add_model(titanic_mod) %>% 
+  add_recipe(titanic_rec)
+```
+fit model to training data
+```{r titanic-fit-to-train}
+titanic_fit <- titanic_wflow %>% 
+  fit(data = train_data)
+tidy(titanic_fit)
+```
+
+predict test data
+```{r titanic-predict-test-data}
+ titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
+  bind_cols(test_data %>% select(Survived, PassengerId)) 
+titanic_pred
+```
+
+
+roc curve
+``` {r titanic-roc-curve}
+titanic_pred %>%
+  roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
+  autoplot()
+```
+
+cutoff probability
+```{r cutoff-prob}
+cutoff_prob <- 0.6
+titanic_pred %>%
+  mutate(
+    Survived      = if_else(Survived == 1, "Survived", "Not survived"),
+    titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
+    ) %>%
+  count(titanic_pred, Survived) %>%
+  mutate(titanic_pred_pct = n/sum(n)*100, 
+         Survived_pct = n/sum(n)*100) %>% 
+  pivot_wider(names_from = Survived, values_from = n) %>%
+  kable(col.names = c("", "Not Survived", "Survived"))
+```
+
+
