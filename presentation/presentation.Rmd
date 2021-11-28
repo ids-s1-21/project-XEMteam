@@ -124,7 +124,12 @@ titanic %>%
 ]
 ---
 class: inverse, middle, center
-# Hypothesis 2: The younger survivals are more than the older survivals 
+# Hypothesis 2: The younger survivals are more than the older survivals
+---
+# Why do we come up with this hypothesis ?
+- give priority to saving infants and children when it comes to providing life saving equipment
+
+- physical abilities
 ---
 # Data analysis 
 .pull-left[
