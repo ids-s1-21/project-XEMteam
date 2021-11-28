@@ -13,7 +13,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-
+  
 ---
 
 ```{r load-packages, include = FALSE}
@@ -24,6 +24,14 @@ library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(dplyr)
+library(vcd)
+library(grid)
+library(rsample)
+library(ggplot2)
+library(ggpol)
+library(scales)
+library(caret)
+library(corrplot)
 ```
 
 ```{r setup, include=FALSE}
@@ -38,10 +46,9 @@ glimpse(titanic)
 
 ```{r include=FALSE}
 style_xaringan(
-  title_slide_background_image = "img/titanicpic.jpg"
+  title_slide_background_image = "img/titanicpic.jpg" , title_slide_text_color = "ghostwhite" , background_color = "wheat2 " , text_color = "gray28"
 )
 ```
-
 
 class: center, middle
 
@@ -49,7 +56,6 @@ class: center, middle
 
 We want to see 
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
-
 
 ---
 
@@ -128,17 +134,6 @@ titanic %>%
 ]
 ---
 class: inverse, middle, center
-
-# Using xaringan
-
----
-
-
-
-
-
----
-class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
 ---
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
@@ -184,35 +179,146 @@ titanic %>%
   mutate(prop_survival = n/sum(n)) 
 ```
 
-
-
-
 ---
 # Embarked/Class/Fare 
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
-```{r class-survived ,echo=FALSE}
-titanic$Survived <- as.factor(titanic$Survived)
-titanic$Pclass <- as.factor(titanic$Pclass)
+```{r class-survival ,echo=FALSE}
+titanic %>%
+  group_by(Pclass) %>%
+  count(Survived) %>%
+  mutate(pct = n/sum(n)*100) %>%
+  mutate(pctrounded = round(pct, 2)) %>%
+  ggplot(aes(x = Pclass , y = pctrounded ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7) +
+  geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust  = 0.5), size = 3.5 ) +
+  labs(x = "Class" , 
+       y = "Probability of Survival" , 
+       fill = "Survival", 
+       title = "Survival for each Class") +
+  theme_minimal()+
+  theme(plot.background = element_rect(fill = "wheat")) +
+   scale_fill_manual(values = c("0" = "navajowhite3",
+                               "1" = "tan3"))
+```
+
+---
+```{r fare-survival , echo=FALSE}
+titanic %>%
+  ggplot(aes(x=Pclass , y=Fare )) +
+  geom_boxplot(outlier.shape = NA ) +
+  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3) +
+  coord_cartesian(ylim = c(0,300))+
+  theme_minimal()
+```
+
+---
+```{r , echo=FALSE}
+
+  titanic_correlation <- titanic %>%
+  select( Survived , Pclass , Fare) %>%
+  mutate(Pclass_rank=if_else( Pclass == "3" , TRUE == "1"|
+                              Pclass == "2" , TRUE == "2"|
+                              Pclass == "1" , TRUE == "3"))
+titanic_correlation$Pclass <- as.numeric(titanic_correlation$Pclass)
+titanic_correlation$Pclass_rank <- as.numeric(titanic_correlation$Pclass_rank) 
+titanic_correlation$Survived <- as.numeric(titanic_correlation$Survived)
 ```
 
 
-```{r class-pclass ,echo=FALSE}
-#titanic_pclass <- titanic %>%
-  #group_by( Pclass ) %>%
-  #count(Survived) %>%
- #mutate(pct = n/sum(n) * 100)
-  
+```{r, echo=FALSE}
+
+titanic_correlation_numeric <- titanic_correlation %>%
+  select( Survived , Pclass_rank ,Fare)
+
+titanic_correlation_numeric$Pclass_rank <- as.numeric(titanic_correlation_numeric$Pclass_rank)
+  titanic_correlation_numeric$Survived <- as.numeric(titanic_correlation_numeric$Survived)
 ```
 
 
-```{r class-survived-graph ,echo=FALSE}
-#titanic_pclass %>%
-#ggplot(aes(x=Pclass , y = pct , fill = Survived)) +
-  #geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
-  #geom_text(aes(y = pct, label = pct) ,position = position_stack(vjust = 0.5), size = 3.5 )
+
+```{r , echo=FALSE}
+corrplot2 <- function(titanic_correlation_numeric,
+                      method = "pearson",
+                      sig.level = 0.05,
+                      order = "original",
+                      diag = FALSE,
+                      type = "upper",
+                      tl.srt = 90,
+                      number.font = 1,
+                      number.cex = 1,
+                      mar = c(0, 0, 0, 0)) {
+  library(corrplot)
+  titanic_correlation_numeric_incomplete <- titanic_correlation_numeric
+  titanic_correlation_numeric <- titanic_correlation_numeric[complete.cases(titanic_correlation_numeric), ]
+  mat <- cor(titanic_correlation_numeric, method = method)
+  cor.mtest <- function(mat, method) {
+    mat <- as.matrix(mat)
+    n <- ncol(mat)
+    p.mat <- matrix(NA, n, n)
+    diag(p.mat) <- 0
+    for (i in 1:(n - 1)) {
+      for (j in (i + 1):n) {
+        tmp <- cor.test(mat[, i], mat[, j], method = method)
+        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+      }
+    }
+    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+    p.mat
+  }
+  p.mat <- cor.mtest(titanic_correlation_numeric, method = method)
+  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+  corrplot(mat,
+    method = "color", col = col(200), number.font = number.font,
+    mar = mar, number.cex = number.cex,
+    type = type, order = order,
+    addCoef.col = "black", # add correlation coefficient
+    tl.col = "black", tl.srt = tl.srt, # rotation of text labels
+    # combine with significance level
+    p.mat = p.mat, sig.level = sig.level, insig = "blank",
+    # hide correlation coefficiens on the diagonal
+    diag = diag
+  )
+}
+titanic_correlation_numeric %>%
+corrplot2( 
+  method = "pearson",
+  sig.level = 0.05,
+  order = "original",
+  diag = FALSE,
+  type = "upper",
+  tl.srt = 75)
 ```
+
+---
+```{r , echo=FALSE}
+ titanic %>%
+filter( Embarked == "Q" | Embarked == "S" |Embarked == "C" ) %>%
+group_by(Embarked) %>%
+  count(Pclass) %>%
+  mutate(pct = n/sum(n)*100) %>%
+  mutate(pctrounded = round(pct, 2)) %>%
+  ggplot(aes(x = Embarked , y = pctrounded ,  fill = Pclass)) +
+  geom_bar( position = position_dodge(), stat = "identity", width = .7 )
+```
+---
+
+```{r , echo=FALSE}
+titanic %>%
+filter( Embarked == "Q" | Embarked == "S" |Embarked == "C" ) %>%
+group_by(Embarked) %>%
+  count(Survived) %>%
+  mutate(pct = n/sum(n)*100) %>%
+  mutate(pctrounded = round(pct, 2)) %>%
+    ggplot(aes(x = Embarked , y = pctrounded ,  fill = Survived)) +
+  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
+  geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust = 0.5), size = 3.5 ) 
+```
+
+
+---
+
 
 
 
@@ -220,7 +326,7 @@ titanic$Pclass <- as.factor(titanic$Pclass)
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
 ---
 
@@ -230,8 +336,7 @@ class: inverse, center, middle
 
 ---
 ## G. Bron's original Diagram on "the Sphere", 1912
-.left-column[
-```{r Gbron-original-chart, echo = FALSE, out.width = "120%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." }
+.left-column[```{r Gbron-original-chart, echo = FALSE, out.width = "120%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." }
 include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")
 ```
 ]
@@ -257,7 +362,7 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
     + each subgroup is shown by a bar whose area is proportional to the numbers of cases
 {{content}}   
 
---
+-- 
 
     + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
 {{content}}
@@ -276,17 +381,57 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
-```{r }
-#titanic_freq <- titanic %>%
-#  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %>%
-#  group_by(ischild, Sex, Pclass, issurvived) %>%
-#  summarise(Freq = n()) %>%
+## Mosaic double decker plot
 
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
+``` {r table-mosaic, echo=FALSE, results = 'hide'}
+titanic_child <- titanic %>%
+  mutate(ischild = ifelse(Age >= 18, "adult", "child"))
+  
+tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
+ftable(tbl)
+
 ```
+
+``` {r mosaic plot, echo = FALSE, fig.align = 'center'}
+mosaic(~ Survived + Pclass + Sex + ischild, data = titanic_child, 
+       highlighting = "Survived", highlighting_fill = c("#727272", "#79c36a"),
+       labeling_args = list(set_varnames = c(Sex = "Gender",
+                                             Survived = "Survived",
+                                             Pclass = "Passenger Class",
+                                             ischild = "Child")),
+        set_labels = list(Survived = c("No", "Yes"),
+                          Pclass = c("1st", "2nd", "3rd", "Crew"),
+                          Sex = c("F", "M"),
+                          ischild = c("A","C")),
+       main = "Survival on the Titanic")
+```
+
+
 ---
-#Resources
-[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.
+## Aside
+
+.pull-left[
+Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. 
+
+> This highlights the fact that the passengers were people, not statistics. It's common to overlook on this while handling data that has to do with casualties.
+
+* This is also an example of how typography could be used in data visualization.
+]
+
+.pull-right[
+```{r brath2018-plot, echo=FALSE, out.width = '100%'}
+knitr::include_graphics("img/brath2018.png")
+```
+]
+
+.footnote[
+Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
+]
+
+---
+#Bibliography
+[1] Source: Friendly, M., Symanzik, J., &amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/

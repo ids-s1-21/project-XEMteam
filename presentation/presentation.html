@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-25" />
+    <meta name="date" content="2021-11-28" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,10 +16,9 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-25
+### 2021-11-28
 
 ---
-
 
 
 
@@ -36,7 +35,6 @@ class: center, middle
 
 We want to see 
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
-
 
 ---
 
@@ -102,17 +100,6 @@ class: inverse, middle, center
 ]
 ---
 class: inverse, middle, center
-
-# Using xaringan
-
----
-
-
-
-
-
----
-class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals 
 ---
 The age of a passenger can be considered to be high priority. We take it for granted that people give priority to saving infants and young child when it comes to providing life saving equipment. Beyond that the survival of passengers is highly related to their physical abilities which means that the younger the passenger is the higher possibility is to survive. 
@@ -151,20 +138,34 @@ The proportion of passengers aged between 21-30 years old have the highest proba
 ## 9      &lt;NA&gt; 52   0.152046784
 ```
 
-
-
-
 ---
 # Embarked/Class/Fare 
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
+&lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
+
+---
+&lt;img src="presentation_files/figure-html/fare-survival -1.png" width="80%" /&gt;
+
+---
 
 
 
 
 
 
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+
+---
+&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
+---
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
+
+
+---
 
 
 
@@ -173,7 +174,7 @@ The class of the passenger can be considered to be a measure of their socio-econ
 
 class: inverse, center, middle
 
-# Modelling
+# Predictive model for survival on the titanic
 
 ---
 
@@ -183,11 +184,9 @@ class: inverse, center, middle
 
 ---
 ## G. Bron's original Diagram on "the Sphere", 1912
-.left-column[
-&lt;div class="figure" style="text-align: right"&gt;
-&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." width="120%" /&gt;
-&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', 4 May 1912.&lt;/p&gt;
-&lt;/div&gt;
+.left-column[```{r Gbron-original-chart, echo = FALSE, out.width = "120%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." }
+include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")
+```
 ]
 .right-column[
 + The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
@@ -211,7 +210,7 @@ class: inverse, center, middle
     + each subgroup is shown by a bar whose area is proportional to the numbers of cases
 {{content}}   
 
---
+-- 
 
     + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
 {{content}}
@@ -230,21 +229,39 @@ class: inverse, center, middle
 
 
 ---
+## Mosaic double decker plot
 
-```r
-#titanic_freq &lt;- titanic %&gt;%
-#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %&gt;%
-#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-#  summarise(Freq = n()) %&gt;%
 
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-```
+
+&lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
 ---
-#Resources
-[1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x.
+## Aside
+
+.pull-left[
+Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. 
+
+&gt; This highlights the fact that the passengers were people, not statistics. It's common to overlook on this while handling data that has to do with casualties.
+
+* This is also an example of how typography could be used in data visualization.
+]
+
+.pull-right[
+&lt;img src="img/brath2018.png" width="100%" /&gt;
+]
+
+.footnote[
+Brath, Richard. 2018. “Text in Visualization: Extending the Visualization Design Space.” PhD thesis, London South Bank University.
+]
+
+---
+#Bibliography
+[1] Source: Friendly, M., Symanzik, J., &amp;amp; Onder, O. (2019, February 6). Royal Statistical Society Publications. Royal Statistical Society. Retrieved November 19, 2021, from https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2019.01229.x. 
+
+https://rkabacoff.github.io/datavis/Models.html#Mosaic 
+
+https://www.datavis.ca/papers/titanic/
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
