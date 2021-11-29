@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-28" />
+    <meta name="date" content="2021-11-29" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-28
+### 2021-11-29
 
 ---
 
@@ -29,38 +29,29 @@ class: center, middle, inverse, title-slide
 
 
 
+---
 
-class: center, middle
-
-#Content
+#Table of Contents
 - Background information
 - Introduction to data set
 - Data analysis
+  - Gender vs. Survival
+  - Age vs. Survival
+  - Class vs. Survival
 - Modelling
+- Recreation of historic plot
 - Bibliography
+
 ---
-
-#Background information 
-
 
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
----
+--- 
 
-class: inverse, center, middle
-
-# Section title
-=======
-####If and how the chance of survival of Titanic passengers is related to different attributes of the passengers
-
-
----
-
-# Introduction to data set
+# Data set
 * The data set comes from the Awesome Public Data Sets on GitHub[2]
 
 * There are 12 variables and 891 observations in this data set. 
@@ -75,7 +66,7 @@ class: inverse, center, middle
 
 ---
 class: inverse, middle, center
-# Hypothesis 1: Women have a higher survival rate than men
+# Gender and Survival
 
 ---
 
@@ -117,7 +108,7 @@ class: inverse, middle, center
 ]
 ---
 class: inverse, middle, center
-# Hypothesis 2: The younger survivals are more than the older survivals
+# Age and Survival
 ---
 # Why do we come up with this hypothesis ?
 - give priority to saving infants and children when it comes to providing life saving equipment
@@ -133,7 +124,7 @@ class: inverse, middle, center
 &lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
 ]
 ---
-# Embarked/Class/Fare 
+# Class/ Port/ Fare vs Survival
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
@@ -157,13 +148,6 @@ The class of the passenger can be considered to be a measure of their socio-econ
 ---
 
 &lt;img src="presentation_files/figure-html/unnamed-chunk-7-1.png" width="80%" /&gt;
-
-
----
-
-
-
-
 ---
 
 class: inverse, center, middle
@@ -178,27 +162,23 @@ class: inverse, center, middle
 
 ---
 ## G. Bron's original Diagram on "the Sphere", 1912
-.left-column[```{r Gbron-original-chart, echo = FALSE, out.width = "120%", fig.align = "right", fig.cap = "G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." }
-include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")
-```
+.left-column[
+&lt;div class="figure" style="text-align: right"&gt;
+&lt;img src="https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png" alt="G.Bron's chart of 'The Loss of the Titanic', 4 May 1912." width="120%" /&gt;
+&lt;p class="caption"&gt;G.Bron's chart of 'The Loss of the Titanic', 4 May 1912.&lt;/p&gt;
+&lt;/div&gt;
 ]
 .right-column[
 + The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
 {{content}}
-
 ]
 
 --
-
 + G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished on 4 May 1912, **three weeks after the Titanic disaster**
 {{content}}
-
 --
-
 +  Bron’s graph is an early innovation in data display:
 {{content}}
-
-
 --
 
     + each subgroup is shown by a bar whose area is proportional to the numbers of cases
@@ -223,7 +203,7 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+
 
 ```r
 #titanic_freq &lt;- titanic %&gt;%
