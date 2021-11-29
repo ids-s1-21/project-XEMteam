@@ -29,7 +29,9 @@ titanic <- read.csv(here::here("data/titanic.csv"))
 turning survived into factor variable
 ```{r survived-factor}
 titanic <- titanic %>%
-  mutate(Survived = factor(Survived))
+  mutate(Survived = factor(Survived)) 
+  mutate(Pclass = factor(Pclass))
+
 ```
 
 ```{r}
@@ -50,7 +52,7 @@ titanic_rec <- recipe(Survived ~ ., data = titanic) %>%
   # PassengerId isn't predictor, but keep around to ID
   update_role(PassengerId, new_role = "ID") %>%
   # remove name and cabin
-  step_rm(Name, Ticket, Cabin) %>%
+  step_rm(Name, Ticket, Cabin, SibSp, Parch, Fare, Embarked) %>%
   # remove NAs for step cut to work
   step_filter(!is.na(Age)) %>%
   # discretise age variable
@@ -103,10 +105,14 @@ titanic_pred %>%
     titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
     ) %>%
   count(titanic_pred, Survived) %>%
-  mutate(titanic_pred_pct = n/sum(n)*100, 
-         Survived_pct = n/sum(n)*100) %>% 
   pivot_wider(names_from = Survived, values_from = n) %>%
   kable(col.names = c("", "Not Survived", "Survived"))
+```
+
+r squared and rmse
+```{r rsq-rmse}
+rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
 ```
 
 

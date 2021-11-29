@@ -1,6 +1,6 @@
-Project title
+Survival on the Titanic
 ================
-by Team name
+by XEM Team
 
 ## Summary
 
