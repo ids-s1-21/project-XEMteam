@@ -68,6 +68,7 @@ style_xaringan(
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
+
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
 --- 
