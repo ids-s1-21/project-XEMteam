@@ -116,8 +116,8 @@ titanic_pred %>%
 cutoff probability
 
 ``` r
-cutoff_prob <- 0.5
-titanic_pred %>%
+cutoff_prob <- 0.6
+cutoff_table <- titanic_pred %>%
   mutate(
     Survived      = if_else(Survived == 1, "Survived", "Not survived"),
     titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
@@ -126,8 +126,3 @@ titanic_pred %>%
   pivot_wider(names_from = Survived, values_from = n) %>%
   kable(col.names = c("", "Not Survived", "Survived"))
 ```
-
-|                          | Not Survived | Survived |
-|:-------------------------|-------------:|---------:|
-| predicted not to survive |           79 |       15 |
-| Predicted to survive     |           15 |       34 |

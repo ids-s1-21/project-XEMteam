@@ -43,9 +43,9 @@
   --header-h3-font-size: 1.75rem;
 
   /* Colors */
-  --text-color: #000;
+  --text-color: gray28;
   --header-color: #000;
-  --background-color: #FFF;
+  --background-color: wheat2 ;
   --link-color: rgb(249, 38, 114);
   --code-highlight-color: rgba(255,255,0,0.5);
   --inverse-text-color: #d6d6d6;
@@ -53,9 +53,9 @@
   --inverse-header-color: #f3f3f3;
   --inverse-link-color: rgb(249, 38, 114);
   --title-slide-background-color: #272822;
-  --title-slide-text-color: #d6d6d6;
+  --title-slide-text-color: ghostwhite;
   --header-background-color: #000;
-  --header-background-text-color: #FFF;
+  --header-background-text-color: wheat2 ;
 }
 
 html {
