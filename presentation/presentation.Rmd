@@ -15,7 +15,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r load-packages, include = FALSE}
@@ -40,6 +40,7 @@ library(forcats)
 library(scales)
 library(skimr)
 library(tidypredict)
+library(kableExtra)
 ```
 
 ```{r setup, include=FALSE}
@@ -176,7 +177,6 @@ titanic %>%
 ```{r,echo=FALSE}
 library(dplyr)
 library(parsnip)
-library(titanic)
 library(ggplot2)
 library(tidyverse)
 library(rsample)
@@ -211,16 +211,13 @@ survived_pred %>%
 arrange(desc(.pred_survived)) %>%
 print(n = 10)
 ```
-<<<<<<< HEAD
 
 
 
-# Embarked/Class/Fare 
-=======
+
 ]
 ---
 # Class/ Port/ Fare vs Survival
->>>>>>> f80feb28c6658579ea772ccf0b0a456e74b3994c
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
@@ -355,7 +352,7 @@ group_by(Embarked) %>%
   geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
   geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust = 0.5), size = 3.5 ) 
 ```
----
+
 
 class: inverse, center, middle
 
@@ -363,22 +360,24 @@ class: inverse, center, middle
 
 ---
 ```{r factor-variables, include=FALSE}
-titanicm <- titanic %>%
-  mutate(Survived = factor(Survived)) %>%
-  mutate(Pclass = factor(Pclass)) 
+titanic_m <- titanic %>%
+  mutate(Pclass = factor(Pclass)) %>%
+  mutate(Survived=if_else(Survived == "survived",true = 1,false = 0)) %>%
+  mutate(Survived=factor(Survived))
+
 ```
 ```{r remove-age-na, include=FALSE}
-titanic_age_na <- titanicm %>%
+titanic_age_na <- titanic_m %>%
   filter(!is.na(Age))
 ```
 ```{r titanic-splitting, include=FALSE}
 set.seed(1116)
-titanic_split <- initial_split(titanic_age_na, prop = 0.80)
-train_data <- training(titanic_split)
-test_data  <- testing(titanic_split)
+titanic_split_m <- initial_split(titanic_age_na, prop = 0.80)
+train_data_m <- training(titanic_split_m)
+test_data_m  <- testing(titanic_split_m)
 ```
 ``` {r titanic-recipe, include=FALSE}
-titanic_rec <- recipe(Survived ~ ., data = titanicm) %>%
+titanic_rec_m <- recipe(Survived ~ ., data = titanic_m) %>%
   # PassengerId isn't predictor, but keep around to ID
   update_role(PassengerId, new_role = "ID") %>%
   # remove name and cabin
@@ -390,16 +389,16 @@ titanic_rec <- recipe(Survived ~ ., data = titanicm) %>%
   # make dummy variables 
   step_dummy(all_nominal(), -all_outcomes()) %>%
   # remove zero variance predictors
-  step_zv(all_predictors())
+  step_zv(all_predictors()) 
 ```
 ```{r titanic-model, include=FALSE}
-titanic_mod <- logistic_reg() %>% 
+titanic_mod_m <- logistic_reg() %>% 
   set_engine("glm")
 ```
 ```{r titanic-workflow, include=FALSE}
-titanic_wflow <- workflow() %>% 
-add_model(titanic_mod) %>% 
-add_recipe(titanic_rec)
+titanic_wflow_m <- workflow() %>% 
+add_model(titanic_mod_m) %>% 
+add_recipe(titanic_rec_m)
 ```
 ### Modelling Survival
 + **predictor/explanatory variables**:
@@ -414,78 +413,101 @@ add_recipe(titanic_rec)
 $\rightarrow$ **logistic regression modelling**
 --
 ```{r titanic-fit-to-train, echo=FALSE}
-titanic_fit <- titanic_wflow %>% 
-  fit(data = train_data)
-tidy(titanic_fit)
+titanic_fit_m <- titanic_wflow_m %>% 
+  fit(data = train_data_m)
+tidy(titanic_fit_m) %>%
+kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F, )
 ```
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
 Note: using main effects (vs. interactions) $\rightarrow$ results can still be interpreted with 3 explanatory variables. 
-+ **Intercept**: 
-    > A positive value of the intercept indicates that a female, first class passenger, aged 0 to 6 is expected to survive according to the model.
+**Intercept**: 
+> Positive intercept: female, first class passenger, aged 0-6 is expected to survive.
 ]
 
 .pull-right[
-```{r ref.label="titanic-fit-to-train", echo=FALSE, size = "tiny"}
+```{r ref.label="titanic-fit-to-train", echo=FALSE}
+
 ```
 ]
 
-  + **coefficents** for *Class*: 
+**Coefficents** for *Class*: 
+> All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
 
-    > All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
-      + Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
-  
-  + **coefficent** for *Gender*:
-  
-    > All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
-      
-  + **coefficents** for *Age*: 
++ Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
 
-    > All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
-      + similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
-      + passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
-    
+**Coefficent** for *Gender*:
+> All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
+
+**Coefficents** for *Age*: 
+> All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
+
++ similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
++ passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
 ---
-```{r titanic-predict-test-data, echo=FALSE}
- titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
-  bind_cols(test_data %>% select(Survived, PassengerId)) 
-titanic_pred
+```{r titanic-predict-test-data, include=FALSE}
+titanic_pred_m <-predict(titanic_fit_m, test_data_m, type = "prob") %>%
+  bind_cols(test_data_m %>% select(Survived, PassengerId))
 ```
+
+### A look at what the model predicts
+.pull-right-narrow[
+<font size="40">
+🔍
+</font>
+]
+.pull-left-wide[
+
+```{r titanic-predict-test-data-table, echo=FALSE}
+sample_n(titanic_pred_m, 10) %>%
+  select(.pred_1, Survived, PassengerId) %>%
+  knitr::kable(
+    col.names = c("Probability to survive", "Survived", "Passenger ID"), 
+    align = rep('c', 5), 
+    digits = 3
+    ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), position='center', full_width = F)
+```
+]
+
 ---
+###Evaluating the model: Sensitivity and specificity
 .pull-left[
-``` {r titanic-roc-curve, echo=FALSE}
-titanic_pred %>%
+``` {r titanic-roc-curve, fig.height = 200, echo=FALSE}
+titanic_pred_m %>%
   roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
   autoplot()
 ```
 ]
 .pull-right[
 ```{r sensitivity-specificity-prob, echo=FALSE}
-cutoff_prob <- 0.6
-titanic_pred %>%
+cutoff_prob_m <- 0.6
+titanic_pred_m %>%
   mutate(
     Survived      = if_else(Survived == 1, "Survived", "Not survived"),
-    titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
+    titanic_pred_m  = if_else(.pred_1 > cutoff_prob_m, "Predicted to survive", "predicted not to survive")
     ) %>%
-  count(titanic_pred, Survived) %>%
+  count(titanic_pred_m, Survived) %>%
   pivot_wider(names_from = Survived, values_from = n) %>%
   kable(col.names = c("", "Not Survived", "Survived"))
 ```
 ]
 ---
+###Evaluating the model: Sensitivity and specificity
 .pull-left[
 ```{r rsq-rmse, echo=FALSE}
-rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
-rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+rsq(titanic_pred_m, truth = as.numeric(Survived), estimate = .pred_1)
+rmse(titanic_pred_m, truth = as.numeric(Survived), estimate = .pred_1)
 ```
 ]
 .pull-right[
-+ The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
++ add text here
 {{content}}
 ]
 --
-+  Bron’s graph is an early innovation in data display:
++  add text here
 {{content}}
 ---
 

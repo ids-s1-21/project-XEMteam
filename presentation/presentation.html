@@ -6,6 +6,8 @@
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
     <meta name="date" content="2021-11-30" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -109,11 +111,7 @@ class: inverse, middle, center
 class: inverse, middle, center
 # Age and Survival
 ---
-<<<<<<< HEAD
 # Introduction
-=======
-# Why do we come up with this hypothesis ?
->>>>>>> f80feb28c6658579ea772ccf0b0a456e74b3994c
 - give priority to saving infants and children when it comes to providing life saving equipment
 
 - physical abilities
@@ -124,7 +122,7 @@ class: inverse, middle, center
 ]
 ---
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
 
 ```
 ## # A tibble: 143 × 1
@@ -162,10 +160,7 @@ class: inverse, middle, center
 
 
 
-<<<<<<< HEAD
-# Embarked/Class/Fare 
-=======
-&lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
+
 ]
 ---
 # Class/ Port/ Fare vs Survival
@@ -180,7 +175,6 @@ The class of the passenger can be considered to be a measure of their socio-econ
 ---
 
 
->>>>>>> f80feb28c6658579ea772ccf0b0a456e74b3994c
 
 
 
@@ -193,7 +187,7 @@ The class of the passenger can be considered to be a measure of their socio-econ
 ---
 
 &lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
----
+
 
 class: inverse, center, middle
 
@@ -218,88 +212,258 @@ class: inverse, center, middle
 --
 `\(\rightarrow\)` **logistic regression modelling**
 --
-
-```
-## # A tibble: 7 × 5
-##   term         estimate std.error statistic  p.value
-##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)      4.51     0.549      8.22 2.08e-16
-## 2 Pclass_X2       -1.40     0.311     -4.52 6.27e- 6
-## 3 Pclass_X3       -2.53     0.298     -8.52 1.67e-17
-## 4 Sex_male        -2.69     0.245    -11.0  4.88e-28
-## 5 Age_X.6.18.     -1.80     0.530     -3.39 6.88e- 4
-## 6 Age_X.18.54.    -1.71     0.451     -3.78 1.54e- 4
-## 7 Age_X.54.80.    -2.80     0.647     -4.33 1.52e- 5
-```
+&lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.507964 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5485891 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.217379 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pclass_X2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.404192 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3108647 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.517053 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000063 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pclass_X3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.534301 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2976274 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -8.515014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sex_male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.692213 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2452372 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.977996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.6.18. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.798770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5299473 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.394242 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0006882 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.18.54. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.707502 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4512209 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.784181 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0001542 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.54.80. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.797834 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6468346 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.325424 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000152 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
 Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still be interpreted with 3 explanatory variables. 
-+ **Intercept**: 
-    &gt; A positive value of the intercept indicates that a female, first class passenger, aged 0 to 6 is expected to survive according to the model.
+**Intercept**: 
+&gt; Positive intercept: female, first class passenger, aged 0-6 is expected to survive.
 ]
 
 .pull-right[
-
-```
-## # A tibble: 7 × 5
-##   term         estimate std.error statistic  p.value
-##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)      4.51     0.549      8.22 2.08e-16
-## 2 Pclass_X2       -1.40     0.311     -4.52 6.27e- 6
-## 3 Pclass_X3       -2.53     0.298     -8.52 1.67e-17
-## 4 Sex_male        -2.69     0.245    -11.0  4.88e-28
-## 5 Age_X.6.18.     -1.80     0.530     -3.39 6.88e- 4
-## 6 Age_X.18.54.    -1.71     0.451     -3.78 1.54e- 4
-## 7 Age_X.54.80.    -2.80     0.647     -4.33 1.52e- 5
-```
+&lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.507964 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5485891 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.217379 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pclass_X2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.404192 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3108647 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.517053 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000063 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pclass_X3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.534301 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2976274 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -8.515014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sex_male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.692213 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2452372 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -10.977996 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.6.18. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.798770 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5299473 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.394242 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0006882 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.18.54. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.707502 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4512209 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -3.784181 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0001542 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Age_X.54.80. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.797834 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.6468346 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -4.325424 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000152 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 
-  + **coefficents** for *Class*: 
+**Coefficents** for *Class*: 
+&gt; All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
 
-    &gt; All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
-      + Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
-  
-  + **coefficent** for *Gender*:
-  
-    &gt; All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
-      
-  + **coefficents** for *Age*: 
++ Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
 
-    &gt; All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
-      + similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
-      + passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
-    
+**Coefficent** for *Gender*:
+&gt; All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
+
+**Coefficents** for *Age*: 
+&gt; All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
+
++ similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
++ passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
 ---
 
-```
-## # A tibble: 143 × 4
-##    .pred_0 .pred_1 Survived PassengerId
-##      &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;          &lt;int&gt;
-##  1   0.473  0.527  0                  7
-##  2   0.919  0.0812 0                 13
-##  3   0.424  0.576  1                 16
-##  4   0.434  0.566  1                 26
-##  5   0.473  0.527  0                 36
-##  6   0.198  0.802  0                 42
-##  7   0.456  0.544  0                 50
-##  8   0.198  0.802  1                 54
-##  9   0.919  0.0812 0                 58
-## 10   0.785  0.215  0                 71
-## # … with 133 more rows
-```
+
+### A look at what the model predicts
+.pull-right-narrow[
+&lt;font size="40"&gt;
+🔍
+&lt;/font&gt;
+]
+.pull-left-wide[
+
+&lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Probability to survive &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Passenger ID &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.527 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 156 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.943 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 231 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.215 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 801 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.943 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 178 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 287 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 58 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.802 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 313 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 877 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 443 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.215 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 293 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
 ---
+###Evaluating the model: Sensitivity and specificity
 .pull-left[
 &lt;img src="presentation_files/figure-html/titanic-roc-curve-1.png" width="80%" /&gt;
 ]
 .pull-right[
-
-|                         | Not Survived| Survived|
-|:------------------------|------------:|--------:|
-|predicted not to survive |           89|       20|
-|Predicted to survive     |            5|       29|
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Not Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Survived &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; predicted not to survive &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted to survive &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 ---
+###Evaluating the model: Sensitivity and specificity
 .pull-left[
 
 ```
@@ -317,11 +481,11 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
 ```
 ]
 .pull-right[
-+ The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
++ add text here
 {{content}}
 ]
 --
-+  Bron’s graph is an early innovation in data display:
++  add text here
 {{content}}
 ---
 
@@ -360,25 +524,6 @@ class: inverse, center, middle
 +  Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array of bar charts
 ---
 
-<<<<<<< HEAD
-```
-##                            ischild adult child
-## Survived     Pclass Sex                       
-## non-survived 1      female             2     1
-##                     male              61     0
-##              2      female             6     0
-##                     male              82     2
-##              3      female            39    16
-##                     male             182    33
-## survived     1      female            75     7
-##                     male              36     4
-##              2      female            56    12
-##                     male               6     9
-##              3      female            28    19
-##                     male              28    10
-```
-=======
->>>>>>> f80feb28c6658579ea772ccf0b0a456e74b3994c
 
 
 &lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
