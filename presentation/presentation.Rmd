@@ -19,8 +19,9 @@ output:
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
 library(tidyverse)
+library(broom)
+library(here)
 library(tidymodels)
-library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
 library(dplyr)
@@ -32,6 +33,11 @@ library(ggpol)
 library(scales)
 library(caret)
 library(corrplot)
+library(ggridges)
+library(forcats)
+library(scales)
+library(skimr)
+library(tidypredict)
 ```
 
 ```{r setup, include=FALSE}
@@ -44,7 +50,7 @@ titanic <- read.csv(here::here("data/titanic.csv"))
 glimpse(titanic)
 ```
 
-```{r include=FALSE}
+```{r presentation-layout, include=FALSE}
 style_xaringan(
   title_slide_background_image = "img/titanicpic.jpg" , title_slide_text_color = "ghostwhite" , background_color = "wheat2 " , text_color = "gray28"
 )
@@ -330,6 +336,79 @@ class: inverse, center, middle
 # Predictive model for survival on the titanic
 
 ---
+```{r factor-variables, include=FALSE}
+titanicm <- titanic %>%
+  mutate(Survived = factor(Survived)) %>%
+  mutate(Pclass = factor(Pclass)) 
+```
+```{r remove-age-na, include=FALSE}
+titanic_age_na <- titanicm %>%
+  filter(!is.na(Age))
+```
+```{r titanic-splitting, include=FALSE}
+set.seed(1116)
+titanic_split <- initial_split(titanic_age_na, prop = 0.80)
+train_data <- training(titanic_split)
+test_data  <- testing(titanic_split)
+```
+``` {r titanic-recipe, include=FALSE}
+titanic_rec <- recipe(Survived ~ ., data = titanicm) %>%
+  # PassengerId isn't predictor, but keep around to ID
+  update_role(PassengerId, new_role = "ID") %>%
+  # remove name and cabin
+  step_rm(Name, Ticket, Cabin, SibSp, Parch, Fare, Embarked) %>%
+  # remove NAs for step cut to work
+  step_filter(!is.na(Age)) %>%
+  # discretise age variable
+  step_cut(Age, breaks = c(0, 6, 18, 54)) %>%
+  # make dummy variables 
+  step_dummy(all_nominal(), -all_outcomes()) %>%
+  # remove zero variance predictors
+  step_zv(all_predictors())
+```
+```{r titanic-model, include=FALSE}
+titanic_mod <- logistic_reg() %>% 
+  set_engine("glm")
+```
+```{r titanic-workflow, include=FALSE}
+titanic_wflow <- workflow() %>% 
+add_model(titanic_mod) %>% 
+add_recipe(titanic_rec)
+```
+```{r titanic-fit-to-train, include=FALSE}
+titanic_fit <- titanic_wflow %>% 
+  fit(data = train_data)
+tidy(titanic_fit)
+```
+```{r titanic-predict-test-data, include=FALSE}
+ titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
+  bind_cols(test_data %>% select(Survived, PassengerId)) 
+titanic_pred
+```
+``` {r titanic-roc-curve, include=FALSE}
+titanic_pred %>%
+  roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
+  autoplot()
+```
+```{r cutoff-prob, include=FALSE}
+cutoff_prob <- 0.6
+titanic_pred %>%
+  mutate(
+    Survived      = if_else(Survived == 1, "Survived", "Not survived"),
+    titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
+    ) %>%
+  count(titanic_pred, Survived) %>%
+  pivot_wider(names_from = Survived, values_from = n) %>%
+  kable(col.names = c("", "Not Survived", "Survived"))
+```
+```{r rsq-rmse, include=FALSE}
+rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+```
+
+
+
+---
 
 class: inverse, center, middle
 
@@ -378,27 +457,12 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 ---
 
-```{r}
-#titanic_freq <- titanic %>%
-#  mutate(ischild = ifelse(Age >= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %>%
-#  group_by(ischild, Sex, Pclass, issurvived) %>%
-#  summarise(Freq = n()) %>%
-
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-#=======
-# Mosaic double decker plot
-
-#``` {r table-mosaic, echo=FALSE, results = 'hide'}
+``` {r table-mosaic, echo=FALSE, results = 'hide'}
 titanic_child <- titanic %>%
   mutate(ischild = ifelse(Age >= 18, "adult", "child"))
   
 tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
 ftable(tbl)
-
-
 ```
 
 ``` {r mosaic plot, echo = FALSE, fig.align = 'center'}

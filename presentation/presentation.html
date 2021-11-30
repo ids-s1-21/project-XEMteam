@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-29" />
+    <meta name="date" content="2021-11-30" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-29
+### 2021-11-30
 
 ---
 
@@ -122,7 +122,7 @@ class: inverse, middle, center
 
 
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
 ]
 ---
 # Class/ Port/ Fare vs Survival
@@ -142,18 +142,32 @@ The class of the passenger can be considered to be a measure of their socio-econ
 
 
 
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+
+---
 &lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
-
 ---
+
 &lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
----
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-7-1.png" width="80%" /&gt;
 ---
 
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
@@ -206,43 +220,6 @@ class: inverse, center, middle
 ---
 
 
-```r
-#titanic_freq &lt;- titanic %&gt;%
-#  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"),
-#         issurvived = ifelse(Survived == 0, "no", "yes")
-#        ) %&gt;%
-#  group_by(ischild, Sex, Pclass, issurvived) %&gt;%
-#  summarise(Freq = n()) %&gt;%
-
-#vcd::doubledecker(issurvived ~ Pclass + Sex, 
-#                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-#=======
-# Mosaic double decker plot
-
-#``` {r table-mosaic, echo=FALSE, results = 'hide'}
-titanic_child &lt;- titanic %&gt;%
-  mutate(ischild = ifelse(Age &gt;= 18, "adult", "child"))
-  
-tbl &lt;- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
-ftable(tbl)
-```
-
-```
-##                        ischild adult child
-## Survived Pclass Sex                       
-## 0        1      female             2     1
-##                 male              61     0
-##          2      female             6     0
-##                 male              82     2
-##          3      female            39    16
-##                 male             182    33
-## 1        1      female            75     7
-##                 male              36     4
-##          2      female            56    12
-##                 male               6     9
-##          3      female            28    19
-##                 male              28    10
-```
 
 &lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
