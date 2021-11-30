@@ -405,9 +405,6 @@ titanic_pred %>%
 rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
 rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
 ```
-
-
-
 ---
 
 class: inverse, center, middle
