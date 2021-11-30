@@ -126,7 +126,7 @@ titanic %>%
 class: inverse, middle, center
 # Hypothesis 2: The younger survivals are more than the older survivals
 ---
-# Why do we come up with this hypothesis ?
+# Introduction
 - give priority to saving infants and children when it comes to providing life saving equipment
 
 - physical abilities
@@ -145,30 +145,50 @@ titanic %>%
        title = "Survival rate by age") +
   theme(legend.position = "bottom")
 ```
-
-```{r age-survival-rate,fig.width=6,echo=FALSE}
-titanic_test  <- titanic %>%
-  filter(!is.na(Age)) %>%
-  filter(Survived == "1") %>%
-  mutate(Age_Range = case_when(Age >= 0  & Age <= 10 ~ "0-10",
-                               Age >= 11 & Age <= 20 ~ "11-20",
-                               Age >= 21 & Age <= 30 ~ "21-30",
-                               Age >= 31 & Age <= 40 ~ "31-40",
-                               Age >= 41 & Age <=50 ~  "41-50",
-                               Age >= 51 & Age <=60 ~  "51-60",
-                               Age >= 61 & Age <= 70 ~  "61-70",
-                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
-  count(Age_Range) %>%
-  mutate(prop_survival = n/sum(n)) 
-```
-
-```{r, echo=FALSE}
-
-pie(titanic_test$n,labels =round((titanic_test$prop_survival)*100, digits=2), col= rainbow(8))
-legend("topleft", legend = titanic_test$Age_Range,fill= rainbow(8))
-```
 ]
 ---
+
+```{r,echo=FALSE}
+library(dplyr)
+library(parsnip)
+library(titanic)
+library(ggplot2)
+library(tidyverse)
+library(rsample)
+
+titanic <- titanic %>% drop_na(Age)%>%
+mutate(Survived=if_else(Survived==1,true="survived",false="non-survived"))%>%
+mutate(Survived=factor(Survived))
+
+
+set.seed(1116)
+# Put 80% of the data into the training set 
+titanic_split <- initial_split(titanic, prop = 0.80)
+# Create data frames for the two sets:
+train_data <- training(titanic_split)
+test_data <- testing(titanic_split)
+
+
+#titanic$Survived<-as.factor(titanic$Survived)
+#titanic$Age<-as.factor(as.numeric(titanic$Age))
+
+survived_fit <- logistic_reg() %>%
+  set_engine("glm") %>%
+  fit(Survived ~ Age, data = train_data, family = "binomial")
+
+ggplot(data=titanic,mapping=aes(x=as.numeric(Age),y=Survived))+ geom_jitter(width = 0, height = 0.3, alpha = 0.5)
+
+predict(survived_fit,test_data)
+
+survived_pred <- predict(survived_fit, test_data, type = "prob") %>%
+  bind_cols(test_data %>% select(Survived, Age))
+survived_pred %>%
+arrange(desc(.pred_survived)) %>%
+print(n = 10)
+```
+
+
+
 # Embarked/Class/Fare 
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.```{r class-survived ,echo=FALSE}
