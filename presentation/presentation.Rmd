@@ -171,6 +171,7 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 ]
+
 ---
 
 ```{r,echo=FALSE}
