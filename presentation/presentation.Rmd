@@ -84,14 +84,13 @@ We want to see
 
 * There are 12 variables and 891 observations in this data set. 
 --
-.pull-left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
 - `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] 
 
 ---
 class: inverse, middle, center
@@ -344,7 +343,7 @@ group_by(Embarked) %>%
   geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust = 0.5), size = 3.5 ) 
 ```
 
---- 
+---
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
@@ -389,11 +388,11 @@ titanic_wflow <- workflow() %>%
 add_model(titanic_mod) %>% 
 add_recipe(titanic_rec)
 ```
----
+
 ### Aim of the model 
 
-
-+ fitting a binary logistic regression machine learning model using tidymodels library
++ 
+fitting a binary logistic regression machine learning model using tidymodels library
 testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
 + parsimonious model (*Occam's razor*)
 
@@ -423,15 +422,16 @@ kbl() %>%
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
-+ Note: using main effects (vs. interactions) $\rightarrow$ results can still be interpreted with 3 explanatory variables. 
+Note: using main effects (vs. interactions) $\rightarrow$ results can still be interpreted with 3 explanatory variables.  
 **Intercept**: 
 > Positive intercept for baseline (i.e. female, first class passenger, aged 0-6) is expected to survive.
 ]
-
 .pull-right[
 ```{r ref.label="titanic-fit-to-train-display", echo=FALSE}
 ```
 ]
+
+--
 
 Negative **Coefficents** for a term:
 > All else held constant, a negative coefficient reflects a lower likelyhood of survival compared to the corresponding baseline variable. 
@@ -448,14 +448,8 @@ titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
 titanic_pred
 ```
 
-### A look at what the model predicts
-.pull-right-narrow[
-<font size="40">
-🔍
-</font>
-]
-.pull-left-wide[
-
+### 🔍 A look at what the model predicts
+10 random observations from the test sample with the model's prediction and the outcome variable. 
 ```{r titanic-predict-test-data-table, echo=FALSE}
 sample_n(titanic_pred, 10) %>%
   select(.pred_1, Survived, PassengerId) %>%
@@ -466,7 +460,10 @@ sample_n(titanic_pred, 10) %>%
     ) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), position='center', full_width = F)
 ```
-]
+
+???
+
+looking at this a with some trial and error we've decided a cutoff proabbility of 0.6 and then plotted ROC curve ... next slide
 
 ---
 ###Evaluating the model: ROC curve
@@ -490,10 +487,6 @@ titanic_pred %>%
   kable(col.names = c("", "Not Survived", "Survived"))
 ```
 
-]
----
-###Evaluating the model: Statistical tests
-.pull-left[
 ```{r prep-for-statistic-tests, include=FALSE}
 titanic_results <- titanic_pred %>%
   mutate(
