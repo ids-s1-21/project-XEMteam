@@ -184,6 +184,30 @@ titanic %>%
 - generally, the younger the more people survived.
 ]
 ---
+.pull_left
+```{r age-survival-rate,fig.width=6,echo=FALSE}
+titanic_test <- titanic %>%
+  filter(!is.na(Age))%>%
+  filter(Survived == "1")%>%
+  mutate(Age_Range=case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival=n/sum(n))
+```
+
+```{r, echo=FALSE}
+pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=2),
+col=rainbow(8))
+legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
+```
+
+
 class: inverse, middle, center
 # Class/ Port/ Fare vs Survival
 
