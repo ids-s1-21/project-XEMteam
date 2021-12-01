@@ -1,11 +1,8 @@
 ---
-title: "Project proposal"
-author: "XEM Team"
 output: github_document
 editor_options: 
   chunk_output_type: console
 ---
-
 ```{r load-packages, message = FALSE, echo = FALSE }
 library(tidyverse)
 library(broom)
@@ -21,7 +18,6 @@ library(tidypredict)
 library(tidymodels)
 library(knitr)
 ```
-
 ```{r load-data, include=FALSE}
 titanic <- read.csv(here::here("data/titanic.csv"))
 ```
@@ -69,56 +65,17 @@ titanic_mod <- logistic_reg() %>%
 ```
 define workflow
 ```{r titanic-workflow}
+titanic_rec_f <- function(variable_exclude){
+  titanic_rec %>% step_rm(variable_exclude)
+}
+
 titanic_wflow <- workflow() %>% 
 add_model(titanic_mod) %>% 
-add_recipe(titanic_rec)
+add_recipe(titanic_rec_f(Pclass))
 ```
 
-fit model to training data
 ```{r titanic-fit-to-train}
 titanic_fit <- titanic_wflow %>% 
   fit(data = train_data)
 tidy(titanic_fit)
 ```
-- **Slope - volume:** *All else held constant*, for each additional cubic centimetre books are larger in volume, we would expect the weight to be higher, on average, by 0.718 grams.
-    - in this case it makes sense for this to change independently change but sometimes this assumption isn't reasonable (e.g. rain and humidity)
-- **Slope - cover:** *All else held constant*, paperback books are weigh, on average, by 184 grams less than hardcover books.
-- **Intercept:** Hardcover books with 0 volume are expected to weigh 198 grams, on average
-    - (Doesn't make sense in context.)
-    
-    For each unit increase in x, y is expected on average to be higher/lower by a factor of e^{b_1}".
-    
-predict test data
-```{r titanic-predict-test-data}
- titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
-  bind_cols(test_data %>% select(Survived, PassengerId)) 
-titanic_pred
-```
-
-roc curve
-``` {r titanic-roc-curve}
-titanic_pred %>%
-  roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
-  autoplot()
-```
-
-cutoff probability
-```{r cutoff-prob}
-cutoff_prob <- 0.6
-titanic_pred %>%
-  mutate(
-    Survived      = if_else(Survived == 1, "Survived", "Not survived"),
-    titanic_pred  = if_else(.pred_1 > cutoff_prob, "Predicted to survive", "predicted not to survive")
-    ) %>%
-  count(titanic_pred, Survived) %>%
-  pivot_wider(names_from = Survived, values_from = n) %>%
-  kable(col.names = c("", "Not Survived", "Survived"))
-```
-
-r squared and rmse
-```{r rsq-rmse}
-rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
-rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
-```
-
-
