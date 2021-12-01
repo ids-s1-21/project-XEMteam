@@ -5,12 +5,13 @@ XEM Team
 turning survived into factor variable
 
 ``` r
-titanic <- titanic %>%
-  mutate(Survived = factor(Survived))
+titanicm <- titanic %>%
+  mutate(Survived = factor(Survived)) %>%
+  mutate(Pclass = factor(Pclass)) 
 ```
 
 ``` r
-titanic_age_na <- titanic %>%
+titanic_age_na <- titanicm %>%
   filter(!is.na(Age))
 ```
 
@@ -26,11 +27,11 @@ test_data  <- testing(titanic_split)
 build recipe
 
 ``` r
-titanic_rec <- recipe(Survived ~ ., data = titanic) %>%
+titanic_rec <- recipe(Survived ~ ., data = titanicm) %>%
   # PassengerId isn't predictor, but keep around to ID
   update_role(PassengerId, new_role = "ID") %>%
   # remove name and cabin
-  step_rm(Name, Ticket, Cabin) %>%
+  step_rm(Name, Ticket, Cabin, SibSp, Parch, Fare, Embarked) %>%
   # remove NAs for step cut to work
   step_filter(!is.na(Age)) %>%
   # discretise age variable
@@ -52,8 +53,8 @@ define workflow
 
 ``` r
 titanic_wflow <- workflow() %>% 
-  add_model(titanic_mod) %>% 
-  add_recipe(titanic_rec)
+add_model(titanic_mod) %>% 
+add_recipe(titanic_rec)
 ```
 
 fit model to training data
@@ -64,21 +65,31 @@ titanic_fit <- titanic_wflow %>%
 tidy(titanic_fit)
 ```
 
-    ## # A tibble: 12 × 5
-    ##    term          estimate std.error statistic  p.value
-    ##    <chr>            <dbl>     <dbl>     <dbl>    <dbl>
-    ##  1 (Intercept)   19.0     602.         0.0316 9.75e- 1
-    ##  2 Pclass        -1.13      0.178     -6.37   1.94e-10
-    ##  3 SibSp         -0.543     0.163     -3.33   8.77e- 4
-    ##  4 Parch         -0.292     0.161     -1.82   6.94e- 2
-    ##  5 Fare           0.00270   0.00296    0.911  3.62e- 1
-    ##  6 Sex_male      -2.94      0.270    -10.9    1.50e-27
-    ##  7 Age_X.6.18.   -2.72      0.649     -4.19   2.84e- 5
-    ##  8 Age_X.18.54.  -2.84      0.592     -4.80   1.55e- 6
-    ##  9 Age_X.54.80.  -4.07      0.776     -5.25   1.56e- 7
-    ## 10 Embarked_C   -11.7     602.        -0.0194 9.84e- 1
-    ## 11 Embarked_Q   -12.3     602.        -0.0203 9.84e- 1
-    ## 12 Embarked_S   -12.2     602.        -0.0202 9.84e- 1
+    ## # A tibble: 7 × 5
+    ##   term         estimate std.error statistic  p.value
+    ##   <chr>           <dbl>     <dbl>     <dbl>    <dbl>
+    ## 1 (Intercept)      4.51     0.549      8.22 2.08e-16
+    ## 2 Pclass_X2       -1.40     0.311     -4.52 6.27e- 6
+    ## 3 Pclass_X3       -2.53     0.298     -8.52 1.67e-17
+    ## 4 Sex_male        -2.69     0.245    -11.0  4.88e-28
+    ## 5 Age_X.6.18.     -1.80     0.530     -3.39 6.88e- 4
+    ## 6 Age_X.18.54.    -1.71     0.451     -3.78 1.54e- 4
+    ## 7 Age_X.54.80.    -2.80     0.647     -4.33 1.52e- 5
+
+-   **Slope - volume:** *All else held constant*, for each additional
+    cubic centimetre books are larger in volume, we would expect the
+    weight to be higher, on average, by 0.718 grams.
+    -   in this case it makes sense for this to change independently
+        change but sometimes this assumption isn’t reasonable (e.g. rain
+        and humidity)
+-   **Slope - cover:** *All else held constant*, paperback books are
+    weigh, on average, by 184 grams less than hardcover books.
+-   **Intercept:** Hardcover books with 0 volume are expected to weigh
+    198 grams, on average
+    -   (Doesn’t make sense in context.)
+
+    For each unit increase in x, y is expected on average to be
+    higher/lower by a factor of e^{b_1}“.
 
 predict test data
 
@@ -91,16 +102,16 @@ titanic_pred
     ## # A tibble: 143 × 4
     ##    .pred_0 .pred_1 Survived PassengerId
     ##      <dbl>   <dbl> <fct>          <int>
-    ##  1   0.475  0.525  0                  7
-    ##  2   0.908  0.0923 0                 13
-    ##  3   0.358  0.642  1                 16
-    ##  4   0.783  0.217  1                 26
-    ##  5   0.609  0.391  0                 36
-    ##  6   0.217  0.783  0                 42
-    ##  7   0.435  0.565  0                 50
-    ##  8   0.215  0.785  1                 54
-    ##  9   0.862  0.138  0                 58
-    ## 10   0.759  0.241  0                 71
+    ##  1   0.473  0.527  0                  7
+    ##  2   0.919  0.0812 0                 13
+    ##  3   0.424  0.576  1                 16
+    ##  4   0.434  0.566  1                 26
+    ##  5   0.473  0.527  0                 36
+    ##  6   0.198  0.802  0                 42
+    ##  7   0.456  0.544  0                 50
+    ##  8   0.198  0.802  1                 54
+    ##  9   0.919  0.0812 0                 58
+    ## 10   0.785  0.215  0                 71
     ## # … with 133 more rows
 
 roc curve
@@ -116,7 +127,7 @@ titanic_pred %>%
 cutoff probability
 
 ``` r
-cutoff_prob <- 0.5
+cutoff_prob <- 0.6
 titanic_pred %>%
   mutate(
     Survived      = if_else(Survived == 1, "Survived", "Not survived"),
@@ -129,5 +140,25 @@ titanic_pred %>%
 
 |                          | Not Survived | Survived |
 |:-------------------------|-------------:|---------:|
-| predicted not to survive |           79 |       15 |
-| Predicted to survive     |           15 |       34 |
+| predicted not to survive |           89 |       20 |
+| Predicted to survive     |            5 |       29 |
+
+r squared and rmse
+
+``` r
+rsq(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+```
+
+    ## # A tibble: 1 × 3
+    ##   .metric .estimator .estimate
+    ##   <chr>   <chr>          <dbl>
+    ## 1 rsq     standard       0.333
+
+``` r
+rmse(titanic_pred, truth = as.numeric(Survived), estimate = .pred_1)
+```
+
+    ## # A tibble: 1 × 3
+    ##   .metric .estimator .estimate
+    ##   <chr>   <chr>          <dbl>
+    ## 1 rmse    standard        1.03

@@ -1,6 +1,6 @@
 ---
-title: Project title
-author: by Team name
+title: Survival on the Titanic
+author: by XEM Team
 output: github_document
 ---
 

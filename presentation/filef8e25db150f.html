@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-12-01" />
+    <meta name="date" content="2021-11-30" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <script src="libs/kePrint-0.0.1/kePrint.js"></script>
     <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
@@ -18,7 +17,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-12-01
+### 2021-11-30
 
 ---
 
@@ -29,9 +28,9 @@ class: center, middle, inverse, title-slide
 
 
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
 
+---
 
 #Table of Contents
 - Background information
@@ -49,17 +48,6 @@ class: center, middle, inverse, title-slide
 
 We want to see 
 
-
-### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
-
----
-
-class: inverse, center, middle
-
-# Section title
-
-
-
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
 ---
@@ -67,7 +55,6 @@ class: inverse, center, middle
 * The data set comes from the Awesome Public Data Sets on GitHub[2]
 
 * There are 12 variables and 891 observations in this data set. 
---
 .pull-left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
@@ -83,19 +70,15 @@ class: inverse, middle, center
 
 ---
 
+
 # Introduction
 * During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
---
-
-
-
-* Women have higher survival rate than men. 
 
 ---
 
 # Visualization
 .pull-left[
-- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable.
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
 ]
 
 .pull-right[
@@ -134,78 +117,77 @@ class: inverse, middle, center
 ---
 # Data analysis 
 .pull-left[
-&lt;img src="presentation_files/figure-html/age-survival-1.png" width="90%" /&gt;
+&lt;img src="presentation_files/figure-html/age-survival-1.png" width="100%" /&gt;
 ]
+---
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
+
+```
+## # A tibble: 143 × 1
+##    .pred_class 
+##    &lt;fct&gt;       
+##  1 non-survived
+##  2 non-survived
+##  3 non-survived
+##  4 non-survived
+##  5 non-survived
+##  6 non-survived
+##  7 non-survived
+##  8 non-survived
+##  9 non-survived
+## 10 non-survived
+## # … with 133 more rows
+```
+
+```
+## # A tibble: 143 × 4
+##    `.pred_non-survived` .pred_survived Survived       Age
+##                   &lt;dbl&gt;          &lt;dbl&gt; &lt;fct&gt;        &lt;dbl&gt;
+##  1                0.504          0.496 survived      0.83
+##  2                0.504          0.496 survived      1   
+##  3                0.507          0.493 non-survived  2   
+##  4                0.507          0.493 survived      2   
+##  5                0.507          0.493 non-survived  2   
+##  6                0.509          0.491 survived      3   
+##  7                0.512          0.488 non-survived  4   
+##  8                0.512          0.488 survived      4   
+##  9                0.512          0.488 survived      4   
+## 10                0.515          0.485 survived      5   
+## # … with 133 more rows
+```
 
 
-.pull-right[
 
 
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
-
-
-class: inverse, middle, center
+]
+---
 # Class/ Port/ Fare vs Survival
 
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
-
-
----
-
-class: inverse, middle, center
-# Is wealth associated with passengers' survival rate ?
----
-# Ticket Price &amp; Passengers' Class 
-
-.pull-left[
-&lt;img src="presentation_files/figure-html/fare-boxplot -1.png" width="1200" /&gt;
-]
-
-.pull-right[ 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Passenger_Class &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 69.3000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 15.0458 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.0500 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-] 
-
----
-
-class: middle, center
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
 &lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
 
 ---
-class:middle, center
+&lt;img src="presentation_files/figure-html/fare-survival -1.png" width="80%" /&gt;
+
+---
+
+
+
+
 
 
 
 &lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 
---- 
+---
+&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
+---
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
+
+
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
@@ -217,12 +199,6 @@ class: inverse, center, middle
 
 
 
----
-### Aim of the model 
-fitting a binary logistic regression machine learning model using tidymodels library
-testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
-+ usefulness of models they did on 
----
 ### Modelling Survival
 + **predictor/explanatory variables**:
   + Age
@@ -235,8 +211,6 @@ testing the trained model’s prediction (model evaluation) strength on the unse
 --
 `\(\rightarrow\)` **logistic regression modelling**
 --
-
-
 &lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -372,40 +346,6 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
 &lt;/table&gt;
 ]
 
-
-# Port of Embarkation &amp; Ticket Price 
-.pull-left[
-&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
-]
-.pull-right[
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Port_of_Embarkation &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 36.25 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Queenstown &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 7.75 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Southampton &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.00 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-]
-=======
 **Coefficents** for *Class*: 
 &gt; All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
 
@@ -419,13 +359,8 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
 
 + similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
 + passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
-
 ---
 
-
-
-
-class: inverse, center, middle
 
 ### A look at what the model predicts
 .pull-right-narrow[
@@ -435,46 +370,123 @@ class: inverse, center, middle
 ]
 .pull-left-wide[
 
-
+&lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; Probability to survive &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Passenger ID &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.527 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 156 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.943 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 231 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.215 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 801 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.943 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 178 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 287 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 58 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.802 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 313 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 877 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.081 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 443 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.215 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 293 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
-
 
 ---
 ###Evaluating the model: Sensitivity and specificity
 .pull-left[
-
+&lt;img src="presentation_files/figure-html/titanic-roc-curve-1.png" width="80%" /&gt;
 ]
 .pull-right[
-
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Not Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Survived &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; predicted not to survive &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted to survive &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 ---
-###Evaluating the model: Statistical tests
+###Evaluating the model: Sensitivity and specificity
 .pull-left[
 
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rsq     standard       0.333
+```
 
-
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+## 1 rmse    standard        1.03
+```
 ]
-
 .pull-right[
-
-**Sensitivity** `\(=TP/(FN+TP)\)`
-
++ add text here
 {{content}}
 ]
 --
-**Specificity** `\(=TN/(FP+TN)\)`
-
++  add text here
 {{content}}
---
-**Kappa** `\(\in[-1,1]\)`  
-How much better the model is over the random classifier. (here moderate agreement)
-
-{{content}}
---
-**Matthews Correlation Coefficient (MCC)** `\(\in[-1,1]\)`  
-Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
 ---
-
 
 class: inverse, center, middle
 
@@ -513,10 +525,7 @@ class: inverse, center, middle
 
 
 
-
-
-
-
+&lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -552,6 +561,7 @@ https://www.datavis.ca/papers/titanic/
 [2] https://github.com/awesomedata/awesome-public-datasets
 
 [3] https://www.kaggle.com/c/titanic/data
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
