@@ -55,14 +55,13 @@ We want to see
 
 * There are 12 variables and 891 observations in this data set. 
 --
-.pull-left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
 - `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] 
 
 ---
 class: inverse, middle, center
@@ -90,12 +89,6 @@ class: inverse, middle, center
 ]
 
 
-
-
-
-
-
-
 ---
 # Summary
 .pull-left[
@@ -111,6 +104,7 @@ class: inverse, middle, center
 ```
 ]
 ---
+
 class: inverse, middle, center
 # Age and Survival
 ---
@@ -131,18 +125,17 @@ class: inverse, middle, center
 - generally, the younger the more people survived.
 ]
 ---
-class: inverse, middle, center
-# Class/ Port/ Fare vs Survival
 
-<<<<<<< HEAD
+
+.pull_left
+
+
 &lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
 
+---
 
-
-
-
-=======
->>>>>>> 0f334a2ca1104ec512bbcb7dd6b96a460c25065b
+class: inverse, middle, center
+# Class/ Port/ Fare vs Survival
 ---
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
@@ -160,15 +153,15 @@ The class of the passenger can be considered to be a measure of their socio-econ
 
 
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
-
----
 &lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+
+---
+&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
 ---
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
-```
---- 
+&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
+
+---
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
@@ -180,11 +173,14 @@ class: inverse, center, middle
 
 
 
----
+
 ### Aim of the model 
+
++ 
 fitting a binary logistic regression machine learning model using tidymodels library
 testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
-+ usefulness of models they did on 
++ parsimonious model (*Occam's razor*)
+
 ---
 ### Modelling Survival
 + **predictor/explanatory variables**:
@@ -265,11 +261,10 @@ testing the trained model’s prediction (model evaluation) strength on the unse
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
-Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still be interpreted with 3 explanatory variables. 
+Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still be interpreted with 3 explanatory variables.  
 **Intercept**: 
-&gt; Positive intercept: female, first class passenger, aged 0-6 is expected to survive.
+&gt; Positive intercept for baseline (i.e. female, first class passenger, aged 0-6) is expected to survive.
 ]
-
 .pull-right[
 &lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
@@ -335,30 +330,21 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
 &lt;/table&gt;
 ]
 
-**Coefficents** for *Class*: 
-&gt; All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
+--
 
-+ Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
+Negative **Coefficents** for a term:
+&gt; All else held constant, a negative coefficient reflects a lower likelyhood of survival compared to the corresponding baseline variable. 
 
-**Coefficent** for *Gender*:
-&gt; All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
+**Class**: 1st class `\(\rightarrow\)` 2nd class `\(\rightarrow\)` 3rd class
 
-**Coefficents** for *Age*: 
-&gt; All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
+**Sex**: female `\(\rightarrow\)` male
 
-+ similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
-+ passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
+**Age**: children (0-6) `\(\rightarrow\)` teenagers/ adults (6-18 and 18-54) `\(\rightarrow\)` elderly (54 - 80)
 ---
 
 
-### A look at what the model predicts
-.pull-right-narrow[
-&lt;font size="40"&gt;
-🔍
-&lt;/font&gt;
-]
-.pull-left-wide[
-
+### 🔍 A look at what the model predicts
+10 random observations from the test sample with the model's prediction and the outcome variable. 
 &lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -420,14 +406,17 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-]
+
+???
+
+looking at this a with some trial and error we've decided a cutoff proabbility of 0.6 and then plotted ROC curve ... next slide
 
 ---
-###Evaluating the model: Sensitivity and specificity
-.pull-left[
+###Evaluating the model: ROC curve
 &lt;img src="presentation_files/figure-html/titanic-roc-curve-1.png" width="80%" /&gt;
-]
-.pull-right[
+---
+###Evaluating the model: Statistical tests
+.pull-left[
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -449,40 +438,32 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-]
----
-###Evaluating the model: Statistical tests
-.pull-left[
 
 
+&amp;nbsp;  
 &lt;table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; .metric &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; .estimator &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; .estimate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Metric &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Estimate &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; sens &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.9468085 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; sens &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.947 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; spec &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5918367 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; spec &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.592 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; kap &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.5812346 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; kap &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.581 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; mcc &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; binary &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.6004987 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; mcc &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.600 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -492,20 +473,15 @@ Note: using main effects (vs. interactions) `\(\rightarrow\)` results can still 
 
 **Sensitivity** `\(=TP/(FN+TP)\)`
 
-{{content}}
-]
---
 **Specificity** `\(=TN/(FP+TN)\)`
 
-{{content}}
---
 **Kappa** `\(\in[-1,1]\)`  
 How much better the model is over the random classifier. (here moderate agreement)
 
-{{content}}
---
 **Matthews Correlation Coefficient (MCC)** `\(\in[-1,1]\)`  
 Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
+]
+
 ---
 
 
@@ -522,28 +498,29 @@ class: inverse, center, middle
 &lt;/div&gt;
 ]
 .right-column[
-+ The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
++ **The Sphere**: British weekly newspaper dedicated to worldwide reporting on popular issues. 
 {{content}}
 ]
 --
-+ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished on 4 May 1912, **three weeks after the Titanic disaster**
++ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished **three weeks after the Titanic disaster**
 {{content}}
 --
 +  Bron’s graph is an early innovation in data display:
 {{content}}
 --
-    + each subgroup is shown by a bar whose area is proportional to the numbers of cases
+    + each subgroup shown by a bar with **area proportional to the numbers of cases**
 {{content}}   
 --
     + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
 {{content}}
 --
-    + It also includes summary panels, showing the totals for passengers and crew.
+    + It also includes **summary panels**, showing the totals for passengers and crew.
 {{content}}
 --
-+  Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array of bar charts
++  Today: see as an early **mosaic plot**, or area-proportional back-to-back array of bar charts
 ---
 
+## Recreation, mosaic plot
 
 
 &lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
