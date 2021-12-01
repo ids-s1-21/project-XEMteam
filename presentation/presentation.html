@@ -4,7 +4,7 @@
     <title>Who survived the Titanic?</title>
     <meta charset="utf-8" />
     <meta name="author" content="XEM Team   Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu" />
-    <meta name="date" content="2021-11-28" />
+    <meta name="date" content="2021-12-01" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 ## Factors contributing to the survival of passengers in the historic Titanic accident of 1912
 ### XEM Team <br> Chenyu Li, Emma Ghelfi, Maria Stylianou, Xiao Hu
 ### University of Edinburgh
-### 2021-11-28
+### 2021-12-01
 
 ---
 
@@ -46,7 +46,7 @@ class: center, middle
 "Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
 
 We want to see 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+
 ### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
 
 ---
@@ -54,7 +54,7 @@ We want to see
 class: inverse, center, middle
 
 # Section title
-=======
+
 ####If and how the chance of survival of Titanic passengers is related to different attributes of the passengers
 
 
@@ -130,41 +130,126 @@ class: inverse, middle, center
 
 
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+
+
 ]
 ---
-# Embarked/Class/Fare 
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
+class: inverse, middle, center
+# Is wealth associated with passengers' survival rate ?
+---
+# Ticket Price &amp; Passengers' Class 
+
+.pull-left[
+&lt;img src="presentation_files/figure-html/fare-boxplot -1.png" width="1200" /&gt;
+]
+
+.pull-right[ 
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Passenger_Class &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44.7500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77.9583 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.0500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.5167 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+] 
+
+---
+
+class: middle, center
 
 &lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
 
 ---
-&lt;img src="presentation_files/figure-html/fare-survival -1.png" width="80%" /&gt;
+class:middle, center
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
 
 ---
 
-
-
-
-
-
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
-
+# Port of Embarkation &amp; Ticket Price 
+.pull-left[
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+]
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Port_of_Embarkation &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.46 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56.93 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Queenstown &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Queenstown &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.81 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southampton &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southampton &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
 ---
-&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
----
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-7-1.png" width="80%" /&gt;
-
-
----
-
-
-
-
----
 
 class: inverse, center, middle
 
@@ -223,7 +308,6 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 
 ---
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
 ```r
 #titanic_freq &lt;- titanic %&gt;%
@@ -235,7 +319,6 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 
 #vcd::doubledecker(issurvived ~ Pclass + Sex, 
 #                  xtabs(Freq ~ Sex + issurvived + Pclass, titanic_freq))
-#=======
 # Mosaic double decker plot
 
 #``` {r table-mosaic, echo=FALSE, results = 'hide'}
@@ -263,7 +346,7 @@ ftable(tbl)
 ##                 male              28    10
 ```
 
-&lt;img src="presentation_files/figure-html/mosaic plot-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
 
 
 ---
@@ -299,7 +382,6 @@ https://www.datavis.ca/papers/titanic/
 [2] https://github.com/awesomedata/awesome-public-datasets
 
 [3] https://www.kaggle.com/c/titanic/data
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
