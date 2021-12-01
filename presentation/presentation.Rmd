@@ -157,7 +157,7 @@ class: inverse, middle, center
 ---
 # Data analysis 
 .pull-left[
-```{r age-survival,out.width="100%", fig.width=4, echo=FALSE, warning=FALSE}
+```{r age-survival,out.width="90%", fig.width=4, echo=FALSE, warning=FALSE}
 titanic %>% 
   ggplot(mapping = aes(x = Age, fill = Survived)) +
   geom_histogram(binwidth = 5 ) +
@@ -171,9 +171,15 @@ titanic %>%
 ```
 ]
 
+
+.pull_right[
+
+- Predicted variable are "Age" and "Frequency" as the outcome variable. 
+- generally, the younger the more people survived.
+]
 ---
 
-```{r,echo=FALSE}
+```{r, echo=FALSE}
 library(dplyr)
 library(parsnip)
 library(ggplot2)
@@ -200,21 +206,22 @@ survived_fit <- logistic_reg() %>%
   set_engine("glm") %>%
   fit(Survived ~ Age, data = train_data, family = "binomial")
 
-ggplot(data=titanic,mapping=aes(x=as.numeric(Age),y=Survived))+ geom_jitter(width = 0, height = 0.3, alpha = 0.5)
+titanic$Age <- as.numeric(titanic$Age)
+ggplot(data=titanic,mapping=aes(x=Age,y=Survived))+ geom_jitter(width = 0, height = 0.3, alpha = 0.5)
 
-predict(survived_fit,test_data)
+#predict(survived_fit,test_data)
 
-survived_pred <- predict(survived_fit, test_data, type = "prob") %>%
-  bind_cols(test_data %>% select(Survived, Age))
-survived_pred %>%
-arrange(desc(.pred_survived)) %>%
-print(n = 10)
+#survived_pred <- predict(survived_fit, test_data, type = "prob") %>%
+#bind_cols(test_data %>% select(Survived, Age))
+#survived_pred %>%
+#arrange(desc(.pred_survived)) %>%
+#print(n = 10)
 ```
 
 
 
 
-]
+
 ---
 # Class/ Port/ Fare vs Survival
 
