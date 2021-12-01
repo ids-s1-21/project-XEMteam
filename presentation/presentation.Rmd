@@ -207,7 +207,9 @@ legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
 ```
 ]
 .pull_right[
-- 
+- create a new variable called "Age_Range"
+- aged between 21-30 has the highest possibility to survive
+- the young has more survival rate than the old 
 
 
 class: inverse, middle, center
