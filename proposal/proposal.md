@@ -203,7 +203,7 @@ figure out if there is a strong correlation between these two variables.
 ``` r
  titanic %>%
   ggplot(mapping = aes(x = Pclass, y = Fare, fill = Survived)) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar( stat = "identity", position = "dodge") +
   scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
   theme_minimal() +
     labs(x = "Class ", 

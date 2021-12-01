@@ -19,7 +19,7 @@ editor_options:
 ---
 
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
+
 library(tidyverse)
 library(broom)
 library(here)
@@ -83,6 +83,7 @@ We want to see
 * The data set comes from the Awesome Public Data Sets on GitHub[2]
 
 * There are 12 variables and 891 observations in this data set. 
+--
 .pull-left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
@@ -98,15 +99,19 @@ class: inverse, middle, center
 
 ---
 
-
 # Introduction
 * During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+--
+
+
+
+* Women have higher survival rate than men. 
 
 ---
 
 # Visualization
 .pull-left[
-- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable.
 ]
 
 .pull-right[
@@ -127,12 +132,6 @@ titanic %>%
 ]
 
 
-
-
-
-
-
-
 ---
 # Summary
 .pull-left[
@@ -148,6 +147,7 @@ titanic %>%
 ```
 ]
 ---
+
 class: inverse, middle, center
 # Age and Survival
 ---
@@ -158,7 +158,7 @@ class: inverse, middle, center
 ---
 # Data analysis 
 .pull-left[
-```{r age-survival,out.width="100%", fig.width=4, echo=FALSE, warning=FALSE}
+```{r age-survival,out.width="90%", fig.width=4, echo=FALSE, warning=FALSE}
 titanic %>% 
   ggplot(mapping = aes(x = Age, fill = Survived)) +
   geom_histogram(binwidth = 5 ) +
@@ -171,10 +171,43 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 ]
+
+
+.pull_right[
+
+- Predicted variable are "Age" and "Frequency" as the outcome variable. 
+- generally, the younger the more people survived.
+]
 ---
+
+
+.pull_left
+```{r age-survival-rate,fig.width=6,echo=FALSE}
+titanic_test <- titanic %>%
+  filter(!is.na(Age))%>%
+  filter(Survived == "1")%>%
+  mutate(Age_Range=case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival=n/sum(n))
+```
+
+```{r, echo=FALSE}
+pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=2),
+col=rainbow(8))
+legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
+```
+
+---
+
 class: inverse, middle, center
 # Class/ Port/ Fare vs Survival
-
 ---
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
@@ -363,6 +396,7 @@ add_recipe(titanic_rec)
 + fitting a binary logistic regression machine learning model using tidymodels library
 testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
 + parsimonious model (*Occam's razor*)
+
 ---
 ### Modelling Survival
 + **predictor/explanatory variables**:
@@ -455,7 +489,11 @@ titanic_pred %>%
   pivot_wider(names_from = Survived, values_from = n) %>%
   kable(col.names = c("", "Not Survived", "Survived"))
 ```
- 
+
+]
+---
+###Evaluating the model: Statistical tests
+.pull-left[
 ```{r prep-for-statistic-tests, include=FALSE}
 titanic_results <- titanic_pred %>%
   mutate(
@@ -477,10 +515,11 @@ custom_metrics(titanic_results,
     digits = 3
     ) %>%
   kable_styling(bootstrap_options = c("striped", "hover"),  full_width = F )
-
 ```
 ]
+
 .pull-right[
+
 **Sensitivity** $=TP/(FN+TP)$
 
 **Specificity** $=TN/(FP+TN)$
@@ -491,7 +530,6 @@ How much better the model is over the random classifier. (here moderate agreemen
 **Matthews Correlation Coefficient (MCC)** $\in[-1,1]$  
 Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
 ]
-
 
 ---
 
