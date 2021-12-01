@@ -177,13 +177,7 @@ titanic %>%
 - generally, the younger the more people survived.
 ]
 ---
-<<<<<<< HEAD
-.pull_left[
-=======
 
-
-.pull_left
->>>>>>> 77429d9ae70805fcb685d6a601742f69c769e0b2
 ```{r age-survival-rate,fig.width=6,echo=FALSE}
 titanic_test <- titanic %>%
   filter(!is.na(Age))%>%
@@ -200,16 +194,16 @@ titanic_test <- titanic %>%
   mutate(prop_survival=n/sum(n))
 ```
 
-```{r, echo=FALSE}
-pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=4),
+```{r,echo=FALSE}
+
+pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=2),
 col=rainbow(8))
 legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
 ```
-]
-.pull_right[
+
 - create a new variable called "Age_Range"
 - aged between 21-30 has the highest possibility to survive
-- the young has more survival rate than the old 
+- the young has more survival rate than the old
 
 ---
 
