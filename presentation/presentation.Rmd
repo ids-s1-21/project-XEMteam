@@ -19,7 +19,6 @@ editor_options:
 ---
 
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
 library(tidyverse)
 library(broom)
 library(here)
@@ -84,14 +83,13 @@ We want to see
 
 * There are 12 variables and 891 observations in this data set. 
 --
-.pull-left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
 - `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] 
 
 ---
 class: inverse, middle, center
@@ -132,12 +130,6 @@ titanic %>%
 ]
 
 
-
-
-
-
-
-
 ---
 # Summary
 .pull-left[
@@ -153,6 +145,7 @@ titanic %>%
 ```
 ]
 ---
+
 class: inverse, middle, center
 # Age and Survival
 ---
@@ -163,7 +156,7 @@ class: inverse, middle, center
 ---
 # Data analysis 
 .pull-left[
-```{r age-survival,out.width="100%", fig.width=4, echo=FALSE, warning=FALSE}
+```{r age-survival,out.width="90%", fig.width=4, echo=FALSE, warning=FALSE}
 titanic %>% 
   ggplot(mapping = aes(x = Age, fill = Survived)) +
   geom_histogram(binwidth = 5 ) +
@@ -176,10 +169,46 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 ]
+
+
+.pull_right[
+
+- Predicted variable are "Age" and "Frequency" as the outcome variable. 
+- generally, the younger the more people survived.
+]
 ---
+
+```{r age-survival-rate,fig.width=6,echo=FALSE}
+titanic_test <- titanic %>%
+  filter(!is.na(Age))%>%
+  filter(Survived == "1")%>%
+  mutate(Age_Range=case_when(Age >= 0  & Age <= 10 ~ "0-10",
+                               Age >= 11 & Age <= 20 ~ "11-20",
+                               Age >= 21 & Age <= 30 ~ "21-30",
+                               Age >= 31 & Age <= 40 ~ "31-40",
+                               Age >= 41 & Age <=50 ~  "41-50",
+                               Age >= 51 & Age <=60 ~  "51-60",
+                               Age >= 61 & Age <= 70 ~  "61-70",
+                               Age >= 71 & Age <= 80 ~ "71-80")) %>%
+  count(Age_Range) %>%
+  mutate(prop_survival=n/sum(n))
+```
+
+```{r,echo=FALSE}
+
+pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=2),
+col=rainbow(8))
+legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
+```
+
+- create a new variable called "Age_Range"
+- aged between 21-30 has the highest possibility to survive
+- the young has more survival rate than the old
+
+---
+
 class: inverse, middle, center
 # Class/ Port/ Fare vs Survival
-
 ---
 
 The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
@@ -315,8 +344,8 @@ group_by(Embarked) %>%
   geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
   geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust = 0.5), size = 3.5 ) 
 ```
-```
---- 
+
+---
 class: inverse, center, middle
 
 # Predictive model for survival on the titanic
@@ -361,11 +390,14 @@ titanic_wflow <- workflow() %>%
 add_model(titanic_mod) %>% 
 add_recipe(titanic_rec)
 ```
----
+
 ### Aim of the model 
+
++ 
 fitting a binary logistic regression machine learning model using tidymodels library
 testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
-+ usefulness of models they did on 
++ parsimonious model (*Occam's razor*)
+
 ---
 ### Modelling Survival
 + **predictor/explanatory variables**:
@@ -392,29 +424,25 @@ kbl() %>%
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
-Note: using main effects (vs. interactions) $\rightarrow$ results can still be interpreted with 3 explanatory variables. 
+Note: using main effects (vs. interactions) $\rightarrow$ results can still be interpreted with 3 explanatory variables.  
 **Intercept**: 
-> Positive intercept: female, first class passenger, aged 0-6 is expected to survive.
+> Positive intercept for baseline (i.e. female, first class passenger, aged 0-6) is expected to survive.
 ]
-
 .pull-right[
 ```{r ref.label="titanic-fit-to-train-display", echo=FALSE}
 ```
 ]
 
-**Coefficents** for *Class*: 
-> All else held constant, second class passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to first class passengers.
+--
 
-+ Similarly, third class passengers have an even more negative gradient which indicates that the model predicts them to have an even lower likelyhood of survival. 
+Negative **Coefficents** for a term:
+> All else held constant, a negative coefficient reflects a lower likelyhood of survival compared to the corresponding baseline variable. 
 
-**Coefficent** for *Gender*:
-> All else held constant, male passengers correspond to a negative coefficent which reflects a lower likelyhood of survival compared to female passengers.
+**Class**: 1st class $\rightarrow$ 2nd class $\rightarrow$ 3rd class
 
-**Coefficents** for *Age*: 
-> All else held constant, compared to passengers aged 0-6 ('young children'), passengers in age range from 6 to 18 ('adolescents')are expected to be less likely to survive. 
+**Sex**: female $\rightarrow$ male
 
-+ similarly, passengers aged 18 to 54 ('adults') are also less likely to survive (similar gradeint to 6-18)
-+ passengers aged 54 to 80 ('elderly people') are even less likely to survive than the other age ranges
+**Age**: children (0-6) $\rightarrow$ teenagers/ adults (6-18 and 18-54) $\rightarrow$ elderly (54 - 80)
 ---
 ```{r titanic-predict-test-data, include=FALSE}
 titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
@@ -422,14 +450,8 @@ titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
 titanic_pred
 ```
 
-### A look at what the model predicts
-.pull-right-narrow[
-<font size="40">
-🔍
-</font>
-]
-.pull-left-wide[
-
+### 🔍 A look at what the model predicts
+10 random observations from the test sample with the model's prediction and the outcome variable. 
 ```{r titanic-predict-test-data-table, echo=FALSE}
 sample_n(titanic_pred, 10) %>%
   select(.pred_1, Survived, PassengerId) %>%
@@ -440,18 +462,21 @@ sample_n(titanic_pred, 10) %>%
     ) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), position='center', full_width = F)
 ```
-]
+
+???
+
+looking at this a with some trial and error we've decided a cutoff proabbility of 0.6 and then plotted ROC curve ... next slide
 
 ---
-###Evaluating the model: Sensitivity and specificity
-.pull-left[
+###Evaluating the model: ROC curve
 ``` {r titanic-roc-curve, fig.height = 200, echo=FALSE}
 titanic_pred %>%
   roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
   autoplot()
 ```
-]
-.pull-right[
+---
+###Evaluating the model: Statistical tests
+.pull-left[
 ```{r sensitivity-specificity-prob, echo=FALSE}
 cutoff_prob <- 0.6
 titanic_pred %>%
@@ -463,10 +488,7 @@ titanic_pred %>%
   pivot_wider(names_from = Survived, values_from = n) %>%
   kable(col.names = c("", "Not Survived", "Survived"))
 ```
-]
----
-###Evaluating the model: Statistical tests
-.pull-left[
+
 ```{r prep-for-statistic-tests, include=FALSE}
 titanic_results <- titanic_pred %>%
   mutate(
@@ -475,15 +497,19 @@ titanic_results <- titanic_pred %>%
     ) %>%
   select(survived, survived_pred) 
 ```
-
+&nbsp;  
 ``` {r statistic-tests, echo = FALSE}
 custom_metrics <- metric_set(sens, spec, kap, mcc)
 custom_metrics(titanic_results, 
                truth = as.factor(survived), 
                estimate = as.factor(survived_pred)) %>%
-  kbl() %>%
-  kable_styling(bootstrap_options = c("striped", "hover"), position="center", full_width = F )
-
+  dplyr::select(-.estimator) %>%
+  knitr::kable(
+    col.names = c("Metric", "Estimate"), 
+    align = rep('c', 5), 
+    digits = 3
+    ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"),  full_width = F )
 ```
 ]
 
@@ -491,20 +517,15 @@ custom_metrics(titanic_results,
 
 **Sensitivity** $=TP/(FN+TP)$
 
-{{content}}
-]
---
 **Specificity** $=TN/(FP+TN)$
 
-{{content}}
---
 **Kappa** $\in[-1,1]$  
 How much better the model is over the random classifier. (here moderate agreement)
 
-{{content}}
---
 **Matthews Correlation Coefficient (MCC)** $\in[-1,1]$  
 Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
+]
+
 ---
 
 
@@ -520,28 +541,29 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 ```
 ]
 .right-column[
-+ The Sphere: popular British illustrated weekly newspaper (1900-1964). It was dedicated to worldwide reporting on popular issues. 
++ **The Sphere**: British weekly newspaper dedicated to worldwide reporting on popular issues. 
 {{content}}
 ]
 --
-+ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished on 4 May 1912, **three weeks after the Titanic disaster**
++ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished **three weeks after the Titanic disaster**
 {{content}}
 --
 +  Bron’s graph is an early innovation in data display:
 {{content}}
 --
-    + each subgroup is shown by a bar whose area is proportional to the numbers of cases
+    + each subgroup shown by a bar with **area proportional to the numbers of cases**
 {{content}}   
 --
     + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
 {{content}}
 --
-    + It also includes summary panels, showing the totals for passengers and crew.
+    + It also includes **summary panels**, showing the totals for passengers and crew.
 {{content}}
 --
-+  Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array of bar charts
++  Today: see as an early **mosaic plot**, or area-proportional back-to-back array of bar charts
 ---
 
+## Recreation, mosaic plot
 ``` {r table-mosaic, echo=FALSE, results = 'hide'}
 titanic_child <- titanic %>%
   mutate(ischild = ifelse(Age >= 18, "adult", "child"))
