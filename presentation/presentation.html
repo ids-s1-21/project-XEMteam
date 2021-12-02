@@ -43,11 +43,19 @@ class: center, middle, inverse, title-slide
 - Bibliography
  
 ---
+<<<<<<< HEAD
 class: inverse , middle , center 
 # Research Aim 
 
  
 ### Is the chance of survival of Titanic passengers related to different attributes of the passengers? If so, how?
+=======
+"Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
+ 
+We want to see 
+ 
+### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
  
 ---
 # Data set
@@ -65,6 +73,7 @@ class: inverse , middle , center
 - `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
  
 ---
+<<<<<<< HEAD
 class: inverse, middle, center 
 
 # Is Age related to Passenger's Survival Rate ? 
@@ -78,6 +87,33 @@ class: inverse, middle, center
 
 Age is considered a major factor of survival when it comes to physical abilities of a passenger as well as prioritizing  life saving equipment 
 
+=======
+class: inverse, middle, center
+# Gender and Survival
+ 
+---
+ 
+# Introduction
+* During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
+--
+ 
+ 
+ 
+* Women have higher survival rate than men. 
+ 
+---
+ 
+# Visualization
+.pull-left[
+- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable.
+]
+ 
+.pull-right[
+&lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
+]
+ 
+ 
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
 ---
 
 .left-column[
@@ -153,6 +189,7 @@ Age is considered a major factor of survival when it comes to physical abilities
 &lt;img src="presentation_files/figure-html/age-survival-rate-1.png" width="80%" /&gt;
 ]
 ---
+<<<<<<< HEAD
 class: inverse, middle, center
 
 ## Is Gender related to Passenger's Survival Rate ?
@@ -200,10 +237,59 @@ class: inverse, middle, center
    &lt;th style="text-align:center;"&gt; Passenger Class &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; Survived &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; Median Price ($) &lt;/th&gt;
+=======
+ 
+class: inverse, middle, center
+# Age and Survival
+---
+# Introduction
+- give priority to saving infants and children when it comes to providing life saving equipment
+ 
+- physical abilities
+---
+# Data analysis 
+.pull-left[
+&lt;img src="presentation_files/figure-html/age-survival-1.png" width="90%" /&gt;
+]
+ 
+ 
+.pull_right[
+ 
+- Predicted variable are "Age" and "Frequency" as the outcome variable. 
+- generally, the younger the more people survived.
+]
+---
+ 
+ 
+.pull_left
+
+ 
+&lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
+ 
+--- 
+ 
+class: inverse, middle, center 
+# Is wealth associated with passengers' survival rate ? 
+--- 
+# Ticket Price &amp; Passengers' Class  
+ 
+.pull-left[ 
+&lt;img src="presentation_files/figure-html/fare-boxplot -1.png" width="1200" /&gt;
+] 
+ 
+.pull-right[  
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Passenger_Class &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
+<<<<<<< HEAD
    &lt;td style="text-align:center;"&gt; 1st Class &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; No &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; 44.75 &lt;/td&gt;
@@ -232,16 +318,52 @@ class: inverse, middle, center
    &lt;td style="text-align:center;"&gt; 3rd Class &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Yes &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; 8.52 &lt;/td&gt;
+=======
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44.7500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77.9583 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.0500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.5167 &lt;/td&gt;
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 ]  
  
+<<<<<<< HEAD
 ---
+=======
+--- 
+ 
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
 class: middle, center 
  
 &lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
  
+<<<<<<< HEAD
 ---
 class:middle, center 
 
@@ -308,6 +430,16 @@ class:middle, center
 &lt;/table&gt;
 ]
 
+=======
+--- 
+class:middle, center 
+ 
+
+ 
+ 
+&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+ 
+>>>>>>> 62e0271849606b4f855d0f79118545d1473f6d5f
 
 ---
 class: inverse, center, middle
