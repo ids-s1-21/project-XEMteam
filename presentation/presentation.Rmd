@@ -1,5 +1,3 @@
-
-
 ---
 title: "Who survived the Titanic?"
 subtitle: "Factors contributing to the survival of passengers in the historic Titanic accident of 1912 "
