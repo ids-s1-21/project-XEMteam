@@ -129,7 +129,6 @@ titanic %>%
 ```
 ]
 
-
 ---
 # Summary
 .pull-left[
