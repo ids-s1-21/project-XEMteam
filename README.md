@@ -12,13 +12,16 @@ better safety procedures and construction to avoid another catastrophe.
 
 We have decided to analyse original data from the accident and explore
 how different attributes of passengers are related to their survival in
-the catastrophe. These attributes include gender, age and socio-economic
-status (represented by passenger class). We also looked at a range of
-other variables including ticket price and port of embarkation. We then
-moved on to build a logistic regression model to try and predict
-survival based on these attributes. Lastly, we created a Mosaic plot on
-the basis of an historic plot from the times of the accident to display
-the relationship between the explanatory variables and survival.
+the catastrophe. It must be noted that we have data on 891 passengers
+out of 2224 people on board and we don’t know how representative our
+sample is of the whole data. These attributes include gender, age and
+socio-economic status (represented by passenger class). We also looked
+at a range of other variables including ticket price and port of
+embarkation. We then moved on to build a logistic regression model to
+try and predict survival based on these attributes. Lastly, we created a
+Mosaic plot on the basis of an historic plot from the times of the
+accident to display the relationship between the explanatory variables
+and survival.
 
 #### Age and survival
 
@@ -36,7 +39,17 @@ first, and was indeed reported as orders from the captain.
 
 #### Gender and survival
 
-write about 100 words
+During these times, in the spirit of chivalry, women were saved first.
+This was historically recorded as orders from the captain of the
+Titanic. Basing on this, we want to verify if gender affected the
+survival rate. Since this is a historical data, gender is only recorded
+as male and female, thus we will use binary data for the following
+research. First, a bar plot is created, using gender as the predictor
+variable and percentage of survival displayed in terms of colors showing
+survivals or not as the outcome variable. The graph shows that the
+percentage of survival of female is 74.2% yet the percentage of survival
+of male is only 18.9%. We concluded that female have a higher survival
+rate than male.
 
 #### Wealth and survival
 
@@ -50,10 +63,13 @@ predicted properties. We focused on making our model parsimonious and
 saw that the explanatory variables which allow for the model with better
 predicted performance are indeed gender, age and passenger class. We
 then used and introduced different statistical tests (not in the
-syllabus), as well as a ROC course to display and evaluate the model we
-created. In short, the model predicts that young, 1st class, female
-passengers are more likely predicted to survive compared to the
-counterparts of each of the attributes.
+syllabus), as well as a ROC course to display and evaluate the model’s
+strenght on the test data. In short, the model predicts that young, 1st
+class, female passengers are more likely predicted to survive compared
+to the counterparts of each of the attributes. It’s worthwhile noting
+that the purpose of a predicitve model when it refers to historic data
+like this is rather than predict per se, provide an overall better
+understanding of the data and what it refers to.
 
 #### Recration of historic plot
 
@@ -64,7 +80,8 @@ Sphere (British newspaper) one week after the accident. His work is an
 early innovation in data display where each subgroup shown by a bar with
 area proportional to the numbers of cases which today can be seen as an
 early mosaic plot. We indeed decided to work on our own mosaic plot to
-display the different factors related to survival in a single plot.
+display how all the different factors analysed are related to survival
+in a single visualisation (see below).
 
 <img src="README_files/figure-gfm/mosaic-plot-readme-1.png" width="60%" style="display: block; margin: auto;" />
 
