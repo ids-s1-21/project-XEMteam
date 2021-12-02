@@ -204,10 +204,89 @@ class:middle, center
 
 
 
+--- 
 
 &lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+---
+
+```r
+Survived_words &lt;- ( c( "0" = "DidnotSurvive",
+                       "1" = "Survived" ))
+
+titanic %&gt;% 
+  filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %&gt;%
+  ggplot(aes(x = Embarked , y = Fare )) +
+  geom_boxplot(outlier.shape = NA , alpha = 0.2  ) +
+  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) +
+  coord_cartesian(ylim = c(0,300))+
+  facet_grid(~Survived , labeller = as_labeller(Survived_words)) +
+  theme_minimal() + 
+  scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg",
+                              "Q" = "Queenstown")) +
+  scale_y_continuous(labels = label_dollar(
+  accuracy = NULL,
+  scale = 1,
+  prefix = "$" )) +
+  labs( x = "Port of Embarkation" ,
+        y = "Ticket Price" , 
+        title = "Ticket Price Distribution by Port of Embarkation" ,
+        subtitle = "For Survived and non Survived Passengers" ) +
+ theme(plot.background = element_rect(fill = "wheat2")) 
+```
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
+
+
+```r
+titanic_median_embarked &lt;- titanic %&gt;%
+  mutate(Survived = case_when( Survived == "0" ~ "No" ,
+                               Survived == "1" ~ "Yes")) %&gt;%
+mutate(Port_Embarkation = case_when( Embarked == "C" ~ "Cherbourg" ,
+                                    Pclass == "S" ~ "Southampton",
+                             Pclass == "Q" ~ "Queenstown")) %&gt;%
+  group_by(Port_Embarkation , Survived) %&gt;%
+  summarize(Median_Price_USD = median(Fare))
+```
 
 ```
+## `summarise()` has grouped output by 'Port_Embarkation'. You can override using the `.groups` argument.
+```
+
+```r
+knitr::kable(head(titanic_median_embarked), format = 'html')
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Port_Embarkation &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.45830 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56.92920 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.70625 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.00000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 ---
 class: inverse, center, middle
