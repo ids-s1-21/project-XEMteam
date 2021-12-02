@@ -55,14 +55,13 @@ We want to see
 
 * There are 12 variables and 891 observations in this data set. 
 --
-.left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
 - `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] 
 
 ---
 class: inverse, middle, center
@@ -88,8 +87,8 @@ class: inverse, middle, center
 .pull-right[
 &lt;img src="presentation_files/figure-html/gender-survival-1.png" width="100%" /&gt;
 ]
-???
-The graph shows that female have a higher survival rate. since the color yellow which represent survived has a larger surface.  
+
+
 ---
 # Summary
 .pull-left[
@@ -104,9 +103,6 @@ The graph shows that female have a higher survival rate. since the color yellow 
 ## 2   male 109     0.3187135
 ```
 ]
-???
-This table gives a more specific data...The proportion...
-We can conclude that women have a higher survival rate than men.
 ---
 
 class: inverse, middle, center
@@ -131,162 +127,44 @@ class: inverse, middle, center
 ---
 
 
+.pull_left
+
 
 &lt;img src="presentation_files/figure-html/unnamed-chunk-1-1.png" width="80%" /&gt;
-
-- create a new variable called "Age_Range"
-- aged between 21-30 has the highest possibility to survive
-- the young has more survival rate than the old
 
 ---
 
 class: inverse, middle, center
-# Is wealth associated with passengers' survival rate ?
----
-# Ticket Price &amp; Passengers' Class 
-
-.pull-left[
-&lt;img src="presentation_files/figure-html/fare-boxplot -1.png" width="1200" /&gt;
-]
-
-.pull-right[ 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Passenger_Class &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 44.7500 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 77.9583 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 13.0000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 21.0000 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.0500 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 8.5167 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-] 
-
+# Class/ Port/ Fare vs Survival
 ---
 
-class: middle, center
+The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
 
 &lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
 
 ---
-class:middle, center
 
+```
+## Warning: Continuous x aesthetic -- did you forget aes(group=...)?
+```
 
+&lt;img src="presentation_files/figure-html/fare-survival -1.png" width="80%" /&gt;
 
---- 
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
 ---
 
-```r
-Survived_words &lt;- ( c( "0" = "DidnotSurvive",
-                       "1" = "Survived" ))
-
-titanic %&gt;% 
-  filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %&gt;%
-  ggplot(aes(x = Embarked , y = Fare )) +
-  geom_boxplot(outlier.shape = NA , alpha = 0.2  ) +
-  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) +
-  coord_cartesian(ylim = c(0,300))+
-  facet_grid(~Survived , labeller = as_labeller(Survived_words)) +
-  theme_minimal() + 
-  scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg",
-                              "Q" = "Queenstown")) +
-  scale_y_continuous(labels = label_dollar(
-  accuracy = NULL,
-  scale = 1,
-  prefix = "$" )) +
-  labs( x = "Port of Embarkation" ,
-        y = "Ticket Price" , 
-        title = "Ticket Price Distribution by Port of Embarkation" ,
-        subtitle = "For Survived and non Survived Passengers" ) +
- theme(plot.background = element_rect(fill = "wheat2")) 
-```
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
 
 
-```r
-titanic_median_embarked &lt;- titanic %&gt;%
-  mutate(Survived = case_when( Survived == "0" ~ "No" ,
-                               Survived == "1" ~ "Yes")) %&gt;%
-mutate(Port_Embarkation = case_when( Embarked == "C" ~ "Cherbourg" ,
-                                    Pclass == "S" ~ "Southampton",
-                             Pclass == "Q" ~ "Queenstown")) %&gt;%
-  group_by(Port_Embarkation , Survived) %&gt;%
-  summarize(Median_Price_USD = median(Fare))
-```
 
-```
-## `summarise()` has grouped output by 'Port_Embarkation'. You can override using the `.groups` argument.
-```
 
-```r
-knitr::kable(head(titanic_median_embarked), format = 'html')
-```
 
-&lt;table&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Port_Embarkation &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 14.45830 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Cherbourg &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 56.92920 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 9.70625 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 23.00000 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+
+---
+&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
+---
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
 
 ---
 class: inverse, center, middle
@@ -536,7 +414,7 @@ Negative **Coefficents** for a term:
 
 ???
 
-looking at this a with some trial and error we've decided a cutoff proabbility of 0.6 and then plotted ROC curve ... next slide
+looking at this a with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... next slide
 
 ---
 ###Evaluating the model: ROC curve
@@ -687,7 +565,6 @@ https://www.datavis.ca/papers/titanic/
 
 [3] https://www.kaggle.com/c/titanic/data
 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 0bb1eeb65632db81b0bff2ffba222409f1ee7ad1
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
