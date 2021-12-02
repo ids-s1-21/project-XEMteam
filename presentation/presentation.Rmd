@@ -84,13 +84,14 @@ We want to see
 
 * There are 12 variables and 891 observations in this data set. 
 --
+.left[
 - `Name`: Name and Surname of passenger, if available 
 - `Survived`: If passenger survived (0 = No, 1 = Yes)
 - `Sex`: Gender of passenger (male or female)
 - `Age`: Age in years
 - `Pclass`: Passenger class (1 = 1st, 2 = 2nd, 3 = 3rd) 
 - `Fare`: Passenger fare (i.e. cost of ticket in USD)
-- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] 
+- `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
 
 ---
 class: inverse, middle, center
@@ -129,8 +130,8 @@ titanic %>%
   theme(legend.position = "bottom")
 ```
 ]
-
-
+???
+The graph shows that female have a higher survival rate. since the color yellow which represent survived has a larger surface.  
 ---
 # Summary
 .pull-left[
@@ -145,6 +146,9 @@ titanic %>%
   mutate(prop_survival = n/sum(n))
 ```
 ]
+???
+This table gives a more specific data...The proportion...
+We can conclude that women have a higher survival rate than men.
 ---
 
 class: inverse, middle, center
