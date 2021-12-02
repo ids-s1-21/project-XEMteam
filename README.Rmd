@@ -52,6 +52,8 @@ write about 150 words
 #### Model
 We fitted a linear regression model to our data trying to use the different variables available to us from the data set and compared the predicted properties. We focused on making our model parsimonious and saw that the explanatory variables which allow for the model with better predicted performance are indeed gender, age and passenger class. We then used and introduced different statistical tests (not in the syllabus), as well as a ROC course to display and evaluate the model we created. In short, the model predicts that young, 1st class, female passengers are more likely predicted to survive compared to the counterparts of each of the attributes. 
 
+ADD REMEMBER THIS IS PREDICTIVE BUT WE DON:T REALLY USE>
+
 #### Recration of historic plot
 ```{r gbron-graph-side, echo=FALSE, out.width= "30%", out.extra='style="float:right; padding:10px"'}
 include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publication/330916468/figure/fig1/AS:723679168196613@1549549967751/GBrons-chart-of-The-Loss-of-the-Titanic-from-The-Sphere-4-May-1912-Each-subgroup.png")

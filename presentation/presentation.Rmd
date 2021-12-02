@@ -424,6 +424,9 @@ class: inverse, center, middle
 
 # Predictive model for survival on the titanic
 
+???
+Based this analysis, we went on to build a predictive model for the survival aboard the titanic.
+
 ---
 ```{r factor-variables, include=FALSE}
 titanicm <- titanic %>%
@@ -465,14 +468,6 @@ add_model(titanic_mod) %>%
 add_recipe(titanic_rec)
 ```
 
-### Aim of the model 
-
-+ 
-fitting a binary logistic regression machine learning model using tidymodels library
-testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
-+ parsimonious model (*Occam's razor*)
-
----
 ### Modelling Survival
 + **predictor/explanatory variables**:
   + Age
@@ -482,7 +477,7 @@ testing the trained model’s prediction (model evaluation) strength on the unse
 + **response variable**: survival
   + categorical, two levels ...
 {{content}}
---
+
 $\rightarrow$ **logistic regression modelling**
 --
 ```{r titanic-fit-to-train, include=FALSE}
@@ -495,6 +490,9 @@ tidy(titanic_fit) %>%
 kbl() %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F )
 ```
+
+???
++ in pursuit's of occam's razor this model is based on age class and gender. Because our response variable, survival is a two level categorical variable we used logistic regression modelling.  
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
@@ -517,6 +515,9 @@ Negative **Coefficents** for a term:
 **Sex**: female $\rightarrow$ male
 
 **Age**: children (0-6) $\rightarrow$ teenagers/ adults (6-18 and 18-54) $\rightarrow$ elderly (54 - 80)
+
+???
+followed by ... 
 ---
 ```{r titanic-predict-test-data, include=FALSE}
 titanic_pred <-predict(titanic_fit, test_data, type = "prob") %>%
@@ -538,8 +539,9 @@ sample_n(titanic_pred, 10) %>%
 ```
 
 ???
+this is just a quick look at 10 random predictions from our model. some really good, some clearly less so.
 
-looking at this a with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... next slide
+
 
 ---
 
@@ -554,6 +556,9 @@ titanic_pred %>%
 ```
 
 ???
+
+looking at the previous and with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... 
+
 x - FP
 y - TP
 (random classifier, perfect classifier)
@@ -581,9 +586,9 @@ titanic_results <- titanic_pred %>%
     ) %>%
   select(survived, survived_pred) 
 ```
-&nbsp;  
+
 ``` {r statistic-tests, echo = FALSE}
-custom_metrics <- metric_set(sens, spec, kap, mcc)
+custom_metrics <- metric_set(sens, spec, kap)
 custom_metrics(titanic_results, 
                truth = as.factor(survived), 
                estimate = as.factor(survived_pred)) %>%
@@ -598,18 +603,19 @@ custom_metrics(titanic_results,
 ]
 
 .pull-right[
-
 **Sensitivity** $=TP/(FN+TP)$
 
 **Specificity** $=TN/(FP+TN)$
 
 **Kappa** $\in[-1,1]$  
 How much better the model is over the random classifier. (here moderate agreement)
-
-**Matthews Correlation Coefficient (MCC)** $\in[-1,1]$  
-Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
 ]
 
+???
+Evaluation of model's strength on the unseen/test data set using various evaluation metrics.
+
+- good at identifying survivals 
+- less good at identyfing those who didn't survive.
 ---
 
 
