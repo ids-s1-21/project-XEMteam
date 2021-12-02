@@ -127,7 +127,7 @@ titanic %>%
   labs(x = "Sex", 
        y = "Frequency", 
        title = "Survival Rate by Gender") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") 
 ```
 ]
 ???
@@ -211,7 +211,56 @@ legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
 - aged between 21-30 has the highest possibility to survive
 - the young has more survival rate than the old
 
+
 ---
+``` {r , echo =FALSE } 
+titaniclogistic <- titanic %>%
+  as_tibble() %>%
+  mutate(Survived = factor(
+    x = Survived,
+    levels = 0:1,
+    labels = c("No", "Yes")
+  ))
+
+log_mod <- logistic_reg() %>%
+  set_engine("glm")
+
+
+int_fit <- log_mod %>%
+  fit(Survived ~ Age * Sex, data = titaniclogistic)
+tidy(int_fit)
+
+
+age_sex_vals <- expand.grid(
+  Age = 0:80,
+  Sex = c("male", "female")
+)
+int_pred <- predict(int_fit, new_data = age_sex_vals, type = "prob")
+
+age_sex_vals %>%
+  bind_cols(int_pred) %>%
+  ggplot(mapping = aes(
+    x = Age,
+    y = .pred_Yes,
+    color = Sex
+  )) + 
+  geom_line() +
+  labs(
+    title = "Probability of Surviving the Titanic",
+    y = "Predicted Probability of Survival",
+    color = "Sex"
+  )
+
+
+```
+
+---
+
+
+
+
+
+
 
 class: inverse, middle, center
 # Is wealth associated with passengers' survival rate ?
@@ -305,6 +354,7 @@ titanic_embarked <- titanic %>%
   
 ```
 
+--- 
 
 ```{r , echo=FALSE } 
 titanic_embarked %>%
@@ -328,7 +378,42 @@ titanic_embarked %>%
   scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg",
                               "Q" = "Queenstown"))
 ```
+---
+```{r}
+Survived_words <- ( c( "0" = "DidnotSurvive",
+                       "1" = "Survived" ))
 
+titanic %>% 
+  filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %>%
+  ggplot(aes(x = Embarked , y = Fare )) +
+  geom_boxplot(outlier.shape = NA , alpha = 0.2  ) +
+  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) +
+  coord_cartesian(ylim = c(0,300))+
+  facet_grid(~Survived , labeller = as_labeller(Survived_words)) +
+  theme_minimal() + 
+  scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg",
+                              "Q" = "Queenstown")) +
+  scale_y_continuous(labels = label_dollar(
+  accuracy = NULL,
+  scale = 1,
+  prefix = "$" )) +
+  labs( x = "Port of Embarkation" ,
+        y = "Ticket Price" , 
+        title = "Ticket Price Distribution by Port of Embarkation" ,
+        subtitle = "For Survived and non Survived Passengers" ) +
+ theme(plot.background = element_rect(fill = "wheat2")) 
+```
+
+```{r }
+titanic_median_embarked <- titanic %>%
+  mutate(Survived = case_when( Survived == "0" ~ "No" ,
+                               Survived == "1" ~ "Yes")) %>%
+mutate(Port_Embarkation = case_when( Embarked == "C" ~ "Cherbourg" ,
+                                    Pclass == "S" ~ "Southampton",
+                             Pclass == "Q" ~ "Queenstown")) %>%
+  group_by(Port_Embarkation , Survived) %>%
+  summarize(Median_Price_USD = median(Fare))
+knitr::kable(head(titanic_median_embarked), format = 'html')
 ```
 
 ---
@@ -342,6 +427,7 @@ titanicm <- titanic %>%
   mutate(Survived = factor(Survived)) %>%
   mutate(Pclass = factor(Pclass)) 
 ```
+
 ```{r remove-age-na, include=FALSE}
 titanic_age_na <- titanicm %>%
   filter(!is.na(Age))
