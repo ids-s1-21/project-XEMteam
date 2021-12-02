@@ -138,7 +138,28 @@ class: inverse, middle, center
 - aged between 21-30 has the highest possibility to survive
 - the young has more survival rate than the old
 
+
 ---
+
+```
+## # A tibble: 4 × 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)   0.594     0.310       1.91 0.0557 
+## 2 Age           0.0197    0.0106      1.86 0.0624 
+## 3 Sexmale      -1.32      0.408      -3.23 0.00125
+## 4 Age:Sexmale  -0.0411    0.0136     -3.03 0.00241
+```
+
+&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+
+---
+
+
+
+
+
+
 
 class: inverse, middle, center
 # Is wealth associated with passengers' survival rate ?
@@ -206,7 +227,7 @@ class:middle, center
 
 --- 
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
 ---
 
 ```r
@@ -234,7 +255,7 @@ titanic %&gt;%
  theme(plot.background = element_rect(fill = "wheat2")) 
 ```
 
-&lt;img src="presentation_files/figure-html/unnamed-chunk-3-1.png" width="80%" /&gt;
+&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 
 
 ```r
@@ -294,6 +315,7 @@ class: inverse, center, middle
 # Predictive model for survival on the titanic
 
 ---
+
 
 
 
