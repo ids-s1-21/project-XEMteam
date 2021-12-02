@@ -83,7 +83,7 @@ mosaic(~ Survived + Pclass + Sex + ischild, data = titanic_child,
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
+Our presentation video can be found [here](https://media.ed.ac.uk/media/1_7bgp9ovd).
 
 ## Data 
 CKAN training (2014). Titanic [Dataset], viewed 22 October 2021,  <https://data.wu.ac.at/schema/datahub_io/MWViYjhmYTctMzE2NS00OWEwLThmZDgtMTUwZjI4MThiYTJl>.
