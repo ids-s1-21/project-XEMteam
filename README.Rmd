@@ -6,7 +6,6 @@ output: github_document
 
 
 ```{r load-packages-readme, include = FALSE}
- 
 library(tidyverse)
 library(broom)
 library(here)
@@ -42,7 +41,7 @@ The Titanic, said to be “unsinkable”, collided with an iceberg and sank on A
 We have decided to analyse original data from the accident and explore how different attributes of passengers are related to their survival in the catastrophe. These attributes include gender, age and socio-economic status (represented by passenger class). We also looked at a range of other variables including ticket price and port of embarkation. We then moved on to build a logistic regression model to try and predict survival based on these attributes. Lastly, we created a Mosaic plot on the basis of an historic plot from the times of the accident to display the relationship between the explanatory variables and survival. 
 
 #### Age and survival
-write about 100 words
+From the data set, age is given in years. We expect to see a relationship between age and survival based on different age groups rather than the numerical age itself, so we decided to convert continuous ages into categorical groups (to represent children, teenagers, young adults, middle aged adults and elderly people). This allowed us to create a bar plot to show how the age of passengers and their survival are related. We have found that children (0-12 y.o.) indeed have higher survival rates than the other age groups and survival rates generally decrease with age. This can be explained by the fact that it’s human nature to give priority to saving infants and children first, and was indeed reported as orders from the captain.  
 
 #### Gender and survival
 write about 100 words
