@@ -63,7 +63,7 @@ style_xaringan(
 ```
  
 #Table of Contents
-- Background information
+- Research Aim 
 - Introduction to data set
 - Data analysis
  - Age vs. Survival
@@ -74,11 +74,11 @@ style_xaringan(
 - Bibliography
  
 ---
-"Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the Titanic collided with an iceberg on 14 April 1912 on her maiden voyage and sank shortly thereafter on 15 April, killing 1502 out of 2224 passengers and crew." [1]
+class: inverse , middle , center 
+# Research Aim 
+
  
-We want to see 
- 
-### If and how the chance of survival of Titanic passengers is related to different attributes of the passengers 
+### Is the chance of survival of Titanic passengers related to different attributes of the passengers? If so, how?
  
 ---
 # Data set
@@ -96,31 +96,111 @@ We want to see
 - `Embarked`: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)[3] ]
  
 ---
-class: inverse, middle, center
-# Gender and Survival
- 
+class: inverse, middle, center 
+
+# Is Age related to Passenger's Survival Rate ? 
+
 ---
- 
-# Introduction
-* During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. This was historically recorded as orders from the captain of the Titanic.
---
- 
- 
- 
-* Women have higher survival rate than men. 
- 
++ Age is considered a major factor of survival 
+  + physical abilities of a passenger 
+  + prioritizing life saving equipment 
+
+???
+
+Age is considered a major factor of survival when it comes to physical abilities of a passenger as well as prioritizing  life saving equipment 
+
 ---
- 
-# Visualization
-.pull-left[
-- Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable.
+
+.left-column[
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+```{r age-survival, out.width="60%", fig.width=4, echo=FALSE, warning=FALSE}
+titanic_age_frequency <- titanic %>%
+  filter(!is.na(Age)) %>%
+ mutate(Age_Range = case_when(Age >= 0  & Age <= 12 ~ "Child",
+                               Age >= 13 & Age <= 18 ~ "Teenager",
+                               Age >= 19 & Age <= 30~ "Young Adult",
+                               Age >= 31 & Age <= 50 ~ "Middle-Aged Adult",
+                              Age >= 51 ~ "Old Adult" )) %>%
+  mutate(Survived = case_when( Survived == "0" ~ "No" , 
+                               Survived == "1" ~ "Yes")) 
+
+titanic_age_frequency %>%
+  group_by(Survived) %>%
+  count(Age_Range) %>%
+  filter(!is.na(Age_Range)) %>%
+  knitr::kable(
+    col.names = c("Survived", "Age range", "Frequency"), 
+    align = rep('c', 5), 
+    digits = 3
+    ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), position='center', font_size = 9, full_width = F)
+```
 ]
+
+.right_column[
+```{r age-survival-rate, fig.width=6, echo=FALSE}
+titanic_age <- titanic_age_frequency %>%
+  filter(!is.na(Age_Range)) %>%
+  mutate(Age_Range_2 = case_when(Age_Range == "Child" ~ "0-12",
+                                 Age_Range == "Teenager" ~ "13-18",
+                                 Age_Range == "Young Adult" ~ "19-30",
+                                 Age_Range == "Middle-Aged Adult" ~ "31-50",
+                                 Age_Range == "Old Adult" ~ "51-90")
+         ) %>%
+  filter(!is.na(Age_Range_2)) %>%
+  group_by(Age_Range_2) %>% 
+  count(Survived) %>%
+  mutate(pct = n/sum(n)) %>% 
+  mutate(pctrounded = round(pct , 3)) 
+
+titanic_age %>%
+  ggplot(aes (x = Age_Range_2 , y = pctrounded*100 , fill = Survived , label = percent(pctrounded))) +
+  geom_bar(position = position_stack(), stat = "identity", width = 0.9) +
+  geom_text(aes(y = pctrounded*100, label = scales::percent(pctrounded)), position = position_stack(vjust = 0.5), size = 3) +
+  labs(x = "Passengers' Age ",  
+       y = "Precentage" ,  
+       fill = "Survival",  
+       title = "Percentage of passengers who survived" , 
+       subtitle = "By passengers' Age") + 
+   scale_y_continuous(labels = label_percent( 
+   scale = 1 )) + 
+   theme_minimal() + 
+   theme(plot.background = element_rect(fill = "wheat2")) + 
+   scale_fill_manual(name = "Survived", labels = c("No", "Yes") ,  
+                     values = c("No" = "sandybrown", 
+                                "Yes" = "tan3"))  +
+   scale_x_discrete(labels=c("0-12" = "Child", "13-18" = "Teenager", 
+                          "19-30" = "Young Adult" , "31-50" = "Middle-Aged Adult" ,
+                          "51-90" = "Old Adult"))
+```
+]
+---
+class: inverse, middle, center
+
+## Is Gender related to Passenger's Survival Rate ?
  
-.pull-right[
-```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
+---
+**NOTE:** this is historical data and the gender of passengers is defined as binary
+
+--
+
++ During the times when the sinking of the Titanic accident occurred (1912), in the spirit of chivalry women (and children) were saved first. 
+  
+  + This was historically recorded as orders from the captain of the Titanic.
+
+  + Expect women to have higher survival rate than men. 
+---
+class: middle, center
+
+```{r gender-survival, fig.width=4, echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
  
 titanic %>%
+ filter(!is.na(Survived)) %>%
  group_by(Sex) %>% 
  count(Survived) %>%
  mutate(pct = n/sum(n)) %>% 
@@ -131,7 +211,7 @@ geom_text(aes(y = pctrounded*100 , label = scales::percent(pctrounded)) , positi
  labs(x = "Gender" , 
       y = "Precentage" , 
       fill = "Survival", 
-      title = "Percentage of passengers who surived or not" ,
+      title = "Percentage of passengers who survived" ,
       subtitle = "By passengers' gender") +
  scale_y_continuous(labels = label_percent(
  scale = 1 )) +
@@ -144,102 +224,35 @@ geom_text(aes(y = pctrounded*100 , label = scales::percent(pctrounded)) , positi
  coord_cartesian(ylim=c(0,90))
  
 ```
-]
- 
- 
+
+???
+Use gender as the predictor variable and frequency displayed in terms of colors showing survivals or not as the outcome variable.
+
 ---
-# Summary
-.pull-left[
-- The proportion of women passengers who survived is 0.68 
-- The proportion of men passengers who survived is 0.32
-]
-.pull-right[
-```{r survival_rate_gender,  fig.width=4, echo = FALSE}
-titanic %>%
- filter(Survived == "1") %>%
- count( Sex ) %>%
- mutate(prop_survival = n/sum(n))
-```
-]
----
- 
-class: inverse, middle, center
-# Age and Survival
----
-# Introduction
-- give priority to saving infants and children when it comes to providing life saving equipment
- 
-- physical abilities
----
-# Data analysis 
-.pull-left[
-```{r age-survival,out.width="90%", fig.width=4, echo=FALSE, warning=FALSE}
-titanic %>% 
- ggplot(mapping = aes(x = Age, fill = Survived)) +
- geom_histogram(binwidth = 5 ) +
- theme_minimal() +
- scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes")) +
- labs(x = "Age", 
-      y = "Frequency", 
-      fill = "Survived", 
-      title = "Survival rate by age") +
- theme(legend.position = "bottom")
-```
-]
- 
- 
-.pull_right[
- 
-- Predicted variable are "Age" and "Frequency" as the outcome variable. 
-- generally, the younger the more people survived.
-]
----
- 
- 
-.pull_left
-```{r age-survival-rate,fig.width=6,echo=FALSE}
-titanic_test <- titanic %>%
- filter(!is.na(Age))%>%
- filter(Survived == "1")%>%
- mutate(Age_Range=case_when(Age >= 0  & Age <= 10 ~ "0-10",
-                              Age >= 11 & Age <= 20 ~ "11-20",
-                              Age >= 21 & Age <= 30 ~ "21-30",
-                              Age >= 31 & Age <= 40 ~ "31-40",
-                              Age >= 41 & Age <=50 ~  "41-50",
-                              Age >= 51 & Age <=60 ~  "51-60",
-                              Age >= 61 & Age <= 70 ~  "61-70",
-                              Age >= 71 & Age <= 80 ~ "71-80")) %>%
- count(Age_Range) %>%
- mutate(prop_survival=n/sum(n))
-```
- 
-```{r, echo=FALSE}
-pie(titanic_test$n,labels=round((titanic_test$prop_survival)*100,digits=2),
-col=rainbow(8))
-legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
-```
- 
---- 
- 
 class: inverse, middle, center 
-# Is wealth associated with passengers' survival rate ? 
---- 
-# Ticket Price & Passengers' Class  
- 
-.pull-left[ 
+
+# Is wealth associated with passengers' survival rate ?
+
+---
++ Socio-economic status is an important factor when it comes to the dramatic catastrophe that was the Titanic
+  + **Ticket Price and Passengers’ class**
+---
+.right-column[ 
 ```{r fare-boxplot , echo=FALSE , out.width = '1200'} 
 Survived_words <- ( c( "0" = "DidnotSurvive", 
                        "1" = "Survived" )) 
+titanic$Pclass <- as.factor(titanic$Pclass)
  
 titanic %>%  
+  group_by(Pclass) %>%
   ggplot(aes(x = Pclass , y = Fare )) + 
   geom_boxplot(outlier.shape = NA , alpha = 0.2  ) + 
   geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) + 
-  coord_cartesian(ylim = c(0,300))+ 
+  coord_cartesian(ylim = c(0,300)) + 
   facet_grid(~Survived , labeller = as_labeller(Survived_words)) + 
   theme_minimal() +  
    scale_x_discrete(labels=c("1" = "1st Class", "2" = "2nd Class", 
-                              "3" = "3rd Class")) + 
+                              "3" = "3rd Class" )) + 
   scale_y_continuous(labels = label_dollar( 
   accuracy = NULL, 
   scale = 1, 
@@ -253,8 +266,13 @@ titanic %>%
 ``` 
 ] 
  
-.pull-right[  
-```{r fare-median , echo = FALSE , message=FALSE} 
+.left-column[  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+```{r fare-median , out.width="60%", fig.width=4, echo=FALSE, warning=FALSE, message=FALSE} 
 titanic_median_pclass <- titanic %>% 
   mutate(Survived = case_when( Survived == "0" ~ "No" , 
                                Survived == "1" ~ "Yes")) %>% 
@@ -263,12 +281,18 @@ mutate(Passenger_Class = case_when( Pclass == "1" ~ "1st Class" ,
                              Pclass == "3" ~ "3rd Class")) %>% 
   group_by(Passenger_Class , Survived) %>% 
   summarize(Median_Price_USD = median(Fare)) 
-knitr::kable(head(titanic_median_pclass), format = 'html') 
+  knitr::kable(
+    head(titanic_median_pclass), 
+    format = 'html',
+    col.names = c("Passenger Class", "Survived", "Median Price ($)"), 
+    align = rep('c', 5), 
+    digits = 2
+    ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), position='center', font_size = 11, full_width = F)
 ``` 
 ]  
  
---- 
- 
+---
 class: middle, center 
  
 ```{r class-survival , echo = FALSE} 
@@ -285,7 +309,7 @@ titanic %>%
   labs(x = "Passengers' Class" ,  
        y = "Precentage" ,  
        fill = "Survival",  
-       title = "Percentage of passengers who surived or not" , 
+       title = "Percentage of passengers who survived" , 
        subtitle = "By passengers' class") + 
   scale_y_continuous(labels = label_percent( 
   scale = 1 )) + 
@@ -298,9 +322,10 @@ titanic %>%
                                 "1" = "tan3")) 
 ``` 
  
---- 
+---
 class:middle, center 
- 
+
+
 ```{r embarked-pclass , echo=FALSE} 
 titanic_embarked <- titanic %>% 
  filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %>% 
@@ -312,12 +337,13 @@ titanic_embarked <- titanic %>%
     
 ``` 
  
- 
-```{r , echo=FALSE }  
+
+
+```{r embarked-pclass-2 , echo=FALSE }  
 titanic_embarked %>% 
   ggplot(aes(x = Embarked , y = pctrounded *100 ,  fill = Pclass , label = scales::percent( pctrounded)))+ 
   geom_bar( position = position_dodge(), stat = "identity", width = .7) + 
- geom_text(aes(y = pctrounded*100, label = scales::percent( pctrounded)) , position = position_dodge(width = .7), vjust = -0.5,size = 3 ) + 
+ geom_text(aes(y = pctrounded*100, label = scales::percent( pctrounded)) , position = position_dodge(width = .7), vjust = -0.5,size = 2 ) + 
   labs( x = "Port of Embarkation" , 
         y = "Percentage" ,  
         title = "Percentage of Passengers who survived for each class  " , 
@@ -335,7 +361,65 @@ titanic_embarked %>%
   scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg", 
                               "Q" = "Queenstown")) 
 ``` 
+
+
+---
+
+
+.right-column[ 
+``` {r embarked-boxplot , echo=FALSE, out.width = '1200'}
+Survived_words <- ( c( "0" = "DidnotSurvive", 
+                       "1" = "Survived" )) 
  
+titanic %>%  
+  filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %>% 
+  group_by(Embarked) %>%
+  ggplot(aes(x = Embarked , y = Fare )) + 
+  geom_boxplot(outlier.shape = NA , alpha = 0.2  ) + 
+  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) + 
+  coord_cartesian(ylim = c(0,300))+ 
+  facet_grid(~Survived , labeller = as_labeller(Survived_words)) + 
+  theme_minimal() +  
+   scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg", 
+                              "Q" = "Queenstown")) + 
+  scale_y_continuous(labels = label_dollar( 
+  accuracy = NULL, 
+  scale = 1, 
+  prefix = "$" )) + 
+  labs( x = "Port of Embarkation" , 
+        y = "Ticket Price" ,  
+        title = "Ticket Price Distribution by Port of Embarkation" , 
+        subtitle = "For Survived and non Survived Passengers" ) + 
+ theme(plot.background = element_rect(fill = "wheat2"))
+
+```
+]
+.left-column[
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+```{r  port-median, out.width="60%", fig.width=4, echo=FALSE, warning=FALSE,message=FALSE}
+titanic_median_embarked <- titanic %>% 
+  mutate(Survived = case_when( Survived == "0" ~ "No" , 
+                               Survived == "1" ~ "Yes")) %>% 
+mutate(Port_Embarkation = case_when(Embarked == "S"  ~"Southampton", 
+                                    Embarked == "C" ~ "Cherbourg", 
+                                    Embarked ==  "Q" ~ "Queenstown")) %>% 
+  group_by(Port_Embarkation , Survived) %>% 
+  summarize(Median_Price_USD = median(Fare)) 
+knitr::kable(
+  head(titanic_median_embarked), 
+  format = 'html',
+  col.names = c("Port of Embarkation", "Survived", "Median Price ($)"), 
+  align = rep('c', 5), 
+  digits = 2
+  ) %>%
+kable_styling(bootstrap_options = c("striped", "hover"), position='center', font_size = 11, full_width = F)
+```
+]
+
 
 ---
 class: inverse, center, middle
@@ -460,12 +544,22 @@ sample_n(titanic_pred, 10) %>%
 looking at this a with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... next slide
 
 ---
+
 ###Evaluating the model: ROC curve
-``` {r titanic-roc-curve, fig.height = 200, echo=FALSE}
+
+``` {r titanic-roc-curve, fig.height = 200, echo=FALSE , fig.align= "center" ,out.width="75%"  }
 titanic_pred %>%
   roc_curve(truth = Survived, .pred_1, event_level = "second") %>%
-  autoplot()
+  autoplot() +
+  theme(plot.background = element_rect(fill = "wheat2")) +
+  theme(panel.background = element_rect(fill = "wheat2"))
 ```
+
+???
+x - FP
+y - TP
+(random classifier, perfect classifier)
+
 ---
 ###Evaluating the model: Statistical tests
 .pull-left[
@@ -533,11 +627,11 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 ```
 ]
 .right-column[
-+ **The Sphere**: British weekly newspaper dedicated to worldwide reporting on popular issues. 
++ **The Sphere**: British weekly newspaper
 {{content}}
 ]
 --
-+ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished **three weeks after the Titanic disaster**
++ G. Bron, graphic artist, pubblished his graph **three weeks after the Titanic disaster**
 {{content}}
 --
 +  Bron’s graph is an early innovation in data display:
@@ -553,6 +647,15 @@ include_graphics("https://www.researchgate.net/profile/Michael-Friendly/publicat
 {{content}}
 --
 +  Today: see as an early **mosaic plot**, or area-proportional back-to-back array of bar charts
+
+???
++ **The Sphere**: British weekly newspaper dedicated to worldwide reporting on popular issues. 
++ G. Bron, graphic artist, used data released the week before by the House of Commons for the visualisation pubblished **three weeks after the Titanic disaster**
++ Bron’s graph is an early innovation in data display:
+  + each subgroup shown by a bar with **area proportional to the numbers of cases**
+  + Within the passenger classes, the bars are subdivided by gender for adults, while children are shown as a separate group. 
+  + It also includes **summary panels**, showing the totals for passengers and crew.
++ Today: see as an early **mosaic plot**, or area-proportional back-to-back array of bar charts
 ---
 
 ## Recreation, mosaic plot
@@ -564,18 +667,19 @@ tbl <- xtabs(~Survived + Pclass + Sex + ischild, titanic_child)
 ftable(tbl)
 ```
 
-``` {r mosaic plot, echo = FALSE, fig.align = 'center'}
+``` {r mosaic plot, echo = FALSE, fig.align = 'center' ,out.width="70%"}
 mosaic(~ Survived + Pclass + Sex + ischild, data = titanic_child, 
-       highlighting = "Survived", highlighting_fill = c("#727272", "#79c36a"),
+       highlighting = "Survived", highlighting_fill = c("  cornsilk2  ","sandybrown"),
        labeling_args = list(set_varnames = c(Sex = "Gender",
-                                             Survived = "Survived",
+                                            Survived = "Survived",
                                              Pclass = "Passenger Class",
                                              ischild = "Child")),
         set_labels = list(Survived = c("No", "Yes"),
                           Pclass = c("1st", "2nd", "3rd", "Crew"),
                           Sex = c("F", "M"),
                           ischild = c("A","C")),
-       main = "Survival on the Titanic")
+       main = "Survival on the Titanic" 
+       )
 ```
 
 
