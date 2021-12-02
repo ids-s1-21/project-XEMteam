@@ -117,17 +117,28 @@ class: inverse, middle, center
 .pull-right[
 ```{r gender-survival,out.width="100%", fig.width=4, echo=FALSE}
 titanic$Survived <- as.factor(titanic$Survived)
-titanic$Pclass <- as.factor(titanic$Pclass)
 
 titanic %>%
-  ggplot(mapping = aes(x = Sex, fill = Survived)) +
-  geom_bar() +
+  group_by(Sex) %>% 
+  count(Survived) %>%
+  mutate(pct = n/sum(n)) %>% 
+  mutate(pctrounded = round(pct , 3)) %>%
+  ggplot(aes(x = Sex , y = pctrounded*100 ,  fill = Survived , label = scales::percent( pctrounded))) +
+  geom_bar( position = position_dodge(), stat = "identity", width = .7) +
+ geom_text(aes(y = pctrounded*100 , label = scales::percent(pctrounded)) , position = position_dodge(width = .7), vjust = -0.5,size = 3) +
+  labs(x = "Gender" , 
+       y = "Precentage" , 
+       fill = "Survival", 
+       title = "Percentage of passengers who surived or not" ,
+       subtitle = "By passengers' gender") +
+  scale_y_continuous(labels = label_percent(
+  scale = 1 )) +
   theme_minimal() +
-  scale_fill_viridis_d(name = "Survived", labels = c("No", "Yes" )) +
-  labs(x = "Sex", 
-       y = "Frequency", 
-       title = "Survival Rate by Gender") +
-  theme(legend.position = "bottom") 
+  scale_x_discrete(labels=c("male" = "Male", "female" = "Female")) +
+  theme(plot.background = element_rect(fill = "wheat2")) +
+  scale_fill_manual(name = "Survived", labels = c("No", "Yes") , 
+                     values = c("0" = "sandybrown",
+                                "1" = "tan3"))
 ```
 ]
 ???
