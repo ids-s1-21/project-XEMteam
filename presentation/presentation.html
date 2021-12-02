@@ -137,31 +137,73 @@ class: inverse, middle, center
 ---
 
 class: inverse, middle, center
-# Class/ Port/ Fare vs Survival
+# Is wealth associated with passengers' survival rate ?
+---
+# Ticket Price &amp; Passengers' Class 
+
+.pull-left[
+&lt;img src="presentation_files/figure-html/fare-boxplot -1.png" width="1200" /&gt;
+]
+
+.pull-right[ 
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Passenger_Class &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Survived &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median_Price_USD &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44.7500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1st Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77.9583 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2nd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.0000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; No &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.0500 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3rd Class &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Yes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.5167 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+] 
+
 ---
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
+class: middle, center
 
 &lt;img src="presentation_files/figure-html/class-survival -1.png" width="80%" /&gt;
 
 ---
-&lt;img src="presentation_files/figure-html/fare-survival -1.png" width="80%" /&gt;
-
----
+class:middle, center
 
 
 
 
+&lt;img src="presentation_files/figure-html/unnamed-chunk-2-1.png" width="80%" /&gt;
 
-
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
-
----
-&lt;img src="presentation_files/figure-html/unnamed-chunk-5-1.png" width="80%" /&gt;
----
-
-&lt;img src="presentation_files/figure-html/unnamed-chunk-6-1.png" width="80%" /&gt;
+```
 
 ---
 class: inverse, center, middle
@@ -562,6 +604,7 @@ https://www.datavis.ca/papers/titanic/
 
 [3] https://www.kaggle.com/c/titanic/data
 
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 0bb1eeb65632db81b0bff2ffba222409f1ee7ad1
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
