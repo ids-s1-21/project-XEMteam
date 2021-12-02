@@ -17,6 +17,9 @@ output:
 editor_options: 
   chunk_output_type: inline
 ---
+```{r titanic-map-ports, echo = FALSE, out.width = "60%", fig.align = "center", fig.cap = "Image credit: Thesun.co.uk"}
+include_graphics("https://www.thesun.co.uk/wp-content/uploads/2016/12/composite-sea-map.jpg")
+```
 
 ```{r load-packages, include = FALSE}
 
@@ -463,7 +466,7 @@ sample_n(titanic_pred, 10) %>%
 
 ???
 
-looking at this a with some trial and error we've decided a cutoff proabbility of 0.6 and then plotted ROC curve ... next slide
+looking at this a with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... next slide
 
 ---
 ###Evaluating the model: ROC curve
