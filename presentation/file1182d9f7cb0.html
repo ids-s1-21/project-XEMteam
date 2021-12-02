@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
     <title>Who survived the Titanic?</title>
@@ -314,9 +313,6 @@ class: inverse, center, middle
 
 # Predictive model for survival on the titanic
 
-???
-Based this analysis, we went on to build a predictive model for the survival aboard the titanic.
-
 ---
 
 
@@ -325,6 +321,14 @@ Based this analysis, we went on to build a predictive model for the survival abo
 
 
 
+### Aim of the model 
+
++ 
+fitting a binary logistic regression machine learning model using tidymodels library
+testing the trained model’s prediction (model evaluation) strength on the unseen/test data set using various evaluation metrics.
++ parsimonious model (*Occam's razor*)
+
+---
 ### Modelling Survival
 + **predictor/explanatory variables**:
   + Age
@@ -332,9 +336,10 @@ Based this analysis, we went on to build a predictive model for the survival abo
   + Gender
 + **ID variable**: passenger ID
 + **response variable**: survival
-  + categorical, two levels ... `\(\rightarrow\)` **logistic regression modelling**
+  + categorical, two levels ...
 {{content}}
-
+--
+`\(\rightarrow\)` **logistic regression modelling**
 --
 
 
@@ -400,9 +405,6 @@ Based this analysis, we went on to build a predictive model for the survival abo
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-
-???
-+ in pursuit's of occam's razor this model is based on age class and gender. Because our response variable, survival is a two level categorical variable we used logistic regression modelling.  
 ---
 .pull-left[
 ### Modelling Survival: Interpretation
@@ -482,12 +484,9 @@ Negative **Coefficents** for a term:
 
 **Class**: 1st class `\(\rightarrow\)` 2nd class `\(\rightarrow\)` 3rd class
 
-**Gender**: female `\(\rightarrow\)` male
+**Sex**: female `\(\rightarrow\)` male
 
 **Age**: children (0-6) `\(\rightarrow\)` teenagers/ adults (6-18 and 18-54) `\(\rightarrow\)` elderly (54 - 80)
-
-???
-followed by ... 
 ---
 
 
@@ -556,9 +555,8 @@ followed by ...
 &lt;/table&gt;
 
 ???
-this is just a quick look at 10 random predictions from our model. some really good, some clearly less so.
 
-
+looking at this a with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... next slide
 
 ---
 
@@ -567,9 +565,6 @@ this is just a quick look at 10 random predictions from our model. some really g
 &lt;img src="presentation_files/figure-html/titanic-roc-curve-1.png" width="75%" style="display: block; margin: auto;" /&gt;
 
 ???
-
-looking at the previous and with some trial and error we've decided a cutoff probability of 0.6 and then plotted ROC curve ... 
-
 x - FP
 y - TP
 (random classifier, perfect classifier)
@@ -621,24 +616,27 @@ y - TP
    &lt;td style="text-align:center;"&gt; kap &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; 0.581 &lt;/td&gt;
   &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; mcc &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.600 &lt;/td&gt;
+  &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 ]
 
 .pull-right[
+
 **Sensitivity** `\(=TP/(FN+TP)\)`
 
 **Specificity** `\(=TN/(FP+TN)\)`
 
 **Kappa** `\(\in[-1,1]\)`  
 How much better the model is over the random classifier. (here moderate agreement)
+
+**Matthews Correlation Coefficient (MCC)** `\(\in[-1,1]\)`  
+Produces high score if the prediction obtained good results in TP, FN, TN, FP, proportionally to the size of positive elements and the size of negative elements in the dataset. (here moderate agreement)
 ]
 
-???
-Evaluation of model's strength on the unseen/test data set using various evaluation metrics.
-
-- good at identifying survivals 
-- less good at identyfing those who didn't survive.
 ---
 
 
