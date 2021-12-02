@@ -1,3 +1,4 @@
+
 ---
 title: "Who survived the Titanic?"
 subtitle: "Factors contributing to the survival of passengers in the historic Titanic accident of 1912 "
@@ -209,141 +210,121 @@ legend("topleft",legend=titanic_test$Age_Range,fill=rainbow(8))
 ---
 
 class: inverse, middle, center
-# Class/ Port/ Fare vs Survival
+# Is wealth associated with passengers' survival rate ?
+---
+# Ticket Price & Passengers' Class 
+
+.pull-left[
+```{r fare-boxplot , echo=FALSE , out.width = '1200'}
+Survived_words <- ( c( "0" = "DidnotSurvive",
+                       "1" = "Survived" ))
+
+titanic %>% 
+  ggplot(aes(x = Pclass , y = Fare )) +
+  geom_boxplot(outlier.shape = NA , alpha = 0.2  ) +
+  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3 ) +
+  coord_cartesian(ylim = c(0,300))+
+  facet_grid(~Survived , labeller = as_labeller(Survived_words)) +
+  theme_minimal() + 
+   scale_x_discrete(labels=c("1" = "1st Class", "2" = "2nd Class",
+                              "3" = "3rd Class")) +
+  scale_y_continuous(labels = label_dollar(
+  accuracy = NULL,
+  scale = 1,
+  prefix = "$" )) +
+  labs( x = "Passengers' Class" ,
+        y = "Ticket Price" , 
+        title = "Ticket Price Distribution by Class" ,
+        subtitle = "For Survived and non Survived Passengers" ) +
+ theme(plot.background = element_rect(fill = "wheat2")) 
+
+```
+]
+
+.pull-right[ 
+```{r fare-median , echo = FALSE , message=FALSE}
+titanic_median_pclass <- titanic %>%
+  mutate(Survived = case_when( Survived == "0" ~ "No" ,
+                               Survived == "1" ~ "Yes")) %>%
+mutate(Passenger_Class = case_when( Pclass == "1" ~ "1st Class" ,
+                                    Pclass == "2" ~ "2nd Class",
+                             Pclass == "3" ~ "3rd Class")) %>%
+  group_by(Passenger_Class , Survived) %>%
+  summarize(Median_Price_USD = median(Fare))
+knitr::kable(head(titanic_median_pclass), format = 'html')
+```
+] 
+
 ---
 
-The class of the passenger can be considered to be a measure of their socio-economic status: based on our knowledge on the Titanic disaster we expect to find that the higher the class of the passenger, the higher their survival rate.
+class: middle, center
 
-```{r class-survival ,echo=FALSE}
+```{r class-survival , echo = FALSE}
+titanic$Survived <- as.factor(titanic$Survived)
+titanic$Pclass <- as.factor(titanic$Pclass)
 titanic %>%
   group_by(Pclass) %>%
   count(Survived) %>%
-  mutate(pct = n/sum(n)*100) %>%
-  mutate(pctrounded = round(pct, 2)) %>%
-  ggplot(aes(x = Pclass , y = pctrounded ,  fill = Survived)) +
-  geom_bar( position = position_stack(), stat = "identity", width = .7) +
-  geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust  = 0.5), size = 3.5 ) +
-  labs(x = "Class" , 
-       y = "Probability of Survival" , 
+  mutate(pct = n/sum(n)) %>%
+  mutate(pctrounded = round(pct , 3)) %>%
+  ggplot(aes(x = Pclass , y = pctrounded*100 ,  fill = Survived , label = scales::percent( pctrounded))) +
+  geom_bar( position = position_dodge(), stat = "identity", width = .7) +
+ geom_text(aes(y = pctrounded*100 , label = scales::percent(pctrounded)) , position = position_dodge(width = .7), vjust = -0.5,size = 3) +
+  labs(x = "Passengers' Class" , 
+       y = "Precentage" , 
        fill = "Survival", 
-       title = "Survival for each Class") +
-  theme_minimal()+
-  theme(plot.background = element_rect(fill = "wheat")) +
-   scale_fill_manual(values = c("0" = "navajowhite3",
-                               "1" = "tan3"))
+       title = "Percentage of passengers who surived or not" ,
+       subtitle = "By passengers' class") +
+  scale_y_continuous(labels = label_percent(
+  scale = 1 )) +
+  theme_minimal() +
+  scale_x_discrete(labels=c("1" = "1st Class", "2" = "2nd Class",
+                              "3" = "3rd Class")) +
+  theme(plot.background = element_rect(fill = "wheat2")) +
+  scale_fill_manual(name = "Survived", labels = c("No", "Yes") , 
+                     values = c("0" = "sandybrown",
+                                "1" = "tan3"))
 ```
 
 ---
-```{r fare-survival , echo=FALSE}
-titanic %>%
-  ggplot(aes(x=Pclass , y=Fare )) +
-  geom_boxplot(outlier.shape = NA ) +
-  geom_jitter(width = 0.2 , alpha = 0.2, size = 0.3) +
-  coord_cartesian(ylim = c(0,300))+
-  theme_minimal()
-```
+class:middle, center
 
----
-```{r , echo=FALSE}
-
-  titanic_correlation <- titanic %>%
-  select( Survived , Pclass , Fare) %>%
-  mutate(Pclass_rank=if_else( Pclass == "3" , TRUE == "1"|
-                              Pclass == "2" , TRUE == "2"|
-                              Pclass == "1" , TRUE == "3"))
-titanic_correlation$Pclass <- as.numeric(titanic_correlation$Pclass)
-titanic_correlation$Pclass_rank <- as.numeric(titanic_correlation$Pclass_rank) 
-titanic_correlation$Survived <- as.numeric(titanic_correlation$Survived)
-```
-
-
-```{r, echo=FALSE}
-
-titanic_correlation_numeric <- titanic_correlation %>%
-  select( Survived , Pclass_rank ,Fare)
-
-titanic_correlation_numeric$Pclass_rank <- as.numeric(titanic_correlation_numeric$Pclass_rank)
-  titanic_correlation_numeric$Survived <- as.numeric(titanic_correlation_numeric$Survived)
-```
-
-
-
-```{r , echo=FALSE}
-corrplot2 <- function(titanic_correlation_numeric,
-                      method = "pearson",
-                      sig.level = 0.05,
-                      order = "original",
-                      diag = FALSE,
-                      type = "upper",
-                      tl.srt = 90,
-                      number.font = 1,
-                      number.cex = 1,
-                      mar = c(0, 0, 0, 0)) {
-  library(corrplot)
-  titanic_correlation_numeric_incomplete <- titanic_correlation_numeric
-  titanic_correlation_numeric <- titanic_correlation_numeric[complete.cases(titanic_correlation_numeric), ]
-  mat <- cor(titanic_correlation_numeric, method = method)
-  cor.mtest <- function(mat, method) {
-    mat <- as.matrix(mat)
-    n <- ncol(mat)
-    p.mat <- matrix(NA, n, n)
-    diag(p.mat) <- 0
-    for (i in 1:(n - 1)) {
-      for (j in (i + 1):n) {
-        tmp <- cor.test(mat[, i], mat[, j], method = method)
-        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-      }
-    }
-    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-    p.mat
-  }
-  p.mat <- cor.mtest(titanic_correlation_numeric, method = method)
-  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-  corrplot(mat,
-    method = "color", col = col(200), number.font = number.font,
-    mar = mar, number.cex = number.cex,
-    type = type, order = order,
-    addCoef.col = "black", # add correlation coefficient
-    tl.col = "black", tl.srt = tl.srt, # rotation of text labels
-    # combine with significance level
-    p.mat = p.mat, sig.level = sig.level, insig = "blank",
-    # hide correlation coefficiens on the diagonal
-    diag = diag
-  )
-}
-titanic_correlation_numeric %>%
-corrplot2( 
-  method = "pearson",
-  sig.level = 0.05,
-  order = "original",
-  diag = FALSE,
-  type = "upper",
-  tl.srt = 75)
-```
-
----
-```{r , echo=FALSE}
- titanic %>%
-filter( Embarked == "Q" | Embarked == "S" |Embarked == "C" ) %>%
-group_by(Embarked) %>%
-  count(Pclass) %>%
-  mutate(pct = n/sum(n)*100) %>%
-  mutate(pctrounded = round(pct, 2)) %>%
-  ggplot(aes(x = Embarked , y = pctrounded ,  fill = Pclass)) +
-  geom_bar( position = position_dodge(), stat = "identity", width = .7 )
-```
----
-
-```{r , echo=FALSE}
-titanic %>%
-filter( Embarked == "Q" | Embarked == "S" |Embarked == "C" ) %>%
-group_by(Embarked) %>%
+```{r embarked-pclass , echo=FALSE}
+titanic_embarked <- titanic %>%
+ filter( Embarked == "Q" | Embarked == "S" |Embarked == "C") %>%
+  group_by(Embarked , Pclass) %>%
   count(Survived) %>%
-  mutate(pct = n/sum(n)*100) %>%
-  mutate(pctrounded = round(pct, 2)) %>%
-    ggplot(aes(x = Embarked , y = pctrounded ,  fill = Survived)) +
-  geom_bar( position = position_stack(), stat = "identity", width = .7 ) +
-  geom_text(aes(y = pct, label = pctrounded) ,position = position_stack(vjust = 0.5), size = 3.5 ) 
+  mutate(pct = n/sum(n)) %>%
+  mutate(pctrounded = round(pct, 3)) %>%
+  filter( Survived == "1")
+  
+  
+```
+
+
+```{r , echo=FALSE } 
+titanic_embarked %>%
+  ggplot(aes(x = Embarked , y = pctrounded *100 ,  fill = Pclass , label = scales::percent( pctrounded)))+
+  geom_bar( position = position_dodge(), stat = "identity", width = .7) +
+ geom_text(aes(y = pctrounded*100, label = scales::percent( pctrounded)) , position = position_dodge(width = .7), vjust = -0.5,size = 3 ) +
+  labs( x = "Port of Embarkation" ,
+        y = "Percentage" , 
+        title = "Percentage of Passengers who survived for each class  " ,
+        subtitle = "by Port of Embarkation" ) +
+  scale_y_continuous(labels = label_percent(
+  scale = 1 ))  +
+  coord_cartesian(ylim = c(0,80))+
+  theme_minimal() +
+   theme(plot.background = element_rect(fill = "wheat2")) +
+   scale_fill_manual(name = "Passengers' Class", 
+                     labels = c("1st Class", "2nd Class ","3rd Class" ),
+                     values = c("1" = "sandybrown",
+                               "2" = "tan3" ,
+                               "3" = "cornsilk2")) +
+  scale_x_discrete( labels=c("S" = "Southampton", "C" = "Cherbourg",
+                              "Q" = "Queenstown"))
+```
+
 ```
 
 ---
@@ -624,3 +605,4 @@ https://www.datavis.ca/papers/titanic/
 
 [3] https://www.kaggle.com/c/titanic/data
 
+>>>>>>> 0bb1eeb65632db81b0bff2ffba222409f1ee7ad1
