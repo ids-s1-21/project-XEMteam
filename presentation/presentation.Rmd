@@ -475,10 +475,9 @@ add_recipe(titanic_rec)
   + Gender
 + **ID variable**: passenger ID
 + **response variable**: survival
-  + categorical, two levels ...
+  + categorical, two levels ... $\rightarrow$ **logistic regression modelling**
 {{content}}
 
-$\rightarrow$ **logistic regression modelling**
 --
 ```{r titanic-fit-to-train, include=FALSE}
 titanic_fit <- titanic_wflow %>% 
@@ -512,7 +511,7 @@ Negative **Coefficents** for a term:
 
 **Class**: 1st class $\rightarrow$ 2nd class $\rightarrow$ 3rd class
 
-**Sex**: female $\rightarrow$ male
+**Gender**: female $\rightarrow$ male
 
 **Age**: children (0-6) $\rightarrow$ teenagers/ adults (6-18 and 18-54) $\rightarrow$ elderly (54 - 80)
 
@@ -586,7 +585,7 @@ titanic_results <- titanic_pred %>%
     ) %>%
   select(survived, survived_pred) 
 ```
-
+&nbsp;  
 ``` {r statistic-tests, echo = FALSE}
 custom_metrics <- metric_set(sens, spec, kap)
 custom_metrics(titanic_results, 
