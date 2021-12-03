@@ -91,7 +91,8 @@ visualization.
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
+Our presentation video can be found
+[here](https://media.ed.ac.uk/media/1_7bgp9ovd).
 
 ## Data
 
